@@ -64,6 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { rootMargin: "0px 0px -8% 0px" }
     );
     items.forEach((el) => {
+      // Les éléments déjà visibles au chargement restent affichés tels quels
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
       el.classList.add("reveal");
       io.observe(el);
     });
