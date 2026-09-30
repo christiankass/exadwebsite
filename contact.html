@@ -1,22 +1,66 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="EXAD — solutions IT, réseaux, data center, cybersécurité et gestion de flotte en RDC"><title>Contact | EXAD</title><link rel="stylesheet" href="styles.css"></head><body>
-    <header><div class="container nav">
-      <a class="brand" href="index.html">EX<span>AD</span></a>
-      <button class="menu">☰</button>
-      <nav>
-        <a href="index.html">Accueil</a><a href="about.html">À propos</a><a href="services.html">Services</a>
-        <a href="datacenter.html">Data Center</a><a href="cybersecurity.html">Cybersécurité</a>
-        <a href="fleet.html">Flotte & Fuel</a><a href="achievements.html">Réalisations</a>
-        <a href="contact.html" class="btn">Parlons-nous</a>
-      </nav>
-    </div></header>
-    
-<main><section class="page-hero"><div class="container"><span class="tag">CONTACT</span><h1>Parlons de votre prochain projet.</h1><p class="lead">Décrivez votre besoin : infrastructure, réseau, cybersécurité, data center, développement ou flotte.</p></div></section>
-<section><div class="container split"><div><h2>EXAD SARL</h2><p>Kinshasa — Ngaliema, RDC</p><p><strong>Téléphone</strong><br>+243 840 104 000</p><p><strong>Email</strong><br>sales@exadgroup.org</p><p><strong>Horaires</strong><br>Lundi – Vendredi · 08:30 – 17:00</p></div><div class="panel"><form class="contact-form" onsubmit="event.preventDefault();alert('Merci. Le formulaire est actuellement en mode démonstration.');"><input required placeholder="Nom complet"><input required type="email" placeholder="Adresse email"><input placeholder="Téléphone"><select><option>Choisir un service</option><option>Réseaux & Infrastructure</option><option>Data Center</option><option>Cybersécurité</option><option>Infogérance</option><option>Flotte & Fuel</option><option>Développement logiciel</option></select><textarea required placeholder="Décrivez votre besoin..."></textarea><button class="btn" type="submit">Envoyer la demande →</button></form></div></div></section></main>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact | EXAD</title>
+<meta name="description" content="Contactez EXAD à Kinshasa : +243 840 104 000, sales@exadgroup.org. Parlons de votre projet d'infrastructure, de sécurité ou de flotte.">
+<link rel="canonical" href="https://www.exadgroup.org/contact.html">
+<meta name="theme-color" content="#06101d">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EXAD">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Contact | EXAD">
+<meta property="og:description" content="Contactez EXAD à Kinshasa : +243 840 104 000, sales@exadgroup.org. Parlons de votre projet d'infrastructure, de sécurité ou de flotte.">
+<meta property="og:url" content="https://www.exadgroup.org/contact.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html" aria-label="EXAD, accueil">EX<span>AD</span></a>
+    <button class="menu" type="button" aria-controls="menu-principal" aria-expanded="false" aria-label="Ouvrir le menu">
+      <span class="menu-bar"></span><span class="menu-bar"></span><span class="menu-bar"></span>
+    </button>
+    <nav id="menu-principal" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="about.html">À propos</a>
+        <a href="services.html">Services</a>
+        <a href="datacenter.html">Data Center</a>
+        <a href="cybersecurity.html">Cybersécurité</a>
+        <a href="fleet.html">Flotte & Fuel</a>
+        <a href="achievements.html">Réalisations</a>
+        <a href="contact.html" class="btn" aria-current="page">Parlons-nous</a>
+    </nav>
+  </div>
+</header>
+<main id="contenu">
+<section class="page-hero"><div class="container"><span class="tag">CONTACT</span><h1>Parlons de votre prochain projet.</h1><p class="lead">Décrivez votre besoin : infrastructure, réseau, cybersécurité, data center, développement ou flotte.</p></div></section>
+<section><div class="container split"><div><h2>EXAD SARL</h2><p>Kinshasa — Ngaliema, RDC</p><p><strong>Téléphone</strong><br><a href="tel:+243840104000">+243 840 104 000</a></p><p><strong>Email</strong><br><a href="mailto:sales@exadgroup.org">sales@exadgroup.org</a></p><p><strong>Horaires</strong><br>Lundi – Vendredi · 08:30 – 17:00</p></div><div class="panel"><form class="contact-form" id="contact-form" data-to="sales@exadgroup.org" novalidate>
+  <div class="field"><label for="cf-nom">Nom complet *</label><input id="cf-nom" name="nom" required autocomplete="name"></div>
+  <div class="field"><label for="cf-email">Adresse email *</label><input id="cf-email" name="email" type="email" required autocomplete="email"></div>
+  <div class="field-row">
+    <div class="field"><label for="cf-tel">Téléphone</label><input id="cf-tel" name="telephone" type="tel" autocomplete="tel"></div>
+    <div class="field"><label for="cf-societe">Organisation</label><input id="cf-societe" name="organisation" autocomplete="organization"></div>
+  </div>
+  <div class="field"><label for="cf-service">Service concerné</label><select id="cf-service" name="service"><option value="">Choisir un service</option><option>Réseaux &amp; Infrastructure</option><option>Data Center</option><option>Cybersécurité</option><option>Infogérance</option><option>Flotte &amp; Fuel</option><option>Développement logiciel</option><option>Autre</option></select></div>
+  <div class="field"><label for="cf-message">Votre besoin *</label><textarea id="cf-message" name="message" required placeholder="Contexte, objectifs, délais…"></textarea></div>
+  <button class="btn" type="submit">Envoyer la demande →</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form></div></div></section>
+</main>
 
-    <footer><div class="container footer-grid">
-      <div><div class="brand">EX<span>AD</span></div><p>Technologies, infrastructures, cybersécurité et solutions logistiques pour les organisations qui exigent de la performance.</p></div>
-      <div><div class="footer-title">Expertises</div><a href="datacenter.html">Data Center</a><br><a href="cybersecurity.html">Cybersécurité</a><br><a href="fleet.html">Flotte & Fuel</a></div>
-      <div><div class="footer-title">Entreprise</div><a href="about.html">À propos</a><a href="services.html">Services</a><br><a href="achievements.html">Réalisations</a><br><a href="contact.html">Contact</a></div>
-      <div><div class="footer-title">Kinshasa · RDC</div><p>+243 840 104 000<br>sales@exadgroup.org<br>25c, Avenue Dr MANKOYI, Ngaliema</p></div>
-    </div><div class="container copyright">© 2026 EXAD SARL — Tous droits réservés.</div></footer>
-    <script src="script.js"></script></body></html>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><div class="brand">EX<span>AD</span></div><p>Technologies, infrastructures, cybersécurité et solutions logistiques pour les organisations qui exigent de la performance.</p></div>
+    <div><div class="footer-title">Expertises</div><ul class="footer-links"><li><a href="services.html">Services</a></li><li><a href="datacenter.html">Data Center</a></li><li><a href="cybersecurity.html">Cybersécurité</a></li><li><a href="fleet.html">Flotte &amp; Fuel</a></li></ul></div>
+    <div><div class="footer-title">Entreprise</div><ul class="footer-links"><li><a href="about.html">À propos</a></li><li><a href="achievements.html">Réalisations</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><div class="footer-title">Kinshasa · RDC</div><address><a href="tel:+243840104000">+243 840 104 000</a><br><a href="mailto:sales@exadgroup.org">sales@exadgroup.org</a><br>25c, Avenue Dr MANKOYI, Ngaliema</address></div>
+  </div>
+  <div class="container copyright">© <span data-year>2026</span> EXAD SARL — Tous droits réservés.</div>
+</footer>
+<script src="script.js" defer></script>
+</body>
+</html>
