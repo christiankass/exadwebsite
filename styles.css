@@ -418,24 +418,6 @@ nav > a:not(.btn):hover, nav .dropbtn:hover {
 
 
 
-/* ======== SCROLL REVEAL ANIMATIONS ======== */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Stagger children for a cascade effect */
-.grid .card.reveal:nth-child(2) { transition-delay: 0.1s; }
-.grid .card.reveal:nth-child(3) { transition-delay: 0.2s; }
-.grid .card.reveal:nth-child(4) { transition-delay: 0.3s; }
-.grid .card.reveal:nth-child(5) { transition-delay: 0.4s; }
-.grid .card.reveal:nth-child(6) { transition-delay: 0.5s; }
-
 /* ======== IMPROVED CARD HOVER ======== */
 
 /* ======== SOCIAL LINKS ======== */
@@ -601,3 +583,90 @@ body.no-scroll{overflow:hidden}
 .case-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
 .case-head .client-logo{width:56px;flex:none;border-radius:10px}
 .case-head .client-text{font-size:9px;letter-spacing:.02em}
+
+
+/* =====================================================================
+   DESIGN v3 — bento, section sombre, chiffres, effets au survol
+   ===================================================================== */
+:root{--navy:#0b1630;--navy2:#111f40;--ease-out:cubic-bezier(.16,1,.3,1)}
+
+/* Apparition au défilement : cascade + léger flou */
+.reveal{opacity:0;transform:translateY(28px) scale(.98);filter:blur(6px);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-out),filter .8s var(--ease-out);transition-delay:var(--d,0s)}
+.reveal.revealed{opacity:1;transform:none;filter:none}
+
+/* Services en bento */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto);gap:18px;
+  grid-template-areas:"dc dc cyb net" "dc dc it soft" "fleet fleet fleet fleet"}
+.b-dc{grid-area:dc}.b-cyb{grid-area:cyb}.b-net{grid-area:net}.b-it{grid-area:it}.b-soft{grid-area:soft}.b-fleet{grid-area:fleet}
+.bento-card{display:flex;flex-direction:column;padding:0;position:relative;color:inherit}
+.bento-card .card-image{width:100%;margin:0;height:150px;transition:transform .8s var(--ease-out)}
+.bento-card:hover .card-image{transform:scale(1.05)}
+.bento-card .card-content{padding:20px 22px 22px;display:flex;flex-direction:column;gap:4px;flex:1;background:#fff;position:relative}
+.bento-card h3{font-size:18px}
+.bento-card p{margin:0 0 6px}
+.bento-tag{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.bento-more{margin-top:auto;font-size:13px;font-weight:700;color:var(--blue);opacity:0;transform:translateX(-6px);transition:opacity .3s,transform .3s}
+.bento-card:hover .bento-more,.bento-card:focus-visible .bento-more{opacity:1;transform:none}
+/* Grande carte Data Center : image pleine hauteur, texte en surimpression */
+.b-dc .card-image{position:absolute;inset:0;height:100%}
+.b-dc{min-height:440px;justify-content:flex-end;background:var(--navy)}
+.b-dc .card-content{background:linear-gradient(180deg,transparent,rgba(11,22,48,.92) 35%);color:#fff;padding:90px 30px 30px;flex:none}
+.b-dc h3{color:#fff;font-size:28px}
+.b-dc p{color:rgba(255,255,255,.82);font-size:15px;max-width:46ch}
+.b-dc .bento-tag,.b-dc .bento-more{color:#7cc4ff}
+/* Carte Flotte : horizontale */
+.b-fleet{flex-direction:row}
+.b-fleet .card-image{width:42%;height:auto;min-height:220px;flex:none}
+.b-fleet .card-content{justify-content:center;padding:30px 36px}
+.b-fleet h3{font-size:24px}
+@media(max-width:1000px){
+  .bento{grid-template-columns:repeat(2,1fr);grid-template-areas:"dc dc" "cyb net" "it soft" "fleet fleet"}
+  .b-dc{min-height:380px}
+}
+@media(max-width:600px){
+  .bento{grid-template-columns:1fr;grid-template-areas:"dc" "cyb" "net" "it" "soft" "fleet"}
+  .b-fleet{flex-direction:column}.b-fleet .card-image{width:100%;min-height:0;height:150px}
+  .b-dc{min-height:420px}
+}
+
+/* Effet 3D + reflet lumineux qui suit la souris */
+.tilt{transform-style:preserve-3d;will-change:transform}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.28),transparent 45%);z-index:2}
+.tilt:hover::after{opacity:1}
+
+/* Bandeau de mots-clés */
+.kw-marquee{overflow:hidden;background:var(--blue);color:#fff;padding:18px 0;transform:rotate(-1.2deg);margin:20px -10px;box-shadow:0 20px 40px rgba(37,99,235,.18)}
+.kw-track{list-style:none;margin:0;padding:0;display:flex;width:max-content;animation:marquee 40s linear infinite}
+.kw-track li{font-size:clamp(20px,2.6vw,30px);font-weight:800;letter-spacing:-.01em;padding:0 28px;white-space:nowrap;display:flex;align-items:center;gap:56px}
+.kw-track li::after{content:"";width:10px;height:10px;border-radius:50%;background:#93c5fd;margin-left:28px}
+
+/* Section sombre « Pourquoi EXAD » */
+.dark-section{background:radial-gradient(circle at 85% 10%,rgba(37,99,235,.35),transparent 40%),radial-gradient(circle at 10% 90%,rgba(2,132,199,.25),transparent 40%),var(--navy);color:#e2e8f0;position:relative;overflow:hidden}
+.dark-section::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;-webkit-mask-image:radial-gradient(circle at 50% 30%,#000,transparent 75%);mask-image:radial-gradient(circle at 50% 30%,#000,transparent 75%)}
+.dark-section .container{position:relative}
+.dark-section h2{color:#fff;font-size:clamp(28px,3.4vw,40px);line-height:1.15}
+.dark-section .eyebrow{color:#7cc4ff}
+.dark-section p,.dark-section .list li{color:#cbd5e1}
+.dark-section .list li:before{color:#7cc4ff}
+.dark-section .panel{background:rgba(255,255,255,.98);color:var(--text)}
+.dark-section .panel p{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;margin-bottom:70px}
+.stat{background:var(--navy2);padding:30px 26px;display:flex;flex-direction:column;gap:4px}
+.stat strong{font-size:clamp(38px,4.4vw,56px);line-height:1;color:#fff;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat span{font-size:14px;color:#94a3b8}
+@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}}
+
+/* Profondeur (parallaxe) des grandes images */
+.parallax{will-change:transform}
+
+/* Boutons aimantés */
+.btn.magnetic{transition:transform .25s var(--ease-out),box-shadow .2s}
+
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .kw-marquee{transform:none}
+}
+.kw-wrap{overflow:hidden;padding:24px 0}
+.kw-wrap .kw-marquee{margin:0 -20px}

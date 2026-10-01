@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- Apparition au défilement --------------------------------- */
   if (!reduceMotion && "IntersectionObserver" in window) {
-    const els = document.querySelectorAll(".card, .panel, .section-head, .cta-box, .split > div");
+    const els = document.querySelectorAll(".card, .panel, .section-head, .cta-box, .split > div, .stat, .client-grid li");
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) { en.target.classList.add("revealed"); io.unobserve(en.target); }
@@ -124,9 +124,86 @@ document.addEventListener("DOMContentLoaded", () => {
     els.forEach((el) => {
       // Ce qui est déjà visible au chargement reste affiché tel quel
       if (el.getBoundingClientRect().top < window.innerHeight) return;
+      // Cascade : chaque élément d'un même groupe apparaît un peu après le précédent
+      const siblings = [...el.parentElement.children].filter((c) => c.matches(".card, .stat, li"));
+      const i = siblings.indexOf(el);
+      if (i > 0) el.style.setProperty("--d", Math.min(i, 6) * 0.08 + "s");
       el.classList.add("reveal");
       io.observe(el);
     });
+  }
+
+  /* ---------- Chiffres clés qui comptent -------------------------------- */
+  const counters = document.querySelectorAll("[data-count]");
+  if (counters.length && !reduceMotion && "IntersectionObserver" in window) {
+    const run = (el) => {
+      const target = +el.dataset.count, suffix = el.dataset.suffix || "";
+      const from = "plain" in el.dataset ? target - 25 : 0;   // l'année part de 1990, pas de 0
+      const t0 = performance.now(), dur = 1600;
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(from + (target - from) * e) + (p === 1 ? suffix : "");
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const co = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { run(en.target); co.unobserve(en.target); }
+    }), { threshold: 0.6 });
+    counters.forEach((c) => {
+      if (c.getBoundingClientRect().top < innerHeight) return; // déjà visible : on garde la valeur finale
+      c.textContent = "plain" in c.dataset ? +c.dataset.count - 25 : 0;
+      co.observe(c);
+    });
+  }
+
+  /* ---------- Effets à la souris (ordinateur uniquement) ---------------- */
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (finePointer && !reduceMotion) {
+    // Cartes : inclinaison 3D + reflet lumineux
+    document.querySelectorAll(".bento-card, .card.case, .client-grid .client-logo").forEach((card) => {
+      card.classList.add("tilt");
+      const max = card.classList.contains("b-dc") ? 4 : 7;
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        card.style.setProperty("--mx", x * 100 + "%");
+        card.style.setProperty("--my", y * 100 + "%");
+        card.style.transition = "transform .1s linear";
+        card.style.transform = `perspective(900px) rotateX(${(0.5 - y) * max}deg) rotateY(${(x - 0.5) * max}deg) translateY(-4px)`;
+      });
+      card.addEventListener("pointerleave", () => {
+        card.style.transition = "transform .6s cubic-bezier(.16,1,.3,1)";
+        card.style.transform = "";
+      });
+    });
+
+    // Boutons aimantés
+    document.querySelectorAll("main .btn").forEach((btn) => {
+      btn.classList.add("magnetic");
+      btn.addEventListener("pointermove", (e) => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
+        btn.style.transform = `translate(${x * 0.18}px, ${y * 0.3}px)`;
+      });
+      btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
+    });
+  }
+
+  /* ---------- Profondeur des grandes images au défilement --------------- */
+  const layers = document.querySelectorAll(".page-hero-img, .static-hero img");
+  if (layers.length && !reduceMotion && !mobile.matches) {
+    layers.forEach((l) => l.classList.add("parallax"));
+    let ticking = false;
+    const update = () => {
+      layers.forEach((l) => {
+        const r = l.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;
+        l.style.transform = `translateY(${Math.max(-40, Math.min(40, r.top * -0.08))}px)`;
+      });
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   }
 
   /* ---------- Formulaire de contact ------------------------------------ */
