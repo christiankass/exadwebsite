@@ -670,3 +670,31 @@ body.no-scroll{overflow:hidden}
 }
 .kw-wrap{overflow:hidden;padding:24px 0}
 .kw-wrap .kw-marquee{margin:0 -20px}
+
+/* Page À propos : valeurs en bento */
+.values-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  grid-template-areas:"ex co in" "ex tr te" "et et et"}
+.v-ex{grid-area:ex}.v-co{grid-area:co}.v-in{grid-area:in}.v-tr{grid-area:tr}.v-te{grid-area:te}.v-et{grid-area:et}
+.value-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:28px}
+.value-card h3{margin:6px 0 2px}
+.value-card p{margin:0}
+.value-icon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:#eff6ff;color:var(--blue);transition:transform .4s var(--ease-out)}
+.value-card:hover .value-icon{transform:rotate(-8deg) scale(1.08)}
+.v-ex{background:linear-gradient(160deg,var(--blue),#1e3a8a);border:0;color:#fff;justify-content:flex-end;min-height:320px}
+.v-ex::before{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 40px rgba(255,255,255,.04),0 0 0 80px rgba(255,255,255,.03)}
+.v-ex h3{color:#fff;font-size:30px}
+.v-ex p{color:rgba(255,255,255,.85);font-size:16px;max-width:30ch}
+.v-ex .value-icon{background:rgba(255,255,255,.15);color:#fff;margin-bottom:auto}
+.v-et{flex-direction:row;align-items:center;gap:22px}
+.v-et .value-icon{flex:none}
+.v-et h3{margin:0}
+@media(max-width:850px){
+  .values-bento{grid-template-columns:1fr 1fr;grid-template-areas:"ex ex" "co in" "tr te" "et et"}
+  .v-ex{min-height:240px}
+}
+@media(max-width:560px){
+  .values-bento{grid-template-columns:1fr;grid-template-areas:"ex" "co" "in" "tr" "te" "et"}
+  .v-et{flex-direction:column;align-items:flex-start}
+}
+.vision-panel{position:relative;overflow:hidden}
+.vision-panel h3{font-size:24px}
