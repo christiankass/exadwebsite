@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- Apparition au défilement --------------------------------- */
   if (!reduceMotion && "IntersectionObserver" in window) {
-    const els = document.querySelectorAll(".card, .panel, .section-head, .cta-box, .split > div, .stat, .client-grid li");
+    const els = document.querySelectorAll(".card, .panel, .section-head, .cta-box, .split > div, .stat, .client-grid li, .step, .tech-grid li, .dark-note");
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) { en.target.classList.add("revealed"); io.unobserve(en.target); }
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (finePointer && !reduceMotion) {
     // Cartes : inclinaison 3D + reflet lumineux
-    document.querySelectorAll(".bento-card, .card.case, .client-grid .client-logo, .value-card, .vision-panel").forEach((card) => {
+    document.querySelectorAll(".bento-card, .card.case, .client-grid .client-logo, .value-card, .vision-panel, .step, .tech-grid .partner").forEach((card) => {
       card.classList.add("tilt");
       const max = card.classList.contains("b-dc") ? 4 : 7;
       card.addEventListener("pointermove", (e) => {

@@ -698,3 +698,39 @@ body.no-scroll{overflow:hidden}
 }
 .vision-panel{position:relative;overflow:hidden}
 .vision-panel h3{font-size:24px}
+
+/* Pages intérieures v3 */
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.service-card .service-link{margin-top:auto;padding-top:10px;font-size:14px;font-weight:700;color:var(--blue)}
+.service-card .service-link span{display:inline-block;transition:transform .3s}
+.service-card .service-link:hover span{transform:translateX(4px)}
+@media(max-width:850px){.service-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.service-grid{grid-template-columns:1fr}}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:s}
+.step{position:relative;padding:28px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:background .3s,border-color .3s}
+.step:hover{background:rgba(255,255,255,.08);border-color:rgba(124,196,255,.45)}
+.step-num{display:block;font-size:44px;font-weight:800;line-height:1;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.5px #7cc4ff;margin-bottom:18px;font-variant-numeric:tabular-nums}
+.step h3{color:#fff;margin:0 0 6px;font-size:20px}
+.step p{margin:0;font-size:15px}
+.dark-section .section-head p{color:#94a3b8}
+
+.tech-grid{list-style:none;margin:0 0 40px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tech-grid .partner{width:auto;height:96px;background:#fff;border-radius:16px}
+.tech-grid .partner img{filter:none;opacity:1;max-height:56px}
+.partner-text{font-weight:800;font-size:20px;color:#0b1120;letter-spacing:.02em}
+@media(max-width:850px){.tech-grid{grid-template-columns:1fr 1fr}}
+.dark-note{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:24px 28px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.dark-note p{margin:0;max-width:60ch}
+.dark-note strong{color:#fff}
+
+.client-grid-2{grid-template-columns:1fr 1fr;margin:0}
+.case-panel{padding:24px}
+
+.contact-split{align-items:start}
+.contact-info{padding:30px;border-radius:18px;background:var(--navy);color:#cbd5e1;position:relative;overflow:hidden}
+.contact-info::after{content:"";position:absolute;right:-70px;bottom:-70px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(255,255,255,.15);box-shadow:0 0 0 36px rgba(255,255,255,.03),0 0 0 72px rgba(255,255,255,.02)}
+.contact-info h2{color:#fff;margin-top:0}
+.contact-info strong{color:#fff}
+.contact-info .text-link{color:#7cc4ff}
+.stats:last-child{margin-bottom:0}
