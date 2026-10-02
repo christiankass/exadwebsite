@@ -1024,3 +1024,17 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 .tech-section .dark-note{background:#eef2f7;border-color:var(--line)}
 .tech-section .dark-note p{color:var(--muted)}
 .tech-section .dark-note strong{color:#0b1120}
+
+/* Bandeau de mots-clés : dégradé sombre + grille */
+.kw-marquee{position:relative;
+  background:
+    linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px) 0 0/34px 34px,
+    linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px) 0 0/34px 34px,
+    linear-gradient(100deg,#0b1630 0%,#13265a 45%,#1d3f8f 75%,#0b1630 100%)!important;
+  box-shadow:0 20px 40px rgba(11,22,48,.25)!important;
+  border-top:1px solid rgba(124,196,255,.25);border-bottom:1px solid rgba(124,196,255,.25)}
+.kw-marquee::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 20% 50%,rgba(56,130,246,.35),transparent 35%),radial-gradient(circle at 80% 50%,rgba(56,189,248,.18),transparent 30%)}
+.kw-track{position:relative}
+.kw-track li{color:#e2e8f0}
+.kw-track li::after{background:#38bdf8!important;box-shadow:0 0 10px rgba(56,189,248,.8)}
