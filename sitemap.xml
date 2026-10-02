@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://www.exadgroup.org/</loc></url><url><loc>https://www.exadgroup.org/about.html</loc></url>
-<url><loc>https://www.exadgroup.org/datacenter.html</loc></url><url><loc>https://www.exadgroup.org/cybersecurity.html</loc></url>
-<url><loc>https://www.exadgroup.org/fleet.html</loc></url><url><loc>https://www.exadgroup.org/achievements.html</loc></url><url><loc>https://www.exadgroup.org/contact.html</loc></url><url><loc>https://www.exadgroup.org/services.html</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url><loc>https://www.exadgroup.org/</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/"/></url>
+<url><loc>https://www.exadgroup.org/en/</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/"/></url>
+<url><loc>https://www.exadgroup.org/about.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/about.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/about.html"/></url>
+<url><loc>https://www.exadgroup.org/en/about.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/about.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/about.html"/></url>
+<url><loc>https://www.exadgroup.org/services.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/services.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/services.html"/></url>
+<url><loc>https://www.exadgroup.org/en/services.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/services.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/services.html"/></url>
+<url><loc>https://www.exadgroup.org/datacenter.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/datacenter.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/datacenter.html"/></url>
+<url><loc>https://www.exadgroup.org/en/datacenter.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/datacenter.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/datacenter.html"/></url>
+<url><loc>https://www.exadgroup.org/cybersecurity.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/cybersecurity.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/cybersecurity.html"/></url>
+<url><loc>https://www.exadgroup.org/en/cybersecurity.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/cybersecurity.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/cybersecurity.html"/></url>
+<url><loc>https://www.exadgroup.org/fleet.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/fleet.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/fleet.html"/></url>
+<url><loc>https://www.exadgroup.org/en/fleet.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/fleet.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/fleet.html"/></url>
+<url><loc>https://www.exadgroup.org/achievements.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/achievements.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/achievements.html"/></url>
+<url><loc>https://www.exadgroup.org/en/achievements.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/achievements.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/achievements.html"/></url>
+<url><loc>https://www.exadgroup.org/contact.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/contact.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/contact.html"/></url>
+<url><loc>https://www.exadgroup.org/en/contact.html</loc><xhtml:link rel="alternate" hreflang="fr" href="https://www.exadgroup.org/contact.html"/><xhtml:link rel="alternate" hreflang="en" href="https://www.exadgroup.org/en/contact.html"/></url>
+</urlset>

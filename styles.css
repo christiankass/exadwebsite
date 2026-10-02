@@ -842,3 +842,8 @@ body.no-scroll{overflow:hidden}
   .mega-panel a.mega-card{display:none!important}
   .mega-col:nth-child(2){display:none}
 }
+
+/* Sélecteur de langue */
+.lang-switch{display:inline-grid;place-items:center;min-width:42px;height:38px;padding:0 10px!important;border:1px solid var(--line);border-radius:999px;font-size:13px!important;font-weight:800!important;letter-spacing:.06em;color:#334155!important;background:#fff!important}
+.lang-switch:hover{border-color:var(--blue);color:var(--blue)!important}
+@media(max-width:850px){nav .lang-switch{justify-self:start;align-self:flex-start;margin:8px 0 0 12px}}

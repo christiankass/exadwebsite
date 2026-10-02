@@ -11,6 +11,15 @@ Site vitrine multi-pages d'EXAD SARL (Kinshasa, RDC).
 - L'en-tête et le pied de page sont identiques sur toutes les pages : une modification doit être reportée sur chaque fichier HTML.
 - Images : JPEG compressés (cartes 800 px, bandeaux 1000 px) et WebP pour le slider du hero.
 
+## Version anglaise
+Les pages anglaises sont dans le dossier `en/`. Elles sont **générées automatiquement** à partir des pages françaises : ne pas les modifier à la main.
+
+Après toute modification d'une page française :
+1. lancer `python tools/build_en.py` ;
+2. si le script signale des « textes sans traduction », les ajouter dans `tools/en.json` (texte français → texte anglais) puis relancer.
+
+Les textes de l'assistant, du formulaire et du slider sont traduits dans `script.js` (fonction `t()` et `replyEn()`).
+
 ## Tester en local
 Double-cliquer sur `demarrer_serveur.bat`, puis ouvrir http://127.0.0.1:8001
 

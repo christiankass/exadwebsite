@@ -6,6 +6,11 @@
    - Formulaire de contact
    - Assistant (chatbot)
    ========================================================================= */
+/* Langue de la page : les pages anglaises sont dans le dossier en/ */
+const EN = document.documentElement.lang === "en";
+const ASSETS = EN ? "../" : "";
+const t = (fr, en) => (EN ? en : fr);
+
 document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -19,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!header || !menuBtn) return;
     header.classList.toggle("is-open", open);
     menuBtn.setAttribute("aria-expanded", String(open));
-    menuBtn.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
+    menuBtn.setAttribute("aria-label", open ? t("Fermer le menu", "Close menu") : t("Ouvrir le menu", "Open menu"));
     document.body.classList.toggle("no-scroll", open);
   };
 
@@ -64,11 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const h1 = document.querySelector(".hero h1");
   const heroImg = document.querySelector(".static-hero img");
   if (h1 && heroImg) {
-    const slides = [
+    const slides = EN ? [
+      { html: "Your partner for <span>enterprise-grade IT infrastructure</span>.", img: "hero_datacenter_new.webp", alt: "EXAD data center" },
+      { html: "Optimize your fleet with <span>smart tracking</span> solutions.", img: "slider_fleet_new.webp", alt: "EXAD fleet tracking" },
+      { html: "Protect your data with <span>next-generation cybersecurity</span>.", img: "slider_cyber_new.webp", alt: "EXAD cybersecurity" },
+    ] : [
       { html: "Votre partenaire pour une <span>infrastructure IT</span> de niveau entreprise.", img: "hero_datacenter_new.webp", alt: "Data center EXAD" },
       { html: "Optimisez votre flotte avec nos solutions de <span>tracking intelligent</span>.", img: "slider_fleet_new.webp", alt: "Suivi de flotte EXAD" },
       { html: "Protégez vos données avec une <span>cybersécurité</span> de nouvelle génération.", img: "slider_cyber_new.webp", alt: "Cybersécurité EXAD" },
     ];
+    slides.forEach((sl) => (sl.img = ASSETS + sl.img));
     // Précharge les images suivantes pour éviter un flash blanc
     slides.slice(1).forEach((s) => { const i = new Image(); i.src = s.img; });
 
@@ -219,18 +229,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const invalid = [...form.elements].filter((f) => f.willValidate && !f.checkValidity());
       if (invalid.length) {
         invalid.forEach((f) => f.setAttribute("aria-invalid", "true"));
-        status.textContent = "Merci de compléter les champs marqués d'un * (avec une adresse email valide).";
+        status.textContent = t("Merci de compléter les champs marqués d'un * (avec une adresse email valide).", "Please fill in the fields marked * (with a valid email address).");
         invalid[0].focus();
         return;
       }
       status.textContent = "";
       const d = Object.fromEntries(new FormData(form));
-      const subject = `Demande de devis${d.service ? " — " + d.service : ""} (${d.nom})`;
+      const subject = `${t("Demande de devis", "Quote request")}${d.service ? " — " + d.service : ""} (${d.nom})`;
       const lines = [
-        `Nom : ${d.nom}`,
-        d.entreprise && `Entreprise : ${d.entreprise}`,
+        `${t("Nom", "Name")} : ${d.nom}`,
+        d.entreprise && `${t("Entreprise", "Company")} : ${d.entreprise}`,
         `Email : ${d.email}`,
-        d.telephone && `Téléphone : ${d.telephone}`,
+        d.telephone && `${t("Téléphone", "Phone")} : ${d.telephone}`,
         d.service && `Service : ${d.service}`,
       ].filter(Boolean);
       const body = lines.join("\n") + "\n\n" + d.message;
@@ -278,26 +288,26 @@ function initChatbot() {
   const w = document.createElement("div");
   w.className = "chatbot-widget";
   w.innerHTML = `
-    <div class="chatbot-window" id="chatbot-window" role="dialog" aria-label="Assistant EXAD" hidden>
+    <div class="chatbot-window" id="chatbot-window" role="dialog" aria-label="${t("Assistant EXAD", "EXAD assistant")}" hidden>
       <div class="chatbot-header">
-        <h4>Assistant EXAD</h4>
-        <button type="button" class="close-btn" aria-label="Fermer l'assistant">&times;</button>
+        <h4>${t("Assistant EXAD", "EXAD assistant")}</h4>
+        <button type="button" class="close-btn" aria-label="${t("Fermer l'assistant", "Close assistant")}">&times;</button>
       </div>
       <div class="chatbot-messages" id="chatbot-messages" aria-live="polite">
-        <div class="message bot">Bonjour ! Je peux vous renseigner sur nos services, nos références ou nos coordonnées.</div>
+        <div class="message bot">${t("Bonjour ! Je peux vous renseigner sur nos services, nos références ou nos coordonnées.", "Hello! I can tell you about our services, our references or how to reach us.")}</div>
         <div class="chat-suggestions">
-          <button type="button">Vos services</button>
-          <button type="button">Demander un devis</button>
-          <button type="button">Vos références</button>
+          <button type="button">${t("Vos services", "Your services")}</button>
+          <button type="button">${t("Demander un devis", "Request a quote")}</button>
+          <button type="button">${t("Vos références", "Your references")}</button>
         </div>
       </div>
       <form class="chatbot-input">
-        <label for="chat-input" class="sr-only">Votre message</label>
-        <input type="text" id="chat-input" placeholder="Écrivez votre message…" autocomplete="off">
-        <button type="submit">Envoyer</button>
+        <label for="chat-input" class="sr-only">${t("Votre message", "Your message")}</label>
+        <input type="text" id="chat-input" placeholder="${t("Écrivez votre message…", "Type your message…")}" autocomplete="off">
+        <button type="submit">${t("Envoyer", "Send")}</button>
       </form>
     </div>
-    <button type="button" class="chatbot-toggle" aria-controls="chatbot-window" aria-expanded="false" aria-label="Ouvrir l'assistant">
+    <button type="button" class="chatbot-toggle" aria-controls="chatbot-window" aria-expanded="false" aria-label="${t("Ouvrir l'assistant", "Open assistant")}">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     </button>`;
   document.body.appendChild(w);
@@ -310,7 +320,7 @@ function initChatbot() {
   const setOpen = (open) => {
     win.hidden = !open;
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Fermer l'assistant" : "Ouvrir l'assistant");
+    toggle.setAttribute("aria-label", open ? t("Fermer l'assistant", "Close assistant") : t("Ouvrir l'assistant", "Open assistant"));
     if (open) input.focus();
   };
   toggle.addEventListener("click", () => setOpen(win.hidden));
@@ -331,9 +341,9 @@ function initChatbot() {
     if (!text) return;
     msgs.querySelector(".chat-suggestions")?.remove();
     add("user", text, false);           // texte du visiteur affiché tel quel, jamais interprété comme HTML
-    const typing = add("bot", "L'assistant écrit…", false);
+    const typing = add("bot", t("L'assistant écrit…", "The assistant is typing…"), false);
     typing.classList.add("typing");
-    setTimeout(() => { typing.classList.remove("typing"); typing.innerHTML = reply(text); msgs.scrollTop = msgs.scrollHeight; }, 700);
+    setTimeout(() => { typing.classList.remove("typing"); typing.innerHTML = EN ? replyEn(text) : reply(text); msgs.scrollTop = msgs.scrollHeight; }, 700);
   };
 
   w.querySelector(".chatbot-input").addEventListener("submit", (e) => { e.preventDefault(); ask(input.value); input.value = ""; });
@@ -376,4 +386,42 @@ function reply(message) {
     return "Avec plaisir ! Bonne visite sur notre site.";
   }
   return "Je n'ai pas bien compris. Je peux vous renseigner sur nos <strong>services</strong> (réseaux, data center, cybersécurité, flotte), nos <strong>références</strong> ou nos <strong>coordonnées</strong>. Pour une question précise, <a href='contact.html'>écrivez à notre équipe</a>.";
+}
+
+/* Réponses de l'assistant en anglais (comprend aussi les mots-clés français) */
+function replyEn(message) {
+  const t = message.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const has = (...words) => words.some((w) => t.includes(w));
+
+  if (has("quote", "price", "pricing", "cost", "meeting", "devis", "prix", "tarif")) {
+    return "For a quote, the fastest way is our <a href='contact.html'>contact form</a>. You can also email <strong>sales@exadgroup.org</strong> or call <strong>+243 840 104 000</strong>.";
+  }
+  if (has("cyber", "security", "hack", "virus", "firewall", "securite")) {
+    return "Our <strong>cybersecurity</strong> team covers next-generation firewalls (Fortinet, Cisco, Palo Alto), endpoint and email protection, network segmentation and vulnerability management. <a href='cybersecurity.html'>Learn more</a>.";
+  }
+  if (has("data", "server", "storage", "cloud", "backup", "serveur", "stockage")) {
+    return "We design and maintain <strong>data centers</strong>: servers, SAN storage, virtualization, backup, UPS and monitoring. <a href='datacenter.html'>See the Data Center page</a>.";
+  }
+  if (has("fleet", "gps", "vehicle", "fuel", "tracking", "flotte", "vehicule", "carburant")) {
+    return "Our <strong>Fleet & Fuel</strong> solution: real-time GPS tracking, geofencing, driver identification and fuel control. <a href='fleet.html'>Discover the solution</a>.";
+  }
+  if (has("network", "fiber", "fibre", "lan", "wan", "wifi", "connectivity", "reseau")) {
+    return "We deploy and maintain your <strong>networks</strong>: LAN/WAN, fiber, switching, routing, site interconnection and backup links. <a href='services.html'>All our services</a>.";
+  }
+  if (has("service", "offer", "solution", "what do you")) {
+    return "EXAD works on:<br>• Networking & connectivity<br>• Data center & storage<br>• Cybersecurity<br>• Managed IT<br>• Software development<br>• Fleet management<br>Which one interests you?";
+  }
+  if (has("client", "customer", "reference", "project", "realisation")) {
+    return "Since 2015, we have worked with <strong>Ecobank, Vodacom, Orange, Puma Energy, Engen</strong> and <strong>FBNBank</strong>, among others. <a href='achievements.html'>See our projects</a>.";
+  }
+  if (has("contact", "phone", "call", "mail", "address", "where", "hours", "telephone", "adresse")) {
+    return "📞 <strong>+243 840 104 000</strong><br>✉️ <strong>sales@exadgroup.org</strong><br>📍 25c, Avenue Dr Mankoyi, Ngaliema, Kinshasa<br>🕘 Monday – Friday, 8:30 am – 5:00 pm";
+  }
+  if (has("hello", "hi ", "hey", "good morning", "bonjour", "salut")) {
+    return "Hello! Ask me about our services, our references or how to reach us.";
+  }
+  if (has("thank", "merci")) {
+    return "You're welcome! Enjoy your visit.";
+  }
+  return "I'm not sure I understood. I can tell you about our <strong>services</strong> (networking, data center, cybersecurity, fleet), our <strong>references</strong> or our <strong>contact details</strong>. For a specific question, <a href='contact.html'>write to our team</a>.";
 }
