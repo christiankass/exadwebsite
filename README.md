@@ -18,6 +18,8 @@ Après toute modification d'une page française :
 1. lancer `python tools/build_en.py` ;
 2. si le script signale des « textes sans traduction », les ajouter dans `tools/en.json` (texte français → texte anglais) puis relancer.
 
+Le script génère aussi `i18n.js`, le dictionnaire utilisé par le drapeau pour changer de langue **sans recharger la page** (le choix est mémorisé pour les pages suivantes).
+
 Les textes de l'assistant, du formulaire et du slider sont traduits dans `script.js` (fonction `t()` et `replyEn()`).
 
 ## Tester en local

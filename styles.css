@@ -896,3 +896,9 @@ html.is-loaded .static-hero,html.is-loaded .page-hero-img{transition-delay:.4s}
   html.js .hero h1,html.js .hero .lead,html.js .hero .actions,html.js .static-hero,
   html.js .page-hero .tag,html.js .page-hero h1,html.js .page-hero .lead,html.js .page-hero-img{opacity:1!important;transform:none!important}
 }
+
+/* Drapeau sans fond + transition du changement de langue */
+nav > a.lang-switch,nav > a.lang-switch:hover{background:none!important;border:0!important;box-shadow:none!important;padding:4px!important}
+.lang-switch .flag{box-shadow:0 1px 3px rgba(15,23,42,.25)}
+main,header nav,footer,.contact-band,.info-band{transition:opacity .18s ease}
+html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.lang-fading .contact-band{opacity:0}

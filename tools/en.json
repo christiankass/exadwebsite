@@ -325,5 +325,15 @@
 "Infrastructure": "Infrastructure",
 "Entreprise *": "Company",
 "Palo Alto, Fortinet, Tenable, Infoblox, F5, Forcepoint, SentinelOne et Cisco selon vos besoins.": "Palo Alto, Fortinet, Tenable, Infoblox, F5, Forcepoint, SentinelOne and Cisco, depending on your needs.",
-"Chargement en cours": "Loading"
+"Chargement en cours": "Loading",
+"Assistant EXAD": "EXAD assistant",
+"Bonjour ! Je peux vous renseigner sur nos services, nos références ou nos coordonnées.": "Hello! I can tell you about our services, our references or how to reach us.",
+"Vos services": "Your services",
+"Vos références": "Your references",
+"Envoyer": "Send",
+"Écrivez votre message…": "Type your message…",
+"Votre message": "Your message",
+"Ouvrir l'assistant": "Open assistant",
+"Fermer l'assistant": "Close assistant",
+"Fermer le menu": "Close menu"
 }

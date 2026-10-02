@@ -7,8 +7,9 @@
    - Assistant (chatbot)
    ========================================================================= */
 /* Langue de la page : les pages anglaises sont dans le dossier en/ */
-const EN = document.documentElement.lang === "en";
-const ASSETS = EN ? "../" : "";
+const PAGE_LANG = document.documentElement.lang === "en" ? "en" : "fr";
+let EN = PAGE_LANG === "en";            // langue affichée (peut changer sans recharger)
+const ASSETS = PAGE_LANG === "en" ? "../" : "";
 const t = (fr, en) => (EN ? en : fr);
 
 /* ---------- Écran de chargement et transitions entre pages --------------- */
@@ -57,7 +58,7 @@ const t = (fr, en) => (EN ? en : fr);
   // Quitter la page : le rideau redescend, puis on change de page
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[href]");
-    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (!a || a.classList.contains("lang-switch") || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (a.target === "_blank" || a.hasAttribute("download")) return;
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname)) return;
@@ -128,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const h1 = document.querySelector(".hero h1");
   const heroImg = document.querySelector(".static-hero img");
   if (h1 && heroImg) {
-    const slides = EN ? [
+    const allSlides = (en) => en ? [
       { html: "Your partner for <span>enterprise-grade IT infrastructure</span>.", img: "hero_datacenter_new.webp", alt: "EXAD data center" },
       { html: "Optimize your fleet with <span>smart tracking</span> solutions.", img: "slider_fleet_new.webp", alt: "EXAD fleet tracking" },
       { html: "Protect your data with <span>next-generation cybersecurity</span>.", img: "slider_cyber_new.webp", alt: "EXAD cybersecurity" },
@@ -137,9 +138,13 @@ document.addEventListener("DOMContentLoaded", () => {
       { html: "Optimisez votre flotte avec nos solutions de <span>tracking intelligent</span>.", img: "slider_fleet_new.webp", alt: "Suivi de flotte EXAD" },
       { html: "Protégez vos données avec une <span>cybersécurité</span> de nouvelle génération.", img: "slider_cyber_new.webp", alt: "Cybersécurité EXAD" },
     ];
-    slides.forEach((sl) => (sl.img = ASSETS + sl.img));
+    const slides = allSlides(false).map((sl, i) => ({ ...sl, img: ASSETS + sl.img }));
+    const slideText = (i) => allSlides(EN)[i];
+    let current = 0;
+    window.__exadSlider = { refresh: () => { h1.innerHTML = slideText(current).html; } };
     // Précharge les images suivantes pour éviter un flash blanc
     slides.slice(1).forEach((s) => { const i = new Image(); i.src = s.img; });
+    if (EN) h1.innerHTML = slideText(0).html;
 
     const typeInto = (html, done) => {
       if (reduceMotion) { h1.innerHTML = html; done(0); return; }
@@ -169,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const show = (index) => {
-      const s = slides[index];
+      current = index;
+      const s = { ...slides[index], html: slideText(index).html, alt: slideText(index).alt };
       if (!heroImg.src.endsWith(s.img)) {
         heroImg.classList.add("fading");
         setTimeout(() => { heroImg.src = s.img; heroImg.alt = s.alt; heroImg.classList.remove("fading"); }, 500);
@@ -484,3 +490,121 @@ function replyEn(message) {
   }
   return "I'm not sure I understood. I can tell you about our <strong>services</strong> (networking, data center, cybersecurity, fleet), our <strong>references</strong> or our <strong>contact details</strong>. For a specific question, <a href='contact.html'>write to our team</a>.";
 }
+
+/* =========================================================================
+   Changement de langue instantané (sans recharger la page)
+   - Le drapeau traduit la page sur place grâce au dictionnaire i18n.js
+   - Le choix est mémorisé : les pages suivantes s'ouvrent dans la même langue
+   - Les pages en/ restent disponibles pour Google et les liens partagés
+   ========================================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const html = document.documentElement;
+  const data = window.EXAD_I18N;
+  const sw = document.querySelector(".lang-switch");
+  if (!data || !sw) return;
+
+  const fr2en = data.fr2en;
+  const en2fr = {};
+  Object.entries(fr2en).forEach(([fr, en]) => { if (!(en in en2fr) || fr !== en) en2fr[en] = fr; });
+  const norm = (v) => v.replace(/\s+/g, " ").trim();
+  const ATTRS = ["alt", "placeholder", "aria-label", "title"];
+  const origText = new WeakMap();   // texte d'origine de chaque nœud
+  const origAttr = new WeakMap();   // attributs d'origine
+  const origHTML = new WeakMap();   // blocs traduits d'un seul tenant
+  const FLAGS = {
+    en: '<svg class="flag" width="26" height="18" viewBox="0 0 60 40" aria-hidden="true"><clipPath id="uk-c2"><rect width="60" height="40" rx="4"/></clipPath><g clip-path="url(#uk-c2)"><rect width="60" height="40" fill="#012169"/><path d="M0 0l60 40M60 0L0 40" stroke="#fff" stroke-width="8"/><path d="M0 0l60 40M60 0L0 40" stroke="#C8102E" stroke-width="3"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="12"/><path d="M30 0v40M0 20h60" stroke="#C8102E" stroke-width="7"/></g></svg>',
+    fr: '<svg class="flag" width="26" height="18" viewBox="0 0 60 40" aria-hidden="true"><clipPath id="fr-c2"><rect width="60" height="40" rx="4"/></clipPath><g clip-path="url(#fr-c2)"><rect width="20" height="40" fill="#002654"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE1126"/></g></svg>',
+  };
+  const pageFile = location.pathname.split("/").pop() || "index.html";
+
+  const translateText = (value, dict) => {
+    const core = norm(value);
+    if (!core || !(core in dict)) return null;
+    let out = dict[core];
+    const lead = /^\s/.test(value) && !/^[.,;:!?)]/.test(out) ? " " : "";
+    const trail = /\s$/.test(value) ? " " : "";
+    return lead + out + trail;
+  };
+
+  const blocks = data.blocks;
+  const applyBlocks = (to) => {
+    document.querySelectorAll(".statement").forEach((el) => {
+      if (!origHTML.has(el)) origHTML.set(el, el.innerHTML);
+      const orig = origHTML.get(el);
+      if (to === PAGE_LANG) { el.innerHTML = orig; return; }
+      const pair = blocks.find(([fr, en]) => norm(orig) === norm(PAGE_LANG === "fr" ? fr : en));
+      if (pair) el.innerHTML = to === "en" ? pair[1] : pair[0];
+    });
+  };
+
+  const apply = (to) => {
+    const dict = PAGE_LANG === "fr" ? fr2en : en2fr;   // de la langue de la page vers l'autre
+    const back = to === PAGE_LANG;
+    const skip = (el) => el.closest("script, style, svg, .hero h1, .statement, .chatbot-messages .message ~ .message, .loader-pct");
+
+    // Textes
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((n) => {
+      if (!n.parentElement || skip(n.parentElement)) return;
+      if (!origText.has(n)) origText.set(n, n.nodeValue);
+      const orig = origText.get(n);
+      if (back) { n.nodeValue = orig; return; }
+      const tr = translateText(orig, dict);
+      if (tr !== null) n.nodeValue = tr;
+    });
+
+    // Attributs (textes alternatifs, libellés, champs)
+    document.querySelectorAll(ATTRS.map((a) => `[${a}]`).join(",")).forEach((el) => {
+      if (el.classList.contains("lang-switch") || el.closest("svg")) return;
+      if (!origAttr.has(el)) origAttr.set(el, Object.fromEntries(ATTRS.filter((a) => el.hasAttribute(a)).map((a) => [a, el.getAttribute(a)])));
+      Object.entries(origAttr.get(el)).forEach(([a, v]) => {
+        if (back) { el.setAttribute(a, v); return; }
+        const tr = translateText(v, dict);
+        if (tr !== null) el.setAttribute(a, tr.trim());
+      });
+    });
+
+    // Titre de l'onglet
+    if (!html.dataset.title) html.dataset.title = document.title;
+    document.title = back ? html.dataset.title : (translateText(html.dataset.title, dict) || html.dataset.title).trim();
+
+    applyBlocks(to);
+    EN = to === "en";
+    html.lang = to;
+    window.__exadSlider?.refresh();
+
+    // Drapeau : montre l'autre langue
+    const other = to === "fr" ? "en" : "fr";
+    sw.innerHTML = FLAGS[other];
+    sw.setAttribute("aria-label", other === "en" ? "English version" : "Version française");
+    sw.setAttribute("title", other === "en" ? "English" : "Français");
+    sw.setAttribute("hreflang", other);
+    sw.setAttribute("lang", other);
+    sw.setAttribute("href", PAGE_LANG === "fr" ? (other === "en" ? "en/" + pageFile : pageFile) : (other === "fr" ? "../" + pageFile : pageFile));
+  };
+
+  let current = PAGE_LANG;
+  const switchTo = (to, animate) => {
+    if (to === current) return;
+    current = to;
+    try { localStorage.setItem("exad-lang", to); } catch (e) {}
+    if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { apply(to); return; }
+    html.classList.add("lang-fading");
+    setTimeout(() => {
+      apply(to);
+      requestAnimationFrame(() => html.classList.remove("lang-fading"));
+    }, 180);
+  };
+
+  sw.addEventListener("click", (e) => {
+    e.preventDefault();
+    switchTo(current === "fr" ? "en" : "fr", true);
+  });
+
+  // Langue choisie lors d'une visite précédente (appliquée pendant l'écran de chargement)
+  let saved = null;
+  try { saved = localStorage.getItem("exad-lang"); } catch (e) {}
+  if (saved === "fr" || saved === "en") switchTo(saved, false);
+});

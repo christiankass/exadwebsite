@@ -77,6 +77,13 @@ for page in PAGES:
     (OUT / page).write_text(relocate(translate(fr), page), encoding="utf-8")
     print("en/" + page)
 
+# Dictionnaire pour le changement de langue instantané (sans recharger la page)
+(ROOT / "i18n.js").write_text(
+    "/* Fichier généré par tools/build_en.py — ne pas modifier à la main */\n"
+    "window.EXAD_I18N = " + json.dumps({"fr2en": TR, "blocks": [[k, v] for k, v in BLOCKS.items()]}, ensure_ascii=False) + ";\n",
+    encoding="utf-8")
+print("i18n.js")
+
 if missing:
     print("\nTextes sans traduction (à ajouter dans tools/en.json) :", file=sys.stderr)
     for m in sorted(missing):
