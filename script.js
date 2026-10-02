@@ -14,17 +14,40 @@ const t = (fr, en) => (EN ? en : fr);
 /* ---------- Écran de chargement et transitions entre pages --------------- */
 (() => {
   const html = document.documentElement;
-  const reveal = () => {
-    // Le logo reste visible au moins 0,9 s à la première visite, pour que l'animation se lise
-    const minTime = html.classList.contains("is-quick") ? 150 : 900;
-    const wait = Math.max(0, minTime - (Date.now() - (window.__exadStart || 0)));
-    setTimeout(() => {
-      html.classList.add("is-loaded");
-      setTimeout(() => html.classList.remove("is-loading"), 250);
-    }, wait);
+  const loader = document.querySelector(".page-loader");
+  const pctEl = loader && loader.querySelector(".loader-pct");
+  // Durée minimale d'affichage : le logo et le pourcentage doivent être lisibles
+  const minTime = html.classList.contains("is-quick") ? 900 : 1600;
+  const start = window.__exadStart || Date.now();
+  let p = 0, loaded = document.readyState === "complete", done = false;
+  const setP = (v) => {
+    if (!loader) return;
+    loader.style.setProperty("--p", v.toFixed(1));
+    loader.querySelector(".loader-logo")?.style.setProperty("--p", v.toFixed(1));
+    if (pctEl) pctEl.textContent = Math.round(v) + (EN ? "%" : " %");
   };
-  if (document.readyState === "complete") reveal();
-  else window.addEventListener("load", reveal);
+  const step = () => {
+    const elapsed = Date.now() - start;
+    // Avance régulièrement jusqu'à 90 % pendant le chargement, puis termine à 100 %
+    const timeShare = Math.min(elapsed / minTime, 1) * 100;
+    const target = loaded ? timeShare : Math.min(timeShare, 90);
+    p += (target - p) * 0.12 + 0.15;
+    p = Math.min(p, target);
+    setP(p);
+    if (loaded && p >= 99.5 && elapsed >= minTime) {
+      setP(100);
+      done = true;
+      setTimeout(() => {
+        html.classList.add("is-loaded");
+        setTimeout(() => html.classList.remove("is-loading"), 200);
+      }, 250);
+      return;
+    }
+    requestAnimationFrame(step);
+  };
+  if (loader && html.classList.contains("is-loading")) requestAnimationFrame(step);
+  else html.classList.add("is-loaded");
+  window.addEventListener("load", () => { loaded = true; });
 
   // Retour arrière depuis le cache du navigateur : on retire le rideau
   window.addEventListener("pageshow", (e) => {
@@ -41,6 +64,7 @@ const t = (fr, en) => (EN ? en : fr);
     if (url.pathname === location.pathname && url.hash) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     e.preventDefault();
+    setP(100);
     html.classList.add("is-leaving");
     setTimeout(() => { location.href = url.href; }, 550);
   });
