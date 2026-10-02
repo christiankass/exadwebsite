@@ -1154,3 +1154,19 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 .team-desk .dossier-main::before{width:48%}
 .dossier-tab{white-space:nowrap}
 .team-desk:hover .dossier-tab,.team-desk.is-open .dossier-tab{font-size:10px;letter-spacing:.1em}
+
+/* Dossiers : rangement net */
+.team-desk{aspect-ratio:1/.78}
+.team-desk .dossier{width:66%;transform:none}
+.team-desk .dossier::before{left:var(--tab,7%);width:24%;top:-7.5%;height:8%}
+.team-desk .dossier-main::before{width:30%}
+.team-desk .dossier-tab{left:calc(var(--tab,6%) + 3%);top:-6.6%}
+.team-desk .dossier:not(.dossier-main){box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 6px 14px rgba(60,40,10,.14)}
+.team-desk .dossier-main{box-shadow:0 24px 50px rgba(11,22,48,.28)}
+.team-desk .fan-hint{position:absolute;left:4%;right:auto;bottom:0;top:auto}
+.team-desk:hover .dossier,.team-desk:focus-within .dossier,.team-desk.is-open .dossier{transform:rotate(0deg)}
+.team-desk:hover .dossier::before,.team-desk.is-open .dossier::before{left:7%}
+.team-desk:hover .dossier-tab,.team-desk.is-open .dossier-tab{left:10%}
+.team-desk:hover .dossier,.team-desk:focus-within .dossier,.team-desk.is-open .dossier{width:32%}
+.team-desk:hover .dossier-main,.team-desk:focus-within .dossier-main,.team-desk.is-open .dossier-main{width:40%}
+.team-desk:hover .dossier:not(.dossier-main):hover,.team-desk.is-open .dossier:not(.dossier-main):hover{transform:scale(1.05)}
