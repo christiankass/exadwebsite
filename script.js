@@ -340,6 +340,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* ---------- Actualités : filtres et visionneuse ---------------------- */
+  const filters = document.querySelectorAll(".news-filters .chip");
+  filters.forEach((chip) => chip.addEventListener("click", () => {
+    filters.forEach((c) => { const on = c === chip; c.classList.toggle("is-active", on); c.setAttribute("aria-pressed", String(on)); });
+    const f = chip.dataset.filter;
+    let shown = 0;
+    document.querySelectorAll(".news-section [data-type]").forEach((a) => {
+      const show = f === "all" || a.dataset.type === f;
+      a.hidden = !show; if (show) shown++;
+    });
+    const empty = document.querySelector(".news-empty"); if (empty) empty.hidden = shown > 0;
+  }));
+  const lb = document.querySelector(".lightbox");
+  if (lb) {
+    const img = lb.querySelector("img");
+    let opener = null;
+    const close = () => { lb.hidden = true; document.body.classList.remove("no-scroll"); opener?.focus(); };
+    document.querySelectorAll(".zoom").forEach((z) => z.addEventListener("click", () => {
+      opener = z;
+      img.src = z.querySelector("img").src; img.alt = z.querySelector("img").alt;
+      lb.hidden = false; document.body.classList.add("no-scroll");
+      lb.querySelector(".lightbox-close").focus();
+    }));
+    lb.addEventListener("click", (e) => { if (e.target !== img) close(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !lb.hidden) close(); });
+  }
+
   /* ---------- Assistant (chatbot) -------------------------------------- */
   initChatbot();
   document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
