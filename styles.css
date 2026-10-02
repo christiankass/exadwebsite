@@ -953,3 +953,23 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 @keyframes lbIn{from{opacity:0}to{opacity:1}}
 @keyframes lbImg{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 .news-media img{height:auto}
+
+/* Page À propos : notre équipe */
+.team-section{padding-top:40px}
+.team-hero{margin:0 0 70px;position:relative;border-radius:28px;overflow:hidden;background:#0b1630}
+.team-hero .zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.team-hero img{display:block;width:100%;height:auto;max-height:620px;object-fit:cover;object-position:center 35%;transition:transform 1s var(--ease-out)}
+.team-hero:hover img{transform:scale(1.03)}
+.team-hero figcaption{position:absolute;left:0;right:0;bottom:0;padding:70px 34px 28px;background:linear-gradient(transparent,rgba(11,22,48,.85));color:#fff;display:grid;gap:4px;pointer-events:none}
+.team-hero figcaption strong{font-size:clamp(22px,2.4vw,30px)}
+.team-hero figcaption span{color:#cbd5e1;font-size:16px}
+.team-sub{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.team-sub h3{margin:0;font-size:24px;color:#0b1120}
+.team-sub p{margin:0;color:var(--muted)}
+.team-mosaic{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.team-tile{border-radius:20px;overflow:hidden;background:#e2e8f0}
+.team-tile .zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.team-tile img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;transition:transform .8s var(--ease-out),filter .4s}
+.team-tile:hover img{transform:scale(1.05)}
+@media(min-width:851px){.team-mosaic .t2,.team-mosaic .t5{transform:translateY(40px)}.team-mosaic{padding-bottom:40px}}
+@media(max-width:850px){.team-mosaic{grid-template-columns:1fr 1fr}.team-hero figcaption{padding:50px 20px 18px}}
