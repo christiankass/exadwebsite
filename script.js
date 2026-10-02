@@ -367,6 +367,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !lb.hidden) close(); });
   }
 
+  /* ---------- Équipe : cartes en éventail (toucher sur mobile) ---------- */
+  document.querySelectorAll(".team-stack").forEach((stack) => {
+    if (window.matchMedia("(hover: hover)").matches) return;
+    stack.addEventListener("click", (e) => {
+      if (!stack.classList.contains("is-open")) { e.preventDefault(); e.stopPropagation(); stack.classList.add("is-open"); }
+    }, true);
+  });
+
   /* ---------- Assistant (chatbot) -------------------------------------- */
   initChatbot();
   document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
