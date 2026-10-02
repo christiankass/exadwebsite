@@ -1,3 +1,9 @@
+/* Typographie : Plus Jakarta Sans (hébergée avec le site) */
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/jakarta-400.woff2') format('woff2')}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/jakarta-500.woff2') format('woff2')}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/jakarta-600.woff2') format('woff2')}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/jakarta-700.woff2') format('woff2')}
+@font-face{font-family:'Plus Jakarta Sans';font-style:normal;font-weight:800;font-display:swap;src:url('fonts/jakarta-800.woff2') format('woff2')}
 :root{
   --bg:#f8fafc;
   --bg2:#ffffff;
@@ -1235,3 +1241,9 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 }
 @media(prefers-reduced-motion:reduce){.cf-card{transition:none}}
 .coverflow{height:520px}@media(max-width:700px){.coverflow{height:420px}}
+
+/* Typographie du site */
+body,button,input,select,textarea{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+h1,h2,h3,.statement,.stat strong{letter-spacing:-.02em}
+.hero h1{font-weight:800}
+.eyebrow,.tag,.bento-tag,.mega-label{letter-spacing:.12em}
