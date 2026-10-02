@@ -1247,3 +1247,19 @@ body,button,input,select,textarea{font-family:'Plus Jakarta Sans',system-ui,-app
 h1,h2,h3,.statement,.stat strong{letter-spacing:-.02em}
 .hero h1{font-weight:800}
 .eyebrow,.tag,.bento-tag,.mega-label{letter-spacing:.12em}
+
+/* Boutons : contour bleu, le fond se remplit de gauche à droite au survol */
+.btn,.btn.alt,.btn-outline,.btn-ghost,.cta-box .btn.alt{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 24px;border-radius:999px;border:1.5px solid var(--blue);background:#fff;color:var(--blue);font-weight:700;box-shadow:none;cursor:pointer;font-family:inherit;transition:color .35s var(--ease-out,ease),border-color .35s,box-shadow .35s,transform .25s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#1d4ed8,var(--blue));transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.65,0,.35,1)}
+.btn::after{content:"→";display:inline-block;font-weight:700;transition:transform .35s cubic-bezier(.65,0,.35,1)}
+.btn:hover,.btn:focus-visible{color:#fff;box-shadow:0 10px 24px rgba(37,99,235,.28)}
+.btn:hover::before,.btn:focus-visible::before{transform:scaleX(1)}
+.btn:hover::after,.btn:focus-visible::after{transform:translateX(4px)}
+.btn[aria-current="page"]{color:#fff}.btn[aria-current="page"]::before{transform:scaleX(1)}
+/* Sur fond sombre ou bleu : contour blanc, remplissage blanc */
+.btn.on-dark,.btn-ghost,.cta-box .btn,.cta-box .btn.alt{background:transparent;border-color:rgba(255,255,255,.75);color:#fff}
+.btn.on-dark::before,.btn-ghost::before,.cta-box .btn::before{background:#fff}
+.btn.on-dark:hover,.btn-ghost:hover,.cta-box .btn:hover{color:var(--blue);border-color:#fff;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+@media (prefers-reduced-motion:reduce){.btn::before,.btn::after{transition:none}}
+.dark-section .btn:not(.btn-ghost),.contact-band .btn:not(.btn-ghost){background:rgba(37,99,235,.12);border-color:#3b82f6;color:#fff}
+.dark-section .btn:not(.btn-ghost):hover,.contact-band .btn:not(.btn-ghost):hover{box-shadow:0 10px 28px rgba(37,99,235,.45)}
