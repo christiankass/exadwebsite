@@ -243,8 +243,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ---------- Onglets (accueil) ---------------------------------------- */
+  document.querySelectorAll('[role="tablist"]').forEach((list) => {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    const select = (tab) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        const n = tabs[(i + d + tabs.length) % tabs.length];
+        select(n); n.focus();
+      });
+    });
+  });
+
   /* ---------- Assistant (chatbot) -------------------------------------- */
   initChatbot();
+  document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
+    const toggle = document.querySelector(".chatbot-toggle");
+    if (toggle && toggle.getAttribute("aria-expanded") !== "true") toggle.click();
+  }));
 });
 
 function initChatbot() {
