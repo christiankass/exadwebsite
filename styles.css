@@ -1009,3 +1009,7 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 .clients-section{padding-top:20px}
 @media(max-width:1000px){.client-wall-lg{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:600px){.client-wall,.client-wall-lg{grid-template-columns:repeat(2,1fr)}}
+
+/* Logos des partenaires toujours en couleur */
+.partner img,.partners .partner img{filter:none!important;opacity:1!important}
+.partner:hover img{transform:scale(1.06);transition:transform .3s}
