@@ -1013,3 +1013,14 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 /* Logos des partenaires toujours en couleur */
 .partner img,.partners .partner img{filter:none!important;opacity:1!important}
 .partner:hover img{transform:scale(1.06);transition:transform .3s}
+
+/* Grilles de logos sans encadrement ni fond */
+.client-wall li,.client-wall-lg li{background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+.client-wall li:hover,.client-wall-lg li:hover{transform:scale(1.06);box-shadow:none!important}
+.tech-grid .partner{background:none!important;border:0!important;box-shadow:none!important}
+.tech-grid .partner img{filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+.tech-section .tech-grid .partner img{filter:none}
+.tech-section .partner-text{color:#0b1120}
+.tech-section .dark-note{background:#eef2f7;border-color:var(--line)}
+.tech-section .dark-note p{color:var(--muted)}
+.tech-section .dark-note strong{color:#0b1120}
