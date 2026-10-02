@@ -860,11 +860,11 @@ nav > a.lang-switch:hover{background:#f1f5f9!important}
 .page-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
   background:radial-gradient(circle at 50% 40%,#ffffff 0%,#f1f5fb 70%);
   visibility:hidden;transform:translateY(-100%);
-  transition:transform .9s cubic-bezier(.76,0,.24,1),visibility 0s linear .9s}
+  transition:transform .6s cubic-bezier(.76,0,.24,1),visibility 0s linear .6s}
 .page-loader::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--blue),#60a5fa)}
-html.is-loading .page-loader,html.is-leaving .page-loader{visibility:visible;transform:none;transition:transform .55s cubic-bezier(.76,0,.24,1),visibility 0s}
+html.is-loading .page-loader,html.is-leaving .page-loader{visibility:visible;transform:none;transition:transform .35s cubic-bezier(.76,0,.24,1),visibility 0s}
 html.is-loading{overflow:hidden}
-.loader-inner{display:grid;justify-items:center;gap:22px;animation:loaderIn .8s cubic-bezier(.16,1,.3,1) both}
+.loader-inner{display:grid;justify-items:center;gap:22px;animation:loaderIn .4s cubic-bezier(.16,1,.3,1) both}
 .loader-logo{position:relative;width:220px;--p:0}
 .loader-logo img{display:block;width:100%;height:auto;mix-blend-mode:multiply}
 .loader-logo .logo-base{filter:grayscale(1);opacity:.18}
@@ -882,12 +882,12 @@ html.js .hero h1,html.js .hero .lead,html.js .hero .actions,html.js .static-hero
 html.js .page-hero .tag,html.js .page-hero h1,html.js .page-hero .lead,html.js .page-hero-img{opacity:0;transform:translateY(24px)}
 html.is-loaded .hero h1,html.is-loaded .hero .lead,html.is-loaded .hero .actions,html.is-loaded .static-hero,
 html.is-loaded .page-hero .tag,html.is-loaded .page-hero h1,html.is-loaded .page-hero .lead,html.is-loaded .page-hero-img{
-  opacity:1;transform:none;transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-html.is-loaded .page-hero .tag{transition-delay:.15s}
-html.is-loaded .hero h1,html.is-loaded .page-hero h1{transition-delay:.25s}
-html.is-loaded .hero .lead,html.is-loaded .page-hero .lead{transition-delay:.38s}
-html.is-loaded .hero .actions{transition-delay:.5s}
-html.is-loaded .static-hero,html.is-loaded .page-hero-img{transition-delay:.4s}
+  opacity:1;transform:none;transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+html.is-loaded .page-hero .tag{transition-delay:.05s}
+html.is-loaded .hero h1,html.is-loaded .page-hero h1{transition-delay:.1s}
+html.is-loaded .hero .lead,html.is-loaded .page-hero .lead{transition-delay:.18s}
+html.is-loaded .hero .actions{transition-delay:.25s}
+html.is-loaded .static-hero,html.is-loaded .page-hero-img{transition-delay:.15s}
 
 @media(prefers-reduced-motion:reduce){
   .page-loader{transition:opacity .3s,visibility 0s linear .3s!important;transform:none!important;opacity:0}

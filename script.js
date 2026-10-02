@@ -18,7 +18,7 @@ const t = (fr, en) => (EN ? en : fr);
   const loader = document.querySelector(".page-loader");
   const pctEl = loader && loader.querySelector(".loader-pct");
   // Durée minimale d'affichage : le logo et le pourcentage doivent être lisibles
-  const minTime = html.classList.contains("is-quick") ? 900 : 1600;
+  const minTime = html.classList.contains("is-quick") ? 400 : 800;
   const start = window.__exadStart || Date.now();
   let p = 0, loaded = document.readyState === "complete", done = false;
   const setP = (v) => {
@@ -32,7 +32,7 @@ const t = (fr, en) => (EN ? en : fr);
     // Avance régulièrement jusqu'à 90 % pendant le chargement, puis termine à 100 %
     const timeShare = Math.min(elapsed / minTime, 1) * 100;
     const target = loaded ? timeShare : Math.min(timeShare, 90);
-    p += (target - p) * 0.12 + 0.15;
+    p += (target - p) * 0.2 + 0.4;
     p = Math.min(p, target);
     setP(p);
     if (loaded && p >= 99.5 && elapsed >= minTime) {
@@ -40,8 +40,8 @@ const t = (fr, en) => (EN ? en : fr);
       done = true;
       setTimeout(() => {
         html.classList.add("is-loaded");
-        setTimeout(() => html.classList.remove("is-loading"), 200);
-      }, 250);
+        setTimeout(() => html.classList.remove("is-loading"), 100);
+      }, 100);
       return;
     }
     requestAnimationFrame(step);
@@ -67,7 +67,7 @@ const t = (fr, en) => (EN ? en : fr);
     e.preventDefault();
     setP(100);
     html.classList.add("is-leaving");
-    setTimeout(() => { location.href = url.href; }, 550);
+    setTimeout(() => { location.href = url.href; }, 350);
   });
 })();
 
