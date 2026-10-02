@@ -995,3 +995,17 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
   .team-photo::before{inset:-10px -10px 10px 10px}
 }
 @media(max-width:700px){.team-badge{position:relative;left:auto;bottom:auto;margin:-28px 16px 0;display:inline-grid}}
+
+/* Logos partenaires et clients */
+.partner{width:170px;height:80px;padding:10px 18px}
+.partner img{max-height:46px;max-width:100%;mix-blend-mode:normal}
+.client-wall{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.client-wall li{display:grid;place-items:center;height:78px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:14px;transition:transform .3s var(--ease-out),box-shadow .3s,border-color .3s}
+.client-wall li:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(15,23,42,.08);border-color:#cbd5e1}
+.client-wall img{max-width:100%;max-height:50px;width:auto;height:auto;object-fit:contain}
+.client-wall-lg{grid-template-columns:repeat(6,1fr);gap:14px}
+.client-wall-lg li{height:110px;padding:18px}
+.client-wall-lg img{max-height:60px}
+.clients-section{padding-top:20px}
+@media(max-width:1000px){.client-wall-lg{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:600px){.client-wall,.client-wall-lg{grid-template-columns:repeat(2,1fr)}}
