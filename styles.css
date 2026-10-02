@@ -1170,3 +1170,31 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 .team-desk:hover .dossier,.team-desk:focus-within .dossier,.team-desk.is-open .dossier{width:32%}
 .team-desk:hover .dossier-main,.team-desk:focus-within .dossier-main,.team-desk.is-open .dossier-main{width:40%}
 .team-desk:hover .dossier:not(.dossier-main):hover,.team-desk.is-open .dossier:not(.dossier-main):hover{transform:scale(1.05)}
+
+/* Notre équipe : carrousel de photos */
+.team-carousel{position:relative}
+.tc-viewport{position:relative;border-radius:24px;overflow:hidden;background:#0b1630;box-shadow:0 30px 60px rgba(15,23,42,.18);aspect-ratio:4/3}
+.tc-track{list-style:none;margin:0;padding:0;display:flex;height:100%;transition:transform .8s cubic-bezier(.65,0,.35,1)}
+.tc-slide{flex:0 0 100%;position:relative;height:100%}
+.tc-slide .zoom{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.tc-slide img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 6s ease-out}
+.tc-slide.is-active img{transform:scale(1.06)}
+.tc-caption{position:absolute;left:0;right:0;bottom:0;padding:60px 26px 22px;background:linear-gradient(transparent,rgba(11,22,48,.85));color:#fff;font-weight:700;font-size:17px;pointer-events:none}
+.tc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;
+  background:rgba(255,255,255,.88);color:#0b1120;box-shadow:0 8px 20px rgba(0,0,0,.2);opacity:0;transition:opacity .3s,transform .3s,background .2s}
+.tc-prev{left:16px}.tc-next{right:16px}
+.tc-viewport:hover .tc-arrow,.tc-arrow:focus-visible{opacity:1}
+.tc-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.tc-progress{position:absolute;left:0;right:0;top:0;height:3px;background:rgba(255,255,255,.2)}
+.tc-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#38bdf8)}
+.tc-progress.run span{animation:tcProgress var(--tc-delay,4.5s) linear forwards}
+.team-carousel.is-paused .tc-progress span{animation-play-state:paused}
+@keyframes tcProgress{to{width:100%}}
+.tc-thumbs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+.tc-thumb{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;background:#e2e8f0;aspect-ratio:4/3;opacity:.55;transition:opacity .3s,border-color .3s,transform .3s}
+.tc-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.tc-thumb:hover{opacity:.9;transform:translateY(-2px)}
+.tc-thumb.is-active{opacity:1;border-color:var(--blue)}
+@media(max-width:1000px){.team-carousel{margin-top:10px}}
+@media(max-width:600px){.tc-arrow{opacity:1;width:38px;height:38px}.tc-thumbs{gap:5px}.tc-caption{font-size:15px;padding:40px 16px 14px}}
+@media(prefers-reduced-motion:reduce){.tc-track{transition:none}.tc-slide.is-active img{transform:none}}

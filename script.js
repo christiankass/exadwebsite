@@ -375,6 +375,57 @@ document.addEventListener("DOMContentLoaded", () => {
     }, true);
   });
 
+  /* ---------- Carrousel de l'équipe ------------------------------------ */
+  document.querySelectorAll(".team-carousel").forEach((car) => {
+    const track = car.querySelector(".tc-track");
+    const slides = [...car.querySelectorAll(".tc-slide")];
+    const thumbs = [...car.querySelectorAll(".tc-thumb")];
+    const bar = car.querySelector(".tc-progress");
+    const DELAY = 4500;
+    let index = 0, timer = null, paused = false;
+    car.style.setProperty("--tc-delay", DELAY / 1000 + "s");
+
+    const go = (i) => {
+      index = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(${-index * 100}%)`;
+      slides.forEach((s, k) => { s.classList.toggle("is-active", k === index); s.setAttribute("aria-hidden", String(k !== index)); });
+      thumbs.forEach((t, k) => { t.classList.toggle("is-active", k === index); if (k === index) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
+      restart();
+    };
+    const restart = () => {
+      clearTimeout(timer);
+      bar.classList.remove("run"); void bar.offsetWidth;
+      if (reduceMotion || paused) return;
+      bar.classList.add("run");
+      timer = setTimeout(() => go(index + 1), DELAY);
+    };
+    const pause = (on) => { paused = on; car.classList.toggle("is-paused", on); if (on) clearTimeout(timer); else restart(); };
+
+    car.querySelector(".tc-prev").addEventListener("click", () => go(index - 1));
+    car.querySelector(".tc-next").addEventListener("click", () => go(index + 1));
+    thumbs.forEach((t, k) => t.addEventListener("click", () => go(k)));
+    car.addEventListener("mouseenter", () => pause(true));
+    car.addEventListener("mouseleave", () => pause(false));
+    car.addEventListener("focusin", () => pause(true));
+    car.addEventListener("focusout", (e) => { if (!car.contains(e.relatedTarget)) pause(false); });
+    car.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") go(index - 1); if (e.key === "ArrowRight") go(index + 1); });
+
+    // Glisser du doigt sur mobile
+    let x0 = null;
+    track.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+    });
+
+    // Défilement seulement quand le carrousel est visible
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([en]) => { if (en.isIntersecting && !paused) restart(); else clearTimeout(timer); }, { threshold: 0.3 }).observe(car);
+    }
+    go(0);
+  });
+
   /* ---------- Assistant (chatbot) -------------------------------------- */
   initChatbot();
   document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
