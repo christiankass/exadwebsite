@@ -1080,3 +1080,47 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
 .team-stack .fan-card{width:30%}
 .fan-hint .h-touch{display:none}
 @media(hover:none){.fan-hint .h-hover{display:none}.fan-hint .h-touch{display:inline}}
+
+/* Notre équipe : photos rangées dans une farde */
+.team-folder{position:relative;aspect-ratio:1/.95;margin:0;outline:none;perspective:1400px}
+.folder-back{position:absolute;left:0;right:0;top:18%;bottom:0;border-radius:8px 22px 22px 22px;
+  background:linear-gradient(160deg,#1d3f8f,#0b1630);box-shadow:0 30px 60px rgba(11,22,48,.25)}
+.folder-back::before{content:"";position:absolute;left:0;top:-8%;width:40%;height:10%;border-radius:16px 16px 0 0;background:#1d3f8f}
+.folder-tab{position:absolute;left:22px;top:-6.5%;z-index:1;color:#bfdbfe;font-size:12px;font-weight:800;letter-spacing:.14em}
+.folder-files{position:absolute;inset:0;z-index:2}
+.team-folder .folder-file{position:absolute;display:block;width:34%;aspect-ratio:3/4;padding:0;margin:0;
+  border:5px solid #fff;border-radius:10px;overflow:hidden;background:#e2e8f0;cursor:zoom-in;
+  box-shadow:0 10px 24px rgba(0,0,0,.28);
+  left:calc(50% + (var(--i) - 2.5) * 7%);top:22%;
+  transform:translateX(-50%) rotate(calc((var(--i) - 2.5) * 2deg));
+  transition:left .8s cubic-bezier(.16,1,.3,1),top .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+  transition-delay:calc(var(--i) * 35ms)}
+.team-folder .folder-file img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.team-folder .folder-file:hover{z-index:5}
+.team-folder .folder-file:hover img{transform:scale(1.06)}
+.team-folder .folder-front{position:absolute;left:0;right:0;bottom:0;height:64%;z-index:3;display:block;padding:0;border:0;margin:0;
+  border-radius:22px;overflow:hidden;cursor:zoom-in;background:#0b1630;
+  box-shadow:0 -12px 30px rgba(11,22,48,.25),0 30px 50px rgba(15,23,42,.18);
+  transform-origin:50% 100%;transition:transform .8s cubic-bezier(.16,1,.3,1)}
+.team-folder .folder-front img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.folder-label{position:absolute;left:0;right:0;bottom:0;padding:50px 24px 20px;background:linear-gradient(transparent,rgba(11,22,48,.88));color:#fff;text-align:left;display:grid;gap:2px}
+.folder-label strong{font-size:22px}
+.folder-label span{font-size:14px;color:#cbd5e1}
+.team-folder .fan-hint{top:auto;bottom:calc(64% + 12px);right:12px}
+/* Ouverture de la farde */
+.team-folder:hover .folder-front,.team-folder:focus-within .folder-front,.team-folder.is-open .folder-front{transform:rotateX(22deg) translateY(4%)}
+.team-folder:hover .folder-file,.team-folder:focus-within .folder-file,.team-folder.is-open .folder-file{
+  left:calc(50% + (var(--i) - 2.5) * 15.5%);top:-4%;transform:translateX(-50%) rotate(calc((var(--i) - 2.5) * 3.5deg))}
+.team-folder:hover .fan-hint,.team-folder:focus-within .fan-hint,.team-folder.is-open .fan-hint{opacity:0}
+@media(max-width:1000px){.team-folder{margin-top:50px}}
+@media(max-width:700px){
+  .team-folder .folder-file{border-width:3px}
+  .team-folder.is-open .folder-file,.team-folder:hover .folder-file{left:calc(50% + (var(--i) - 2.5) * 14%)}
+  .folder-label strong{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){.folder-file,.folder-front{transition:none!important}}
+@media(max-width:700px){
+  .team-folder .folder-file{width:31%}
+  .team-folder.is-open .folder-file,.team-folder:hover .folder-file{left:calc(50% + (var(--i) - 2.5) * 12.5%)}
+  .team-section{overflow-x:clip}
+}
