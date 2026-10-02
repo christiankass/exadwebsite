@@ -21,6 +21,8 @@ TR = json.loads((ROOT / "tools" / "en.json").read_text(encoding="utf-8"))
 ATTRS = ("alt", "placeholder", "aria-label", "title", "content")
 missing = set()
 
+FR_FLAG = '<svg class="flag" width="26" height="18" viewBox="0 0 60 40" aria-hidden="true"><clipPath id="fr-c"><rect width="60" height="40" rx="4"/></clipPath><g clip-path="url(#fr-c)"><rect width="20" height="40" fill="#002654"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#CE1126"/></g></svg>'
+
 # Remplacements de blocs entiers, quand une phrase est coupée par du HTML
 BLOCKS = {
     'Votre partenaire pour une <span>infrastructure IT</span> de niveau entreprise.':
@@ -60,11 +62,13 @@ def relocate(s, page):
     # fichiers du site (images, css, js) : un niveau au-dessus
     s = re.sub(r'\b(src|href)="(?!https?:|mailto:|tel:|#|[a-z]+\.html)([^"]+)"', r'\1="../\2"', s)
     s = s.replace('og:locale" content="fr_FR"', 'og:locale" content="en_US"')
-    s = s.replace(f'href="{SITE}{"" if page == "index.html" else page}"', f'href="{SITE}en/{"" if page == "index.html" else page}"')
-    s = s.replace(f'content="{SITE}{"" if page == "index.html" else page}"', f'content="{SITE}en/{"" if page == "index.html" else page}"')
+    slug = "" if page == "index.html" else page
+    # adresse canonique et og:url (les liens hreflang restent inchangés)
+    s = s.replace(f'<link rel="canonical" href="{SITE}{slug}">', f'<link rel="canonical" href="{SITE}en/{slug}">')
+    s = s.replace(f'<meta property="og:url" content="{SITE}{slug}">', f'<meta property="og:url" content="{SITE}en/{slug}">')
     # sélecteur de langue : vers la page française
     s = re.sub(r'<a class="lang-switch"[^>]*>.*?</a>',
-               f'<a class="lang-switch" href="../{page}" hreflang="fr" lang="fr" aria-label="Version française">FR</a>', s, flags=re.S)
+               f'<a class="lang-switch" href="../{page}" hreflang="fr" lang="fr" aria-label="Version française" title="Français">'+FR_FLAG+'</a>', s, flags=re.S)
     return s
 
 OUT.mkdir(exist_ok=True)
