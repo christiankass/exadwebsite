@@ -11,6 +11,41 @@ const EN = document.documentElement.lang === "en";
 const ASSETS = EN ? "../" : "";
 const t = (fr, en) => (EN ? en : fr);
 
+/* ---------- Écran de chargement et transitions entre pages --------------- */
+(() => {
+  const html = document.documentElement;
+  const reveal = () => {
+    // Le logo reste visible au moins 0,9 s à la première visite, pour que l'animation se lise
+    const minTime = html.classList.contains("is-quick") ? 150 : 900;
+    const wait = Math.max(0, minTime - (Date.now() - (window.__exadStart || 0)));
+    setTimeout(() => {
+      html.classList.add("is-loaded");
+      setTimeout(() => html.classList.remove("is-loading"), 250);
+    }, wait);
+  };
+  if (document.readyState === "complete") reveal();
+  else window.addEventListener("load", reveal);
+
+  // Retour arrière depuis le cache du navigateur : on retire le rideau
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) html.classList.remove("is-leaving", "is-loading");
+  });
+
+  // Quitter la page : le rideau redescend, puis on change de page
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (a.target === "_blank" || a.hasAttribute("download")) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname)) return;
+    if (url.pathname === location.pathname && url.hash) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault();
+    html.classList.add("is-leaving");
+    setTimeout(() => { location.href = url.href; }, 550);
+  });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
