@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ---------- Équipe : cartes en éventail (toucher sur mobile) ---------- */
-  document.querySelectorAll(".team-stack, .team-folder").forEach((stack) => {
+  document.querySelectorAll(".team-stack, .team-folder, .team-desk").forEach((stack) => {
     if (window.matchMedia("(hover: hover)").matches) return;
     stack.addEventListener("click", (e) => {
       if (!stack.classList.contains("is-open")) { e.preventDefault(); e.stopPropagation(); stack.classList.add("is-open"); }

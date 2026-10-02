@@ -1124,3 +1124,33 @@ html.lang-fading main,html.lang-fading header nav,html.lang-fading footer,html.l
   .team-folder.is-open .folder-file,.team-folder:hover .folder-file{left:calc(50% + (var(--i) - 2.5) * 12.5%)}
   .team-section{overflow-x:clip}
 }
+
+/* Notre équipe : dossiers cartonnés empilés sur un bureau */
+.team-desk{position:relative;aspect-ratio:1/.92;margin:0;outline:none}
+.team-desk .dossier{position:absolute;display:block;margin:0;cursor:zoom-in;
+  left:var(--rx);top:var(--ry);width:62%;aspect-ratio:4/3;
+  padding:9px;border:0;border-radius:4px 12px 12px 12px;
+  background:linear-gradient(160deg,#f6ead2,#e8d5ae);
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 12px 26px rgba(60,40,10,.22);
+  transform:rotate(var(--rr));z-index:calc(1 + var(--d));
+  transition:left .8s cubic-bezier(.16,1,.3,1),top .8s cubic-bezier(.16,1,.3,1),width .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1),box-shadow .3s;
+  transition-delay:calc(var(--d) * 30ms)}
+.team-desk .dossier::before{content:"";position:absolute;left:7%;top:-8%;width:32%;height:9%;border-radius:10px 10px 0 0;background:#f6ead2;box-shadow:0 -2px 4px rgba(60,40,10,.08)}
+.team-desk .dossier img{display:block;width:100%;height:100%;object-fit:cover;border-radius:6px;position:relative}
+.team-desk .dossier-main{background:linear-gradient(160deg,#1d3f8f,#0b1630)}
+.team-desk .dossier-main::before{background:#1d3f8f}
+.dossier-tab{position:absolute;left:9%;top:-7%;z-index:1;font-size:11px;font-weight:800;letter-spacing:.14em;color:#bfdbfe}
+.team-desk .dossier-main img{object-position:center 40%}
+.team-desk .dossier:hover{box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 20px 40px rgba(60,40,10,.3)}
+.team-desk .fan-hint{top:auto;bottom:12px;right:12px;z-index:20}
+/* Étalés sur le bureau */
+.team-desk:hover .dossier,.team-desk:focus-within .dossier,.team-desk.is-open .dossier{left:var(--ox);top:var(--oy);width:38%;transform:rotate(var(--or))}
+.team-desk:hover .dossier-main,.team-desk:focus-within .dossier-main,.team-desk.is-open .dossier-main{width:44%;z-index:12}
+.team-desk:hover .dossier:not(.dossier-main):hover,.team-desk.is-open .dossier:not(.dossier-main):hover{z-index:15;transform:rotate(0deg) scale(1.06)}
+.team-desk:hover .fan-hint,.team-desk:focus-within .fan-hint,.team-desk.is-open .fan-hint{opacity:0}
+@media(max-width:1000px){.team-desk{margin-top:40px}}
+@media(max-width:700px){.team-desk .dossier{padding:5px}.dossier-tab{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.team-desk .dossier{transition:none!important}}
+.team-desk .dossier-main::before{width:48%}
+.dossier-tab{white-space:nowrap}
+.team-desk:hover .dossier-tab,.team-desk.is-open .dossier-tab{font-size:10px;letter-spacing:.1em}
