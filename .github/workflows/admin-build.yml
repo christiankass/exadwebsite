@@ -1,0 +1,43 @@
+# Reconstruit le site après chaque enregistrement depuis la page /admin.
+# Déclenché quand data/content.json change : met à jour les pages françaises,
+# la version anglaise (en/) et enregistre le résultat sur GitHub.
+name: Mise à jour du site (admin)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/content.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: admin-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Reconstruire les pages
+        run: |
+          python tools/build_content.py
+          python tools/build_en.py
+      - name: Enregistrer les pages mises à jour
+        run: |
+          git config user.name "EXAD Admin"
+          git config user.email "admin-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Rien à mettre à jour"
+          else
+            git commit -m "Site mis à jour depuis l'administration"
+            git pull --rebase origin main
+            git push
+          fi

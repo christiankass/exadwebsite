@@ -18,6 +18,10 @@ SITE = "https://www.exadgroup.org/"
 PAGES = ["index.html", "about.html", "services.html", "datacenter.html",
          "cybersecurity.html", "fleet.html", "achievements.html", "news.html", "contact.html"]
 TR = json.loads((ROOT / "tools" / "en.json").read_text(encoding="utf-8"))
+# Traductions des contenus gérés depuis /admin (générées par build_content.py)
+_cms = ROOT / "tools" / "en_cms.json"
+if _cms.exists():
+    TR.update(json.loads(_cms.read_text(encoding="utf-8")))
 ATTRS = ("alt", "placeholder", "aria-label", "title", "content")
 missing = set()
 
@@ -30,6 +34,10 @@ BLOCKS = {
     'Vos équipes comptent sur leur informatique. <span>EXAD la conçoit, la déploie et la maintient pour qu\'elle ne les lâche pas.</span>':
         'Your teams depend on their IT. <span>EXAD designs, deploys and maintains it so it never lets them down.</span>',
 }
+
+_cmsb = ROOT / "tools" / "cms_blocks.json"
+if _cmsb.exists():
+    BLOCKS.update(json.loads(_cmsb.read_text(encoding="utf-8")))
 
 def tr(text):
     """Traduit un texte (espaces normalisés), en conservant les espaces autour."""

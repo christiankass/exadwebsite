@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const h1 = document.querySelector(".hero h1");
   const heroImg = document.querySelector(".static-hero img");
   if (h1 && heroImg) {
+    /* cms:slides */
     const allSlides = (en) => en ? [
       { html: "Your partner for <span>enterprise-grade IT infrastructure</span>.", img: "hero_datacenter_new.webp", alt: "EXAD data center" },
       { html: "Optimize your fleet with <span>smart tracking</span> solutions.", img: "slider_fleet_new.webp", alt: "EXAD fleet tracking" },
@@ -138,6 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { html: "Optimisez votre flotte avec nos solutions de <span>tracking intelligent</span>.", img: "slider_fleet_new.webp", alt: "Suivi de flotte EXAD" },
       { html: "Protégez vos données avec une <span>cybersécurité</span> de nouvelle génération.", img: "slider_cyber_new.webp", alt: "Cybersécurité EXAD" },
     ];
+    /* /cms:slides */
     const slides = allSlides(false).map((sl, i) => ({ ...sl, img: ASSETS + sl.img }));
     const slideText = (i) => allSlides(EN)[i];
     let current = 0;
@@ -430,12 +432,28 @@ document.addEventListener("DOMContentLoaded", () => {
     render(); schedule();
   });
 
-  /* ---------- Assistant (chatbot) -------------------------------------- */
-  initChatbot();
-  document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
-    const toggle = document.querySelector(".chatbot-toggle");
-    if (toggle && toggle.getAttribute("aria-expanded") !== "true") toggle.click();
-  }));
+  /* ---------- Messagerie : discussion en direct (Tawk.to) ou assistant ---- */
+  const cfg = window.EXAD_CONFIG || {};
+  if (cfg.tawk) {
+    // Discussion en direct avec l'équipe EXAD (configurée depuis /admin)
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+    const s1 = document.createElement("script");
+    s1.async = true;
+    s1.src = "https://embed.tawk.to/" + encodeURIComponent(cfg.tawk) + "/" + encodeURIComponent(cfg.tawkWidget || "default");
+    s1.charset = "UTF-8";
+    s1.setAttribute("crossorigin", "*");
+    document.body.appendChild(s1);
+    document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
+      if (window.Tawk_API && typeof window.Tawk_API.maximize === "function") window.Tawk_API.maximize();
+    }));
+  } else {
+    initChatbot();
+    document.querySelectorAll("[data-open-chat]").forEach((b) => b.addEventListener("click", () => {
+      const toggle = document.querySelector(".chatbot-toggle");
+      if (toggle && toggle.getAttribute("aria-expanded") !== "true") toggle.click();
+    }));
+  }
 });
 
 function initChatbot() {

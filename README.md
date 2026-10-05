@@ -32,3 +32,22 @@ Pour un envoi direct (sans passer par la messagerie du visiteur), brancher un se
 
 ## Après une modification du CSS ou du JS
 Augmenter le numéro `?v=40` dans les balises `<link>` et `<script>` de chaque page pour forcer les navigateurs à recharger les fichiers.
+
+## Administration (page /admin)
+
+La page `admin/index.html` permet de modifier le site sans toucher au code :
+actualités, photos de l'équipe, logos partenaires et clients, titres animés,
+chiffres clés, coordonnées et messagerie en direct (Tawk.to).
+
+- **Connexion** : clé d'accès GitHub « fine-grained » limitée au dépôt `exadwebsite`
+  (permissions *Contents : Read and write* et *Actions : Read-only*). La clé reste
+  dans le navigateur de l'administrateur.
+- **Enregistrement** : l'admin modifie `data/content.json` (et envoie les photos dans
+  `uploads/`). GitHub lance ensuite `.github/workflows/admin-build.yml`, qui exécute
+  `tools/build_content.py` puis `tools/build_en.py` et enregistre les pages à jour
+  (environ 2 minutes).
+- **Zones gérées** : dans les pages françaises, elles sont entourées de commentaires
+  `<!-- cms:nom --> … <!-- /cms:nom -->`. Ne pas les supprimer ; le reste des pages
+  se modifie normalement.
+- **Avant de modifier le code à la main** : faire `git pull`, car l'admin a pu
+  enregistrer de nouvelles versions sur GitHub.

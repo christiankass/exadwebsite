@@ -1,0 +1,281 @@
+{
+  "_info": "Fichier modifié par la page /admin. Le site est reconstruit automatiquement après chaque enregistrement.",
+  "contact": {
+    "phone": "+243 840 104 000",
+    "email": "sales@exadgroup.org",
+    "address": "25c, Avenue Dr Mankoyi, Ngaliema, Kinshasa",
+    "whatsapp": "243840104000",
+    "linkedin": "https://www.linkedin.com/company/exad-group-sarl/"
+  },
+  "stats": {
+    "clients": 25,
+    "projects": 46,
+    "domains": 6,
+    "founded": 2015
+  },
+  "slides": [
+    {
+      "fr": "Votre partenaire pour une [infrastructure IT] de niveau entreprise.",
+      "en": "Your partner for [enterprise-grade IT infrastructure].",
+      "img": "hero_datacenter_new.webp",
+      "alt": "Data center EXAD",
+      "alt_en": "EXAD data center"
+    },
+    {
+      "fr": "Optimisez votre flotte avec nos solutions de [tracking intelligent].",
+      "en": "Optimize your fleet with [smart tracking] solutions.",
+      "img": "slider_fleet_new.webp",
+      "alt": "Suivi de flotte EXAD",
+      "alt_en": "EXAD fleet tracking"
+    },
+    {
+      "fr": "Protégez vos données avec une [cybersécurité] de nouvelle génération.",
+      "en": "Protect your data with [next-generation cybersecurity].",
+      "img": "slider_cyber_new.webp",
+      "alt": "Cybersécurité EXAD",
+      "alt_en": "EXAD cybersecurity"
+    }
+  ],
+  "news": [
+    {
+      "type": "atelier",
+      "tag": "Atelier Fortinet",
+      "tag_en": "Fortinet workshop",
+      "date": "2024-05-15",
+      "title": "Secure SD-WAN : EXAD réunit les partenaires Fortinet à Kinshasa",
+      "title_en": "Secure SD-WAN: EXAD brings Fortinet partners together in Kinshasa",
+      "text": "Le mercredi 15 mai 2024, EXAD a organisé un atelier avec Fortinet à l'hôtel Novotel de Kinshasa. L'événement a réuni les partenaires Fortinet autour des solutions Secure SD-WAN, pour partager des idées et découvrir les dernières innovations en matière de sécurité réseau.",
+      "text_en": "On Wednesday, May 15, 2024, EXAD hosted a workshop with Fortinet at the Novotel hotel in Kinshasa. The event brought Fortinet partners together around Secure SD-WAN solutions, to share ideas and explore the latest innovations in network security.",
+      "place": "Hôtel Novotel, Kinshasa",
+      "place_en": "Novotel hotel, Kinshasa",
+      "photos": [
+        {
+          "src": "news_fortinet_2024.jpg",
+          "alt": "Participants de l'atelier Fortinet à l'hôtel Novotel de Kinshasa",
+          "alt_en": "Participants in the Fortinet workshop at the Novotel hotel in Kinshasa",
+          "w": 664,
+          "h": 390
+        }
+      ]
+    },
+    {
+      "type": "atelier",
+      "tag": "Atelier Cisco",
+      "tag_en": "Cisco workshop",
+      "date": "2024-02-28",
+      "title": "Cisco présente ses innovations réseau aux équipes d'Orange RDC",
+      "title_en": "Cisco presents its networking innovations to Orange DRC teams",
+      "text": "Le 28 février 2024, Cisco, invité par EXAD, a animé un atelier à l'intention d'Orange RDC. L'objectif : présenter les dernières innovations en matière de produits et de technologies réseau.",
+      "text_en": "On February 28, 2024, Cisco, invited by EXAD, ran a workshop for Orange DRC. The goal: to present the latest innovations in networking products and technologies.",
+      "place": "",
+      "place_en": "",
+      "photos": [
+        {
+          "src": "news_cisco_2024.jpg",
+          "alt": "Atelier Cisco en salle de formation",
+          "alt_en": "Cisco workshop in a training room",
+          "w": 663,
+          "h": 390
+        },
+        {
+          "src": "news_cisco_2024_team.jpg",
+          "alt": "Équipes EXAD, Cisco et Orange RDC à l'issue de l'atelier",
+          "alt_en": "EXAD, Cisco and Orange DRC teams after the workshop",
+          "w": 486,
+          "h": 316
+        }
+      ]
+    },
+    {
+      "type": "evenement",
+      "tag": "Cyber Security Clinic",
+      "tag_en": "",
+      "date": "2023-08-17",
+      "title": "Première édition de la Cyber Security Clinic de Vodacom RDC",
+      "title_en": "First edition of the Vodacom DRC Cyber Security Clinic",
+      "text": "Le 17 août 2023, Vodacom RDC a organisé avec succès la première édition de la Cyber Security Clinic à l'hôtel Pullman. Les participants ont bénéficié d'une journée complète d'échanges sur les dernières tendances en cybersécurité.",
+      "text_en": "On August 17, 2023, Vodacom DRC successfully held the first edition of the Cyber Security Clinic at the Pullman hotel. Participants enjoyed a full day of discussions on the latest cybersecurity trends.",
+      "place": "Hôtel Pullman, Kinshasa",
+      "place_en": "Pullman hotel, Kinshasa",
+      "photos": [
+        {
+          "src": "news_cyberclinic_2023.jpg",
+          "alt": "Participants à la Cyber Security Clinic de Vodacom RDC",
+          "alt_en": "Participants at the Vodacom DRC Cyber Security Clinic",
+          "w": 662,
+          "h": 390
+        }
+      ]
+    }
+  ],
+  "team": [
+    {
+      "src": "team_1.jpg",
+      "alt": "Membre de l'équipe EXAD à son bureau",
+      "alt_en": "EXAD team member at their desk",
+      "position": "60% 38%"
+    },
+    {
+      "src": "team_2.jpg",
+      "alt": "Collaboratrice EXAD au travail",
+      "alt_en": "EXAD team member at work",
+      "position": "58% 40%"
+    },
+    {
+      "src": "team_5.jpg",
+      "alt": "Membre de l'équipe EXAD au bureau",
+      "alt_en": "EXAD team member at the office",
+      "position": "57% 30%"
+    },
+    {
+      "src": "team_4.jpg",
+      "alt": "Collaboratrice EXAD sur son ordinateur",
+      "alt_en": "EXAD team member on her laptop",
+      "position": "38% 34%"
+    },
+    {
+      "src": "team_6.jpg",
+      "alt": "Membre de l'équipe EXAD chez un client",
+      "alt_en": "EXAD team member at a client site",
+      "position": "45% 30%"
+    },
+    {
+      "src": "team_3.jpg",
+      "alt": "Bureau d'EXAD à Kinshasa",
+      "alt_en": "EXAD office in Kinshasa",
+      "position": "50% 45%"
+    }
+  ],
+  "partners": [
+    {
+      "src": "logos/p-manageengine.webp",
+      "name": "ManageEngine"
+    },
+    {
+      "src": "logos/p-redhat.webp",
+      "name": "Red Hat"
+    },
+    {
+      "src": "logos/p-worldfleet.webp",
+      "name": "World Fleet"
+    },
+    {
+      "src": "logos/p-dell.webp",
+      "name": "Dell Technologies"
+    },
+    {
+      "src": "logos/p-expertflow.webp",
+      "name": "ExpertFlow"
+    },
+    {
+      "src": "logos/p-csad.webp",
+      "name": "Cyber Security Africa Distribution"
+    },
+    {
+      "src": "logos/p-solarwinds.webp",
+      "name": "SolarWinds"
+    },
+    {
+      "src": "logos/p-f5.webp",
+      "name": "F5"
+    },
+    {
+      "src": "logos/p-vmware.webp",
+      "name": "VMware"
+    },
+    {
+      "src": "logos/p-mc3.webp",
+      "name": "MC3"
+    },
+    {
+      "src": "logos/p-hiperdist.webp",
+      "name": "Hiperdist"
+    },
+    {
+      "src": "logos/p-nice.webp",
+      "name": "NICE Nexidia"
+    },
+    {
+      "src": "logos/p-cisco.webp",
+      "name": "Cisco"
+    },
+    {
+      "src": "logos/p-fortinet.webp",
+      "name": "Fortinet"
+    },
+    {
+      "src": "logos/p-huawei.webp",
+      "name": "Huawei"
+    },
+    {
+      "src": "logos/p-tenable.webp",
+      "name": "Tenable"
+    }
+  ],
+  "clients": [
+    {
+      "src": "logos/c-orange.webp",
+      "name": "Orange",
+      "home": true
+    },
+    {
+      "src": "logos/c-vodacom.webp",
+      "name": "Vodacom",
+      "home": true
+    },
+    {
+      "src": "logos/c-ecobank.webp",
+      "name": "Ecobank",
+      "home": true
+    },
+    {
+      "src": "logos/c-puma.webp",
+      "name": "Puma Energy",
+      "home": true
+    },
+    {
+      "src": "logos/c-firstbank.webp",
+      "name": "FirstBank DRC",
+      "home": true
+    },
+    {
+      "src": "logos/c-spsa-cobil.webp",
+      "name": "SPSA-COBIL",
+      "home": true
+    },
+    {
+      "src": "logos/c-engen.webp",
+      "name": "Engen",
+      "home": true
+    },
+    {
+      "src": "logos/c-oms.webp",
+      "name": "Organisation mondiale de la Santé",
+      "home": true
+    },
+    {
+      "src": "logos/c-agl.webp",
+      "name": "AGL",
+      "home": true
+    },
+    {
+      "src": "logos/c-dpworld.webp",
+      "name": "DP World",
+      "home": true
+    },
+    {
+      "src": "logos/c-accessbank.webp",
+      "name": "Access Bank",
+      "home": true
+    },
+    {
+      "src": "logos/c-bcc.webp",
+      "name": "Banque Centrale du Congo",
+      "home": true
+    }
+  ],
+  "chat": {
+    "tawk_property": "",
+    "tawk_widget": "default"
+  }
+}

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administration | EXAD</title>
+<link rel="icon" href="../favicon.png?v=2" type="image/png">
+<style>
+@font-face{font-family:'Jakarta';font-weight:400;font-display:swap;src:url('../fonts/jakarta-400.woff2') format('woff2')}
+@font-face{font-family:'Jakarta';font-weight:600;font-display:swap;src:url('../fonts/jakarta-600.woff2') format('woff2')}
+@font-face{font-family:'Jakarta';font-weight:700;font-display:swap;src:url('../fonts/jakarta-700.woff2') format('woff2')}
+@font-face{font-family:'Jakarta';font-weight:800;font-display:swap;src:url('../fonts/jakarta-800.woff2') format('woff2')}
+:root{--navy:#0b1630;--navy2:#13224a;--blue:#2563eb;--blue-soft:#eff6ff;--text:#0b1120;--muted:#5b6474;--line:#e3e8f0;--bg:#f4f6fa;--card:#fff;--ok:#16a34a;--warn:#d97706;--err:#dc2626;--r:14px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Jakarta',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--blue)}
+h1,h2,h3{letter-spacing:-.02em;margin:0}
+.hidden{display:none!important}
+
+/* Connexion */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 80% 10%,rgba(37,99,235,.35),transparent 50%),linear-gradient(160deg,var(--navy),#060c1c)}
+.login-card{width:100%;max-width:460px;background:#fff;border-radius:22px;padding:34px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.login-card img{height:46px;margin-bottom:18px}
+.login-card h1{font-size:24px;margin-bottom:6px}
+.login-card p{color:var(--muted);margin:0 0 20px}
+.login-card details{margin-top:18px;font-size:14px;color:var(--muted)}
+.login-card details summary{cursor:pointer;color:var(--blue);font-weight:600}
+.login-card ol{padding-left:20px;margin:10px 0 0}
+.login-card li{margin-bottom:6px}
+
+/* Mise en page */
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.side{background:var(--navy);color:#cbd5e1;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.side .brand{display:flex;align-items:center;gap:10px;padding:4px 10px 22px}
+.side .brand img{height:30px;background:#fff;border-radius:8px;padding:4px 6px}
+.side .brand span{font-weight:700;color:#fff;font-size:14px}
+.side button.nav{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:0;color:inherit;padding:11px 12px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14.5px}
+.side button.nav svg{flex:none;opacity:.8}
+.side button.nav:hover{background:rgba(255,255,255,.06);color:#fff}
+.side button.nav.active{background:var(--blue);color:#fff}
+.side .grow{flex:1}
+.side .who{font-size:13px;padding:10px 12px;border-top:1px solid rgba(255,255,255,.08)}
+.side .who button{background:none;border:0;color:#93c5fd;cursor:pointer;padding:0;font-weight:600}
+.main{padding:28px 36px 120px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.top h1{font-size:28px}
+.top p{margin:4px 0 0;color:var(--muted)}
+.icon-btn.burger{display:none}
+
+/* Éléments */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+.kpi{display:flex;flex-direction:column;gap:4px}
+.kpi strong{font-size:30px;letter-spacing:-.03em}
+.kpi span{color:var(--muted);font-size:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:14px;text-decoration:none;white-space:nowrap}
+.btn:hover{background:#1d4ed8;border-color:#1d4ed8}
+.btn.ghost{background:#fff;color:var(--blue)}
+.btn.ghost:hover{background:var(--blue-soft)}
+.btn.danger{background:#fff;color:var(--err);border-color:#fecaca}
+.btn.danger:hover{background:#fef2f2}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.icon-btn{width:34px;height:34px;display:inline-grid;place-items:center;border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;color:var(--muted)}
+.icon-btn:hover{color:var(--blue);border-color:var(--blue)}
+.icon-btn.del:hover{color:var(--err);border-color:var(--err)}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13.5px}
+label.f small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],input[type=password],input[type=url],select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;font-weight:400;font-size:14.5px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+textarea{min-height:110px;resize:vertical}
+.lang{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:6px;background:var(--blue-soft);color:var(--blue);margin-right:6px}
+.lang.en{background:#f1f5f9;color:#475569}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+.section-title h2{font-size:19px}
+.hint{background:var(--blue-soft);border:1px solid #dbeafe;color:#1e3a8a;border-radius:12px;padding:12px 14px;font-size:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:#f1f5f9;color:#475569}
+.pill.ok{background:#dcfce7;color:#166534}.pill.warn{background:#fef3c7;color:#92400e}.pill.err{background:#fee2e2;color:#991b1b}.pill.blue{background:var(--blue-soft);color:var(--blue)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* Listes */
+.list{display:grid;gap:12px}
+.item{display:grid;grid-template-columns:120px 1fr auto;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.item img{width:120px;height:80px;object-fit:cover;border-radius:10px;background:#eef2f7}
+.item h3{font-size:16px;margin-bottom:2px}
+.item .meta{font-size:13px;color:var(--muted)}
+.item.off{opacity:.55}
+.actions{display:flex;gap:6px}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.photo{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.photo .pic{position:relative;aspect-ratio:3/4;background:#eef2f7;cursor:crosshair}
+.photo .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .pic .focus{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px var(--blue),0 2px 8px rgba(0,0,0,.4);pointer-events:none}
+.photo .body{padding:10px;display:grid;gap:8px}
+.photo .body input{font-size:13px;padding:7px 9px}
+.logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.logo{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:8px}
+.logo .lpic{height:70px;display:grid;place-items:center;background:#fafbfc;border-radius:10px}
+.logo .lpic img{max-width:85%;max-height:56px;object-fit:contain}
+.logo input[type=text]{font-size:13px;padding:7px 9px}
+.logo .chk{font-size:12.5px;display:flex;gap:6px;align-items:center;color:var(--muted)}
+.add-tile{border:2px dashed #c7d2e1;border-radius:var(--r);background:transparent;display:grid;place-items:center;gap:6px;min-height:150px;color:var(--blue);font-weight:700;cursor:pointer;padding:16px;text-align:center}
+.add-tile:hover{background:var(--blue-soft);border-color:var(--blue)}
+
+/* Éditeur d'actualité */
+.editor{display:grid;gap:16px}
+.editor .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.news-photos{display:flex;gap:12px;flex-wrap:wrap}
+.news-photo{width:200px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.news-photo img{width:100%;height:120px;object-fit:cover;display:block;background:#eef2f7}
+.news-photo .body{padding:8px;display:grid;gap:6px}
+.news-photo input{font-size:12.5px;padding:6px 8px}
+.slide-prev{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.25;padding:14px 16px;border-radius:12px;background:#f8fafc;border:1px solid var(--line)}
+.slide-prev span{color:var(--blue)}
+
+/* Barre d'enregistrement */
+.savebar{position:fixed;left:250px;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 36px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -10px 30px rgba(11,22,48,.08);transform:translateY(110%);transition:transform .3s;z-index:20}
+.savebar.show{transform:none}
+.savebar strong{font-size:15px}
+
+/* Fenêtres */
+.modal-back{position:fixed;inset:0;background:rgba(6,12,28,.55);display:grid;place-items:center;padding:20px;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:26px;max-width:440px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal h3{font-size:19px;margin-bottom:8px}
+.modal p{color:var(--muted);margin:0 0 20px}
+.toast{position:fixed;top:18px;right:18px;background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;font-size:14px;z-index:60;box-shadow:0 12px 30px rgba(0,0,0,.25);max-width:360px}
+.toast.err{background:var(--err)}
+.timeline{display:grid;gap:0}
+.timeline .ev{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center;font-size:14px}
+.timeline .ev:last-child{border-bottom:0}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:800;display:grid;place-items:center;font-size:13px}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:260px;z-index:40;transform:translateX(-100%);transition:transform .25s}
+  .side.open{transform:none}
+  .icon-btn.burger{display:inline-grid}
+  .main{padding:20px 16px 120px}
+  .g4{grid-template-columns:1fr 1fr}.g2,.editor .pair{grid-template-columns:1fr}
+  .item{grid-template-columns:80px 1fr;}.item img{width:80px;height:60px}.item .actions{grid-column:1/-1}
+  .savebar{left:0;padding:12px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- Écran de connexion -->
+<section class="login" id="login">
+  <form class="login-card" id="login-form">
+    <img src="../logo.png" alt="EXAD">
+    <h1>Administration du site</h1>
+    <p>Connectez-vous avec votre clé d'accès GitHub pour modifier le contenu du site.</p>
+    <label class="f">Clé d'accès GitHub
+      <input type="password" id="token" autocomplete="off" placeholder="github_pat_…" required>
+    </label>
+    <label class="row" style="margin:14px 0 18px;font-size:14px;color:var(--muted)"><input type="checkbox" id="remember" checked> Rester connecté sur cet appareil</label>
+    <button class="btn" type="submit" id="login-btn" style="width:100%;justify-content:center">Se connecter</button>
+    <p id="login-err" class="hidden" style="color:var(--err);margin:12px 0 0;font-size:14px"></p>
+    <details>
+      <summary>Comment obtenir ma clé d'accès ?</summary>
+      <ol>
+        <li>Sur GitHub, ouvrez <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens</a>.</li>
+        <li>Nom : « Admin site EXAD ». Expiration : 1 an.</li>
+        <li><b>Repository access</b> : « Only select repositories » → <b>exadwebsite</b>.</li>
+        <li><b>Permissions</b> : <b>Contents</b> → Read and write, et <b>Actions</b> → Read-only.</li>
+        <li>Cliquez sur « Generate token », copiez la clé et collez-la ici.</li>
+      </ol>
+      <p style="margin:10px 0 0">La clé reste uniquement dans ce navigateur. Ne la partagez avec personne.</p>
+    </details>
+  </form>
+</section>
+
+<!-- Application -->
+<div class="app hidden" id="app">
+  <aside class="side" id="side">
+    <div class="brand"><img src="../logo.png" alt=""><span>Administration</span></div>
+    <button class="nav active" data-view="dash"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Tableau de bord</button>
+    <button class="nav" data-view="news"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h13a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>Actualités</button>
+    <button class="nav" data-view="team"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 6 4.8"/></svg>Équipe</button>
+    <button class="nav" data-view="partners"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>Partenaires</button>
+    <button class="nav" data-view="clients"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6M9 10h.01M15 10h.01"/></svg>Clients</button>
+    <button class="nav" data-view="texts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Textes et chiffres</button>
+    <button class="nav" data-view="contact"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Coordonnées</button>
+    <button class="nav" data-view="messages"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages en direct</button>
+    <div class="grow"></div>
+    <a class="nav" href="../index.html" target="_blank" rel="noopener" style="color:#93c5fd;text-decoration:none;padding:11px 12px;font-weight:600;font-size:14px">Voir le site ↗</a>
+    <div class="who"><div id="who-name">—</div><button type="button" id="logout">Se déconnecter</button></div>
+  </aside>
+
+  <main class="main" id="main"></main>
+</div>
+
+<div class="savebar" id="savebar">
+  <div><strong id="save-count">Modifications non enregistrées</strong><div class="muted" style="font-size:13px">Elles seront visibles sur le site environ 2 minutes après l'enregistrement.</div></div>
+  <div class="row"><button class="btn ghost" id="discard">Annuler</button><button class="btn" id="save">Enregistrer et publier</button></div>
+</div>
+
+<input type="file" id="file" accept="image/*" class="hidden">
+
+<script>
+"use strict";
+/* ====================================================================
+   Administration du site EXAD
+   - Lit et enregistre data/content.json sur GitHub (API officielle).
+   - Les photos envoyées sont redimensionnées puis enregistrées dans uploads/.
+   - Après chaque enregistrement, GitHub reconstruit les pages automatiquement
+     (.github/workflows/admin-build.yml).
+   ==================================================================== */
+const OWNER = "christiankass", REPO = "exadwebsite", BRANCH = "main", FILE = "data/content.json";
+const API = "https://api.github.com";
+const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`;
+const SITE = "../";
+
+let token = "", user = null;
+let data = null, original = "", fileSha = "";
+let pending = {};          // chemin -> { b64, url } : photos à envoyer
+let view = "dash";
+let editing = null;        // index de l'actualité en cours d'édition (-1 = nouvelle)
+let lastPublish = null;
+
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const clone = (o) => JSON.parse(JSON.stringify(o));
+
+/* ---------- Mémoire du navigateur (protégée) ---------- */
+const store = {
+  get(k) { try { return localStorage.getItem(k) || sessionStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v, keep) { try { (keep ? localStorage : sessionStorage).setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) {} },
+};
+
+/* ---------- GitHub ---------- */
+async function gh(path, opts = {}) {
+  const res = await fetch(API + path, {
+    ...opts,
+    headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", ...(opts.body ? { "Content-Type": "application/json" } : {}) },
+  });
+  if (!res.ok) {
+    const err = new Error((await res.json().catch(() => ({}))).message || res.statusText);
+    err.status = res.status; throw err;
+  }
+  return res.status === 204 ? null : res.json();
+}
+const b64ToText = (b) => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
+const textToB64 = (t) => { const bytes = new TextEncoder().encode(t); let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s); };
+
+async function loadContent() {
+  const f = await gh(`/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BRANCH}&t=${Date.now()}`);
+  fileSha = f.sha;
+  original = b64ToText(f.content);
+  data = JSON.parse(original);
+  pending = {};
+}
+
+async function publish(message) {
+  const ref = await gh(`/repos/${OWNER}/${REPO}/git/ref/heads/${BRANCH}`);
+  const head = ref.object.sha;
+  const commit = await gh(`/repos/${OWNER}/${REPO}/git/commits/${head}`);
+  // Le fichier a-t-il été modifié ailleurs entre-temps ?
+  const cur = await gh(`/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${head}`);
+  if (cur.sha !== fileSha && b64ToText(cur.content) !== original) {
+    const ok = await ask("Le contenu a changé ailleurs", "Quelqu'un (ou une autre fenêtre) a modifié le site depuis votre connexion. Enregistrer quand même vos modifications par-dessus ?", "Enregistrer quand même");
+    if (!ok) throw new Error("Enregistrement annulé");
+  }
+  const tree = [];
+  for (const [path, p] of Object.entries(pending)) {
+    if (!JSON.stringify(data).includes(path)) continue; // photo ajoutée puis retirée
+    const blob = await gh(`/repos/${OWNER}/${REPO}/git/blobs`, { method: "POST", body: JSON.stringify({ content: p.b64, encoding: "base64" }) });
+    tree.push({ path, mode: "100644", type: "blob", sha: blob.sha });
+  }
+  const json = JSON.stringify(data, null, 2) + "\n";
+  const blob = await gh(`/repos/${OWNER}/${REPO}/git/blobs`, { method: "POST", body: JSON.stringify({ content: textToB64(json), encoding: "base64" }) });
+  tree.push({ path: FILE, mode: "100644", type: "blob", sha: blob.sha });
+  const newTree = await gh(`/repos/${OWNER}/${REPO}/git/trees`, { method: "POST", body: JSON.stringify({ base_tree: commit.tree.sha, tree }) });
+  const newCommit = await gh(`/repos/${OWNER}/${REPO}/git/commits`, { method: "POST", body: JSON.stringify({ message, tree: newTree.sha, parents: [head] }) });
+  await gh(`/repos/${OWNER}/${REPO}/git/refs/heads/${BRANCH}`, { method: "PATCH", body: JSON.stringify({ sha: newCommit.sha }) });
+  return newCommit.sha;
+}
+
+/* ---------- Photos ---------- */
+const imgUrl = (src) => (pending[src] ? pending[src].url : /^https?:/.test(src) ? src : RAW + src);
+const slug = (s) => (s || "photo").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "photo";
+
+function pickFile() {
+  return new Promise((resolve) => {
+    const input = $("#file");
+    input.value = "";
+    input.onchange = () => resolve(input.files[0] || null);
+    input.click();
+  });
+}
+
+/* Redimensionne une image dans le navigateur : max = { w, h }, logos gardent la transparence */
+async function prepareImage(file, folder, name, max) {
+  if (!file) return null;
+  if (!/^image\//.test(file.type)) { toast("Ce fichier n'est pas une image.", true); return null; }
+  const bmp = await createImageBitmap(file);
+  const k = Math.min(1, max.w / bmp.width, max.h / bmp.height);
+  const w = Math.round(bmp.width * k), h = Math.round(bmp.height * k);
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  c.getContext("2d").drawImage(bmp, 0, 0, w, h);
+  let type = "image/webp", ext = "webp";
+  let url = c.toDataURL(type, 0.85);
+  if (!url.startsWith("data:image/webp")) { type = folder === "logos" ? "image/png" : "image/jpeg"; ext = folder === "logos" ? "png" : "jpg"; url = c.toDataURL(type, 0.85); }
+  const path = `uploads/${folder}/${slug(name)}-${Date.now().toString(36)}.${ext}`;
+  pending[path] = { b64: url.split(",")[1], url };
+  return { path, w, h };
+}
+
+/* ---------- Interface ---------- */
+function toast(msg, err) {
+  document.querySelectorAll(".toast").forEach((x) => x.remove());
+  const t = document.createElement("div"); t.className = "toast" + (err ? " err" : ""); t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 4200);
+}
+function ask(title, text, okLabel = "Confirmer", danger) {
+  return new Promise((resolve) => {
+    const b = document.createElement("div"); b.className = "modal-back";
+    b.innerHTML = `<div class="modal" role="dialog" aria-modal="true"><h3>${esc(title)}</h3><p>${esc(text)}</p><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-r="0">Annuler</button><button class="btn${danger ? " danger" : ""}" data-r="1">${esc(okLabel)}</button></div></div>`;
+    b.addEventListener("click", (e) => { const r = e.target.dataset.r; if (r !== undefined || e.target === b) { b.remove(); resolve(r === "1"); } });
+    document.body.appendChild(b); b.querySelector('[data-r="1"]').focus();
+  });
+}
+const dirty = () => data && JSON.stringify(data, null, 2) !== JSON.stringify(JSON.parse(original), null, 2);
+function refreshBar() { $("#savebar").classList.toggle("show", !!dirty()); }
+function changed() { refreshBar(); }
+
+const ICON = {
+  up: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m18 15-6-6-6 6"/></svg>',
+  down: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>',
+  left: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6"/></svg>',
+  right: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 18 6-6-6-6"/></svg>',
+  del: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>',
+  edit: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  eye: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeoff: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.4 5.2A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6C3.6 8.4 2 12 2 12s3.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/></svg>',
+  plus: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>',
+};
+const move = (arr, i, d) => { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; changed(); render(); };
+
+const TYPES = { atelier: "Atelier", evenement: "Événement", annonce: "Annonce", projet: "Projet" };
+const fmtDate = (d) => { try { return new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }); } catch (e) { return d; } };
+const ago = (iso) => { const s = (Date.now() - new Date(iso)) / 1000; if (s < 60) return "à l'instant"; if (s < 3600) return `il y a ${Math.round(s / 60)} min`; if (s < 86400) return `il y a ${Math.round(s / 3600)} h`; return `il y a ${Math.round(s / 86400)} j`; };
+
+function render() {
+  document.querySelectorAll(".side .nav[data-view]").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
+  const m = $("#main");
+  const views = { dash: viewDash, news: viewNews, team: viewTeam, partners: () => viewLogos("partners"), clients: () => viewLogos("clients"), texts: viewTexts, contact: viewContact, messages: viewMessages };
+  m.innerHTML = "";
+  views[view](m);
+  refreshBar();
+}
+function header(m, title, sub, extra = "") {
+  m.insertAdjacentHTML("beforeend", `<div class="top"><div class="row"><button class="icon-btn burger" id="burger" aria-label="Menu">☰</button><div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ""}</div></div>${extra}</div>`);
+  $("#burger", m).onclick = () => $("#side").classList.toggle("open");
+}
+
+/* ----- Tableau de bord ----- */
+function viewDash(m) {
+  const vis = data.news.filter((n) => !n.hidden).length;
+  header(m, `Bonjour${user && user.name ? " " + esc(user.name.split(" ")[0]) : ""} 👋`, "Voici l'état du site EXAD.", `<a class="btn ghost" href="${SITE}index.html" target="_blank" rel="noopener">Ouvrir le site ↗</a>`);
+  m.insertAdjacentHTML("beforeend", `
+  <div class="grid g4">
+    <button class="card kpi" style="text-align:left;cursor:pointer" data-go="news"><strong>${vis}</strong><span>Actualités publiées</span></button>
+    <button class="card kpi" style="text-align:left;cursor:pointer" data-go="team"><strong>${data.team.length}</strong><span>Photos de l'équipe</span></button>
+    <button class="card kpi" style="text-align:left;cursor:pointer" data-go="partners"><strong>${data.partners.length}</strong><span>Partenaires</span></button>
+    <button class="card kpi" style="text-align:left;cursor:pointer" data-go="clients"><strong>${data.clients.length}</strong><span>Clients</span></button>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><div class="section-title"><h2>Publication</h2><span id="pub-state" class="pill">…</span></div><div id="pub-detail" class="muted" style="font-size:14px">Vérification…</div></div>
+    <div class="card"><div class="section-title"><h2>Messagerie en direct</h2>${data.chat && data.chat.tawk_property ? '<span class="pill ok"><span class="dot"></span>Active</span>' : '<span class="pill warn"><span class="dot"></span>À configurer</span>'}</div>
+      <p class="muted" style="margin:0 0 14px;font-size:14px">${data.chat && data.chat.tawk_property ? "Les visiteurs peuvent vous écrire en direct depuis le site." : "Permettez aux visiteurs de vous écrire en direct depuis le site et répondez depuis votre téléphone."}</p>
+      <button class="btn sm ghost" data-go="messages">${data.chat && data.chat.tawk_property ? "Répondre aux messages" : "Configurer"}</button></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="section-title"><h2>Dernières modifications du site</h2><a href="https://github.com/${OWNER}/${REPO}/commits/${BRANCH}" target="_blank" rel="noopener" style="font-size:14px">Tout l'historique ↗</a></div><div class="timeline" id="history"><div class="muted">Chargement…</div></div></div>
+  <div class="card" style="margin-top:16px"><div class="section-title"><h2>Raccourcis</h2></div><div class="row">
+    <button class="btn sm" data-new-news>+ Ajouter une actualité</button><button class="btn sm ghost" data-go="team">Gérer les photos de l'équipe</button><button class="btn sm ghost" data-go="texts">Modifier les chiffres clés</button><button class="btn sm ghost" data-go="contact">Modifier les coordonnées</button></div></div>`);
+  bindGo(m);
+  $("[data-new-news]", m).onclick = () => { view = "news"; editing = -1; render(); };
+  loadHistory(); loadPubState();
+}
+function bindGo(m) { m.querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => { view = b.dataset.go; editing = null; render(); scrollTo(0, 0); })); }
+
+async function loadHistory() {
+  const el = $("#history"); if (!el) return;
+  try {
+    const list = await gh(`/repos/${OWNER}/${REPO}/commits?sha=${BRANCH}&per_page=6`);
+    el.innerHTML = list.map((c) => `<div class="ev"><span class="pill ${/administration|Admin/.test(c.commit.message) ? "blue" : ""}">${/administration|^Admin/.test(c.commit.message) ? "Admin" : "Site"}</span><span>${esc(c.commit.message.split("\n")[0])}</span><span class="muted" style="font-size:13px;white-space:nowrap">${ago(c.commit.author.date)}</span></div>`).join("");
+  } catch (e) { el.innerHTML = `<div class="muted">Historique indisponible (${esc(e.message)}).</div>`; }
+}
+async function loadPubState() {
+  const st = $("#pub-state"), dt = $("#pub-detail"); if (!st) return;
+  try {
+    const r = await gh(`/repos/${OWNER}/${REPO}/actions/runs?per_page=1&branch=${BRANCH}`);
+    const run = r.workflow_runs[0];
+    if (!run) { st.className = "pill"; st.textContent = "Aucune"; dt.textContent = "Aucune publication automatique pour le moment."; return; }
+    if (run.status !== "completed") { st.className = "pill blue"; st.innerHTML = '<span class="spin"></span>En cours'; dt.textContent = "Le site est en train d'être mis à jour…"; setTimeout(loadPubState, 8000); }
+    else if (run.conclusion === "success") { st.className = "pill ok"; st.innerHTML = '<span class="dot"></span>À jour'; dt.innerHTML = `Dernière mise à jour du site ${ago(run.updated_at)}.`; if (lastPublish) { lastPublish = null; loadHistory(); } }
+    else { st.className = "pill err"; st.innerHTML = '<span class="dot"></span>Échec'; dt.innerHTML = `La dernière mise à jour a échoué. <a href="${run.html_url}" target="_blank" rel="noopener">Voir le détail ↗</a>`; }
+  } catch (e) {
+    st.className = "pill"; st.textContent = "—";
+    dt.innerHTML = `Pour voir l'état des publications ici, ajoutez la permission <b>Actions → Read-only</b> à votre clé d'accès.`;
+  }
+}
+
+/* ----- Actualités ----- */
+function viewNews(m) {
+  if (editing !== null) return newsEditor(m);
+  header(m, "Actualités", "Les événements et ateliers affichés sur la page Actualités. La plus récente est mise en avant.", `<button class="btn" id="add-news">+ Ajouter une actualité</button>`);
+  const list = document.createElement("div"); list.className = "list";
+  const order = data.news.map((n, i) => [n, i]).sort((a, b) => b[0].date.localeCompare(a[0].date));
+  if (!order.length) list.innerHTML = '<div class="card muted">Aucune actualité pour le moment.</div>';
+  order.forEach(([n, i], k) => {
+    const p = (n.photos || [])[0];
+    list.insertAdjacentHTML("beforeend", `<div class="item${n.hidden ? " off" : ""}">
+      ${p ? `<img src="${esc(imgUrl(p.src))}" alt="">` : '<img alt="">'}
+      <div><h3>${esc(n.title) || "<i>Sans titre</i>"}</h3><div class="meta">${fmtDate(n.date)} · ${esc(TYPES[n.type] || n.type)} · ${esc(n.tag)}${k === 0 && !n.hidden ? ' · <span class="pill blue" style="padding:1px 8px">À la une</span>' : ""}${n.hidden ? ' · <span class="pill warn" style="padding:1px 8px">Masquée</span>' : ""}</div></div>
+      <div class="actions"><button class="icon-btn" title="Modifier" data-edit="${i}">${ICON.edit}</button><button class="icon-btn" title="${n.hidden ? "Afficher sur le site" : "Masquer du site"}" data-hide="${i}">${n.hidden ? ICON.eye : ICON.eyeoff}</button><button class="icon-btn del" title="Supprimer" data-del="${i}">${ICON.del}</button></div></div>`);
+  });
+  m.appendChild(list);
+  $("#add-news", m).onclick = () => { editing = -1; render(); };
+  list.querySelectorAll("[data-edit]").forEach((b) => (b.onclick = () => { editing = +b.dataset.edit; render(); scrollTo(0, 0); }));
+  list.querySelectorAll("[data-hide]").forEach((b) => (b.onclick = () => { const n = data.news[+b.dataset.hide]; n.hidden = !n.hidden; changed(); render(); }));
+  list.querySelectorAll("[data-del]").forEach((b) => (b.onclick = async () => {
+    const n = data.news[+b.dataset.del];
+    if (await ask("Supprimer cette actualité ?", `« ${n.title} » sera retirée du site.`, "Supprimer", true)) { data.news.splice(+b.dataset.del, 1); changed(); render(); }
+  }));
+}
+
+function newsEditor(m) {
+  const isNew = editing === -1;
+  const n = isNew ? { type: "evenement", tag: "", tag_en: "", date: new Date().toISOString().slice(0, 10), title: "", title_en: "", text: "", text_en: "", place: "", place_en: "", photos: [] } : clone(data.news[editing]);
+  header(m, isNew ? "Nouvelle actualité" : "Modifier l'actualité", "Remplissez au moins la partie française. Si l'anglais est vide, le texte français sera affiché sur le site anglais.", `<button class="btn ghost" id="back">← Retour à la liste</button>`);
+  const f = document.createElement("form"); f.className = "editor card";
+  f.innerHTML = `
+    <div class="pair">
+      <label class="f">Date<input type="date" name="date" required value="${esc(n.date)}"></label>
+      <label class="f">Catégorie<select name="type">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}"${n.type === k ? " selected" : ""}>${v}</option>`).join("")}</select><small>Sert aux filtres de la page Actualités.</small></label>
+    </div>
+    <div class="pair">
+      <label class="f"><span><span class="lang">FR</span>Étiquette</span><input type="text" name="tag" required value="${esc(n.tag)}" placeholder="Ex. : Atelier Fortinet"></label>
+      <label class="f"><span><span class="lang en">EN</span>Étiquette</span><input type="text" name="tag_en" value="${esc(n.tag_en)}" placeholder="Ex. : Fortinet workshop"></label>
+    </div>
+    <div class="pair">
+      <label class="f"><span><span class="lang">FR</span>Titre</span><input type="text" name="title" required value="${esc(n.title)}"></label>
+      <label class="f"><span><span class="lang en">EN</span>Titre</span><input type="text" name="title_en" value="${esc(n.title_en)}"></label>
+    </div>
+    <div class="pair">
+      <label class="f"><span><span class="lang">FR</span>Texte</span><textarea name="text" required>${esc(n.text)}</textarea></label>
+      <label class="f"><span><span class="lang en">EN</span>Texte</span><textarea name="text_en">${esc(n.text_en)}</textarea></label>
+    </div>
+    <div class="pair">
+      <label class="f"><span><span class="lang">FR</span>Lieu <small>(facultatif)</small></span><input type="text" name="place" value="${esc(n.place)}" placeholder="Ex. : Hôtel Pullman, Kinshasa"></label>
+      <label class="f"><span><span class="lang en">EN</span>Lieu</span><input type="text" name="place_en" value="${esc(n.place_en)}"></label>
+    </div>
+    <div><div class="section-title" style="margin-bottom:8px"><h2 style="font-size:16px">Photos <small class="muted" style="font-weight:400">(1 ou 2)</small></h2></div><div class="news-photos" id="nphotos"></div></div>
+    <div class="row" style="justify-content:flex-end;border-top:1px solid var(--line);padding-top:16px"><button type="button" class="btn ghost" id="cancel">Annuler</button><button type="submit" class="btn">${isNew ? "Ajouter l'actualité" : "Valider les changements"}</button></div>`;
+  m.appendChild(f);
+  const drawPhotos = () => {
+    const box = $("#nphotos", f);
+    box.innerHTML = n.photos.map((p, i) => `<div class="news-photo"><img src="${esc(imgUrl(p.src))}" alt=""><div class="body">
+      <input type="text" data-alt="${i}" value="${esc(p.alt)}" placeholder="Description (FR)"><input type="text" data-alten="${i}" value="${esc(p.alt_en)}" placeholder="Description (EN)">
+      <div class="row between">${i === 1 ? `<button type="button" class="icon-btn" data-left="${i}" title="Mettre en premier">${ICON.left}</button>` : "<span></span>"}<button type="button" class="icon-btn del" data-rm="${i}" title="Retirer">${ICON.del}</button></div></div></div>`).join("")
+      + (n.photos.length < 2 ? `<button type="button" class="add-tile" id="addp" style="width:200px">${ICON.plus}<span>Ajouter une photo</span></button>` : "");
+    box.querySelectorAll("[data-alt]").forEach((x) => (x.oninput = () => (n.photos[+x.dataset.alt].alt = x.value)));
+    box.querySelectorAll("[data-alten]").forEach((x) => (x.oninput = () => (n.photos[+x.dataset.alten].alt_en = x.value)));
+    box.querySelectorAll("[data-rm]").forEach((x) => (x.onclick = () => { n.photos.splice(+x.dataset.rm, 1); drawPhotos(); }));
+    box.querySelectorAll("[data-left]").forEach((x) => (x.onclick = () => { n.photos.reverse(); drawPhotos(); }));
+    const add = $("#addp", box);
+    if (add) add.onclick = async () => {
+      const r = await prepareImage(await pickFile(), "news", f.elements.title.value || "actualite", { w: 1400, h: 1000 });
+      if (r) { n.photos.push({ src: r.path, alt: "", alt_en: "", w: r.w, h: r.h }); drawPhotos(); }
+    };
+  };
+  drawPhotos();
+  const back = () => { editing = null; render(); scrollTo(0, 0); };
+  $("#back", m).onclick = back; $("#cancel", f).onclick = back;
+  f.onsubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(f);
+    for (const k of ["date", "type", "tag", "tag_en", "title", "title_en", "text", "text_en", "place", "place_en"]) n[k] = String(fd.get(k) || "").trim();
+    if (!n.photos.length) { toast("Ajoutez au moins une photo.", true); return; }
+    n.photos.forEach((p) => { if (!p.alt) p.alt = n.title; });
+    if (isNew) data.news.push(n); else data.news[editing] = n;
+    changed(); toast(isNew ? "Actualité ajoutée. Pensez à enregistrer." : "Changements validés. Pensez à enregistrer."); back();
+  };
+}
+
+/* ----- Équipe ----- */
+function viewTeam(m) {
+  header(m, "Équipe", "Les photos du carrousel « Au quotidien chez EXAD » (page À propos). Cliquez sur une photo pour choisir la partie à garder visible (le visage, par exemple).");
+  const box = document.createElement("div"); box.className = "photos";
+  data.team.forEach((t, i) => {
+    const [x, y] = (t.position || "50% 40%").split(" ").map((v) => parseFloat(v));
+    box.insertAdjacentHTML("beforeend", `<div class="photo"><div class="pic" data-pic="${i}" title="Cliquez pour centrer"><img src="${esc(imgUrl(t.src))}" alt="" style="object-position:${esc(t.position || "50% 40%")}"><span class="focus" style="left:${x}%;top:${y}%"></span></div>
+      <div class="body"><input type="text" data-alt="${i}" value="${esc(t.alt)}" placeholder="Description (FR)"><input type="text" data-alten="${i}" value="${esc(t.alt_en)}" placeholder="Description (EN)">
+      <div class="row between"><div class="actions"><button class="icon-btn" data-mv="${i}" data-d="-1" title="Avancer">${ICON.left}</button><button class="icon-btn" data-mv="${i}" data-d="1" title="Reculer">${ICON.right}</button></div><button class="icon-btn del" data-del="${i}" title="Supprimer">${ICON.del}</button></div></div></div>`);
+  });
+  box.insertAdjacentHTML("beforeend", `<button class="add-tile" id="add-team" style="min-height:300px">${ICON.plus}<span>Ajouter une photo</span><small class="muted" style="font-weight:400">Format portrait conseillé</small></button>`);
+  m.appendChild(box);
+  box.querySelectorAll("[data-pic]").forEach((p) => (p.onclick = (e) => {
+    const r = p.getBoundingClientRect(), i = +p.dataset.pic;
+    const x = Math.round(((e.clientX - r.left) / r.width) * 100), y = Math.round(((e.clientY - r.top) / r.height) * 100);
+    data.team[i].position = `${x}% ${y}%`; changed(); render();
+  }));
+  box.querySelectorAll("[data-alt]").forEach((x) => (x.oninput = () => { data.team[+x.dataset.alt].alt = x.value; changed(); }));
+  box.querySelectorAll("[data-alten]").forEach((x) => (x.oninput = () => { data.team[+x.dataset.alten].alt_en = x.value; changed(); }));
+  box.querySelectorAll("[data-mv]").forEach((b) => (b.onclick = () => move(data.team, +b.dataset.mv, +b.dataset.d)));
+  box.querySelectorAll("[data-del]").forEach((b) => (b.onclick = async () => { if (await ask("Retirer cette photo ?", "Elle ne sera plus affichée dans le carrousel de l'équipe.", "Retirer", true)) { data.team.splice(+b.dataset.del, 1); changed(); render(); } }));
+  $("#add-team", m).onclick = async () => {
+    const r = await prepareImage(await pickFile(), "team", "equipe", { w: 900, h: 1200 });
+    if (r) { data.team.push({ src: r.path, alt: "Membre de l'équipe EXAD", alt_en: "EXAD team member", position: "50% 40%" }); changed(); render(); }
+  };
+}
+
+/* ----- Logos ----- */
+function viewLogos(kind) {
+  const m = $("#main");
+  const isP = kind === "partners", arr = data[kind];
+  header(m, isP ? "Partenaires" : "Clients", isP ? "Les logos qui défilent dans « Nos partenaires technologiques » (page d'accueil)." : "Les logos « Ils nous font confiance » (accueil et page Réalisations).");
+  m.insertAdjacentHTML("beforeend", `<div class="hint" style="margin-bottom:16px">Conseil : utilisez un logo en couleur sur fond transparent (PNG) ou blanc. Il sera redimensionné automatiquement.</div>`);
+  const box = document.createElement("div"); box.className = "logos";
+  arr.forEach((l, i) => box.insertAdjacentHTML("beforeend", `<div class="logo"><div class="lpic"><img src="${esc(imgUrl(l.src))}" alt=""></div>
+    <input type="text" data-name="${i}" value="${esc(l.name)}" placeholder="Nom">
+    ${isP ? "" : `<label class="chk"><input type="checkbox" data-home="${i}"${l.home !== false ? " checked" : ""}> Sur l'accueil</label>`}
+    <div class="row between"><div class="actions"><button class="icon-btn" data-mv="${i}" data-d="-1" title="Avancer">${ICON.left}</button><button class="icon-btn" data-mv="${i}" data-d="1" title="Reculer">${ICON.right}</button></div><button class="icon-btn del" data-del="${i}" title="Supprimer">${ICON.del}</button></div></div>`));
+  box.insertAdjacentHTML("beforeend", `<button class="add-tile" id="add-logo">${ICON.plus}<span>Ajouter un logo</span></button>`);
+  m.appendChild(box);
+  box.querySelectorAll("[data-name]").forEach((x) => (x.oninput = () => { arr[+x.dataset.name].name = x.value; changed(); }));
+  box.querySelectorAll("[data-home]").forEach((x) => (x.onchange = () => { arr[+x.dataset.home].home = x.checked; changed(); }));
+  box.querySelectorAll("[data-mv]").forEach((b) => (b.onclick = () => move(arr, +b.dataset.mv, +b.dataset.d)));
+  box.querySelectorAll("[data-del]").forEach((b) => (b.onclick = async () => { if (await ask("Retirer ce logo ?", `« ${arr[+b.dataset.del].name} » ne sera plus affiché sur le site.`, "Retirer", true)) { arr.splice(+b.dataset.del, 1); changed(); render(); } }));
+  $("#add-logo", m).onclick = async () => {
+    const file = await pickFile(); if (!file) return;
+    const name = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
+    const r = await prepareImage(file, "logos", name, { w: 480, h: 240 });
+    if (r) { arr.push(isP ? { src: r.path, name } : { src: r.path, name, home: true }); changed(); render(); toast("Logo ajouté : vérifiez son nom."); }
+  };
+}
+
+/* ----- Textes et chiffres ----- */
+function viewTexts(m) {
+  header(m, "Textes et chiffres", "Les grands titres animés de l'accueil et les chiffres clés affichés sur le site.");
+  const st = data.stats;
+  const hl = (t) => esc(t).replace(/\[(.+?)\]/g, "<span>$1</span>");
+  m.insertAdjacentHTML("beforeend", `
+  <div class="card"><div class="section-title"><h2>Chiffres clés</h2></div>
+    <div class="grid g4">
+      <label class="f">Clients accompagnés<input type="number" min="0" data-st="clients" value="${st.clients}"><small>Affiché « ${st.clients}+ »</small></label>
+      <label class="f">Projets réalisés<input type="number" min="0" data-st="projects" value="${st.projects}"><small>Affiché « ${st.projects}+ »</small></label>
+      <label class="f">Domaines d'expertise<input type="number" min="0" data-st="domains" value="${st.domains}"></label>
+      <label class="f">Année de création<input type="number" value="${st.founded}" disabled><small>Non modifiable</small></label>
+    </div></div>
+  <div class="card" style="margin-top:16px"><div class="section-title"><h2>Titres animés de l'accueil</h2></div>
+    <div class="hint" style="margin-bottom:16px">Mettez entre crochets les mots à afficher en <b style="color:var(--blue)">bleu</b>. Exemple : <code>Votre partenaire pour une [infrastructure IT] de niveau entreprise.</code></div>
+    <div class="grid" id="slides">${data.slides.map((s, i) => `<div style="display:grid;gap:10px;padding-bottom:16px;${i < data.slides.length - 1 ? "border-bottom:1px solid var(--line)" : ""}">
+      <div class="row between"><b>Titre ${i + 1}</b><img src="${esc(imgUrl(s.img))}" alt="" style="height:44px;border-radius:8px"></div>
+      <div class="slide-prev" id="sp${i}">${hl(s.fr)}</div>
+      <label class="f"><span><span class="lang">FR</span>Texte</span><input type="text" data-sl="${i}" data-k="fr" value="${esc(s.fr)}"></label>
+      <label class="f"><span><span class="lang en">EN</span>Texte</span><input type="text" data-sl="${i}" data-k="en" value="${esc(s.en)}"></label></div>`).join("")}</div></div>`);
+  m.querySelectorAll("[data-st]").forEach((x) => (x.oninput = () => { st[x.dataset.st] = Math.max(0, parseInt(x.value || "0", 10)); changed(); }));
+  m.querySelectorAll("[data-sl]").forEach((x) => (x.oninput = () => { const s = data.slides[+x.dataset.sl]; s[x.dataset.k] = x.value; if (x.dataset.k === "fr") $("#sp" + x.dataset.sl).innerHTML = hl(x.value); changed(); }));
+}
+
+/* ----- Coordonnées ----- */
+function viewContact(m) {
+  const c = data.contact;
+  header(m, "Coordonnées", "Elles sont mises à jour partout sur le site : pied de page, page Contact, bouton WhatsApp…");
+  m.insertAdjacentHTML("beforeend", `<div class="card"><div class="grid g2">
+    <label class="f">Téléphone<input type="tel" data-c="phone" value="${esc(c.phone)}"><small>Format conseillé : +243 840 104 000</small></label>
+    <label class="f">E-mail<input type="email" data-c="email" value="${esc(c.email)}"></label>
+    <label class="f">Adresse<input type="text" data-c="address" value="${esc(c.address)}"></label>
+    <label class="f">Numéro WhatsApp<input type="tel" data-c="whatsapp" value="${esc(c.whatsapp)}"><small>Chiffres uniquement, avec l'indicatif : 243840104000</small></label>
+    <label class="f">Page LinkedIn<input type="url" data-c="linkedin" value="${esc(c.linkedin)}"></label>
+  </div></div>`);
+  m.querySelectorAll("[data-c]").forEach((x) => (x.oninput = () => { c[x.dataset.c] = x.dataset.c === "whatsapp" ? x.value.replace(/\D/g, "") : x.value; changed(); }));
+}
+
+/* ----- Messages en direct ----- */
+function viewMessages(m) {
+  data.chat = data.chat || { tawk_property: "", tawk_widget: "default" };
+  const ch = data.chat, on = !!ch.tawk_property;
+  header(m, "Messages en direct", "Discutez en direct avec les visiteurs du site et répondez depuis l'ordinateur ou le téléphone.");
+  m.insertAdjacentHTML("beforeend", `
+  <div class="grid g2">
+    <div class="card"><div class="section-title"><h2>Répondre aux messages</h2>${on ? '<span class="pill ok"><span class="dot"></span>Active</span>' : '<span class="pill warn"><span class="dot"></span>Pas encore active</span>'}</div>
+      <p class="muted" style="margin-top:0;font-size:14px">Les conversations sont gérées par <b>Tawk.to</b>, un service gratuit de messagerie en direct. Vous recevez une notification à chaque nouveau message.</p>
+      <div class="row"><a class="btn" href="https://dashboard.tawk.to/" target="_blank" rel="noopener">Ouvrir la messagerie ↗</a>
+      <a class="btn ghost" href="https://play.google.com/store/search?q=tawk.to&amp;c=apps" target="_blank" rel="noopener">Appli Android ↗</a></div>
+      <p class="muted" style="font-size:13px">Sur iPhone, cherchez « tawk.to » dans l'App Store.</p>
+      <p class="muted" style="font-size:13px;margin-bottom:0">Les messages envoyés avec le formulaire de la page Contact arrivent, eux, dans la boîte e-mail <b>${esc(data.contact.email)}</b>.</p></div>
+    <div class="card"><div class="section-title"><h2>Réglages</h2></div>
+      <div class="grid">
+        <label class="f">Identifiant du site (Property ID)<input type="text" data-ch="tawk_property" value="${esc(ch.tawk_property)}" placeholder="Ex. : 66f1a2b3c4d5e6f7a8b9c0d1"></label>
+        <label class="f">Identifiant du widget<input type="text" data-ch="tawk_widget" value="${esc(ch.tawk_widget || "default")}" placeholder="default"></label>
+        <p class="muted" style="font-size:13px;margin:0">Laissez l'identifiant du site vide pour garder l'assistant automatique actuel.</p>
+      </div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="section-title"><h2>Mise en place (une seule fois, 5 minutes)</h2></div>
+    <ol class="steps">
+      <li><span>Créez un compte gratuit sur <a href="https://www.tawk.to/" target="_blank" rel="noopener">tawk.to</a> avec l'adresse e-mail de l'entreprise, et donnez « EXAD » comme nom de site.</span></li>
+      <li><span>Dans Tawk.to, ouvrez <b>Administration → Chat Widget</b>. Dans le code affiché, repérez l'adresse <code>embed.tawk.to/<b>XXXX</b>/<b>YYYY</b></code>.</span></li>
+      <li><span>Copiez <b>XXXX</b> dans « Identifiant du site » et <b>YYYY</b> dans « Identifiant du widget » ci-dessus, puis cliquez sur « Enregistrer et publier ».</span></li>
+      <li><span>Installez l'application Tawk.to sur votre téléphone pour répondre où que vous soyez. Vous pouvez inviter vos collègues dans Tawk.to (Administration → Members).</span></li>
+    </ol></div>`);
+  m.querySelectorAll("[data-ch]").forEach((x) => (x.oninput = () => { ch[x.dataset.ch] = x.value.trim(); changed(); }));
+}
+
+/* ---------- Enregistrement ---------- */
+function summary() {
+  const o = JSON.parse(original), parts = [];
+  const lbl = { news: "actualités", team: "équipe", partners: "partenaires", clients: "clients", slides: "titres", stats: "chiffres clés", contact: "coordonnées", chat: "messagerie" };
+  for (const k in lbl) if (JSON.stringify(o[k]) !== JSON.stringify(data[k])) parts.push(lbl[k]);
+  return parts.length ? parts.join(", ") : "contenu";
+}
+$("#save").onclick = async () => {
+  const btn = $("#save");
+  if (editing !== null && view === "news") { toast("Validez ou annulez d'abord l'actualité en cours.", true); return; }
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Enregistrement…';
+  try {
+    await publish("Admin : mise à jour (" + summary() + ")" + (user ? `\n\nPar ${user.login} depuis la page d'administration` : ""));
+    await loadContent();
+    lastPublish = Date.now();
+    toast("Enregistré ! Le site sera à jour dans environ 2 minutes.");
+    view = "dash"; render();
+  } catch (e) {
+    if (e.message !== "Enregistrement annulé") toast("Échec de l'enregistrement : " + e.message, true);
+  } finally { btn.disabled = false; btn.textContent = "Enregistrer et publier"; }
+};
+$("#discard").onclick = async () => {
+  if (await ask("Annuler les modifications ?", "Toutes les modifications non enregistrées seront perdues.", "Tout annuler", true)) { data = JSON.parse(original); pending = {}; editing = null; render(); }
+};
+addEventListener("beforeunload", (e) => { if (dirty()) { e.preventDefault(); e.returnValue = ""; } });
+
+/* ---------- Connexion ---------- */
+async function start(t, keep) {
+  token = t;
+  user = await gh("/user");
+  const repo = await gh(`/repos/${OWNER}/${REPO}`);
+  if (!repo.permissions || !repo.permissions.push) throw new Error("Cette clé ne permet pas de modifier le site (permission « Contents : Read and write » manquante).");
+  await loadContent();
+  store.set("exad-admin-token", t, keep);
+  $("#who-name").textContent = user.name || user.login;
+  $("#login").classList.add("hidden"); $("#app").classList.remove("hidden");
+  render();
+}
+$("#login-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = $("#login-btn"), err = $("#login-err");
+  btn.disabled = true; btn.textContent = "Connexion…"; err.classList.add("hidden");
+  try { await start($("#token").value.trim(), $("#remember").checked); }
+  catch (ex) { err.textContent = ex.status === 401 ? "Clé d'accès invalide ou expirée." : ex.status === 404 ? "Cette clé n'a pas accès au dépôt exadwebsite." : ex.message; err.classList.remove("hidden"); }
+  finally { btn.disabled = false; btn.textContent = "Se connecter"; }
+};
+$("#logout").onclick = async () => {
+  if (dirty() && !(await ask("Se déconnecter ?", "Vos modifications non enregistrées seront perdues.", "Se déconnecter", true))) return;
+  store.del("exad-admin-token"); data = null; original = ""; location.reload();
+};
+document.querySelectorAll(".side .nav[data-view]").forEach((b) => (b.onclick = () => {
+  view = b.dataset.view; editing = null; $("#side").classList.remove("open"); render(); scrollTo(0, 0);
+}));
+(async () => {
+  const t = store.get("exad-admin-token");
+  let keep = false; try { keep = !!localStorage.getItem("exad-admin-token"); } catch (e) {}
+  if (t) { try { await start(t, keep); } catch (e) { store.del("exad-admin-token"); } }
+})();
+</script>
+</body>
+</html>
