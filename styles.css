@@ -516,6 +516,7 @@ body.no-scroll{overflow:hidden}
 .static-hero img.fading{opacity:0}
 .hero h1 .char{opacity:0;transition:opacity .08s}
 .hero h1 .char.on{opacity:1}
+.hero h1 .char{color:inherit}
 @media(max-width:850px){
   .static-hero{height:auto!important;aspect-ratio:709/1024;max-height:520px}
   .static-hero img{object-position:center!important}
