@@ -39,9 +39,13 @@ La page `admin/index.html` permet de modifier le site sans toucher au code :
 actualités, photos de l'équipe, logos partenaires et clients, titres animés,
 chiffres clés, coordonnées et messagerie en direct (Tawk.to).
 
-- **Connexion** : clé d'accès GitHub « fine-grained » limitée au dépôt `exadwebsite`
-  (permissions *Contents : Read and write* et *Actions : Read-only*). La clé reste
-  dans le navigateur de l'administrateur.
+- **Connexion** : e-mail et mot de passe. À la toute première connexion, l'administrateur
+  principal crée son compte en fournissant une fois une clé d'accès GitHub « fine-grained »
+  limitée au dépôt `exadwebsite` (*Contents : Read and write*, *Actions : Read-only*).
+  Cette clé est chiffrée avec le mot de passe de chaque administrateur (PBKDF2 + AES-GCM)
+  et rangée dans `admin/users.json` (les e-mails n'y figurent pas en clair). Les autres
+  administrateurs s'ajoutent depuis « Accès administrateurs ». Quand la clé GitHub expire,
+  recréer le compte principal avec une nouvelle clé, puis réajouter les collègues.
 - **Enregistrement** : l'admin modifie `data/content.json` (et envoie les photos dans
   `uploads/`). GitHub lance ensuite `.github/workflows/admin-build.yml`, qui exécute
   `tools/build_content.py` puis `tools/build_en.py` et enregistre les pages à jour

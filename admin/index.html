@@ -26,6 +26,7 @@ h1,h2,h3{letter-spacing:-.02em;margin:0}
 .login-card img{height:46px;margin-bottom:18px}
 .login-card h1{font-size:24px;margin-bottom:6px}
 .login-card p{color:var(--muted);margin:0 0 20px}
+.login-card h1+p{margin-bottom:20px}
 .login-card details{margin-top:18px;font-size:14px;color:var(--muted)}
 .login-card details summary{cursor:pointer;color:var(--blue);font-weight:600}
 .login-card ol{padding-left:20px;margin:10px 0 0}
@@ -158,28 +159,47 @@ textarea{min-height:110px;resize:vertical}
 
 <!-- Écran de connexion -->
 <section class="login" id="login">
-  <form class="login-card" id="login-form">
+  <div class="login-card">
     <img src="../logo.png" alt="EXAD">
-    <h1>Administration du site</h1>
-    <p>Connectez-vous avec votre clé d'accès GitHub pour modifier le contenu du site.</p>
-    <label class="f">Clé d'accès GitHub
-      <input type="password" id="token" autocomplete="off" placeholder="github_pat_…" required>
-    </label>
-    <label class="row" style="margin:14px 0 18px;font-size:14px;color:var(--muted)"><input type="checkbox" id="remember" checked> Rester connecté sur cet appareil</label>
-    <button class="btn" type="submit" id="login-btn" style="width:100%;justify-content:center">Se connecter</button>
-    <p id="login-err" class="hidden" style="color:var(--err);margin:12px 0 0;font-size:14px"></p>
-    <details>
-      <summary>Comment obtenir ma clé d'accès ?</summary>
-      <ol>
-        <li>Sur GitHub, ouvrez <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens</a>.</li>
-        <li>Nom : « Admin site EXAD ». Expiration : 1 an.</li>
-        <li><b>Repository access</b> : « Only select repositories » → <b>exadwebsite</b>.</li>
-        <li><b>Permissions</b> : <b>Contents</b> → Read and write, et <b>Actions</b> → Read-only.</li>
-        <li>Cliquez sur « Generate token », copiez la clé et collez-la ici.</li>
-      </ol>
-      <p style="margin:10px 0 0">La clé reste uniquement dans ce navigateur. Ne la partagez avec personne.</p>
-    </details>
-  </form>
+    <!-- Connexion par e-mail et mot de passe -->
+    <form id="login-form">
+      <h1>Administration du site</h1>
+      <p>Connectez-vous pour modifier le contenu du site.</p>
+      <div class="grid" style="gap:12px">
+        <label class="f">E-mail<input type="email" id="l-email" autocomplete="username" required></label>
+        <label class="f">Mot de passe<input type="password" id="l-pass" autocomplete="current-password" required></label>
+      </div>
+      <label class="row" style="margin:14px 0 18px;font-size:14px;color:var(--muted)"><input type="checkbox" id="remember" checked> Rester connecté sur cet appareil</label>
+      <button class="btn" type="submit" id="login-btn" style="width:100%;justify-content:center">Se connecter</button>
+      <p id="login-err" class="hidden" style="color:var(--err);margin:12px 0 0;font-size:14px"></p>
+      <p style="margin:18px 0 0;font-size:13.5px"><a href="#" id="to-setup">Première connexion ? Créer le compte administrateur</a></p>
+    </form>
+    <!-- Première configuration (une seule fois) -->
+    <form id="setup-form" class="hidden">
+      <h1>Créer le compte administrateur</h1>
+      <p>À faire une seule fois. Ensuite, la connexion se fera uniquement avec l'e-mail et le mot de passe.</p>
+      <div class="grid" style="gap:12px">
+        <label class="f">Votre nom<input type="text" id="s-name" required placeholder="Ex. : Christian"></label>
+        <label class="f">E-mail<input type="email" id="s-email" autocomplete="username" required></label>
+        <label class="f">Mot de passe <small>12 caractères minimum</small><input type="password" id="s-pass" autocomplete="new-password" minlength="12" required></label>
+        <label class="f">Confirmer le mot de passe<input type="password" id="s-pass2" autocomplete="new-password" minlength="12" required></label>
+        <label class="f">Clé d'accès GitHub <small>demandée une seule fois</small><input type="password" id="s-token" autocomplete="off" placeholder="github_pat_…" required></label>
+      </div>
+      <details style="margin-top:12px">
+        <summary>Comment obtenir la clé d'accès GitHub ?</summary>
+        <ol>
+          <li>Sur GitHub, ouvrez <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Settings → Developer settings → Fine-grained tokens</a>.</li>
+          <li>Nom : « Admin site EXAD ». Expiration : 1 an.</li>
+          <li><b>Repository access</b> : « Only select repositories » → <b>exadwebsite</b>.</li>
+          <li><b>Permissions</b> : <b>Contents</b> → Read and write, et <b>Actions</b> → Read-only.</li>
+          <li>Cliquez sur « Generate token », copiez la clé et collez-la ici.</li>
+        </ol>
+      </details>
+      <button class="btn" type="submit" id="setup-btn" style="width:100%;justify-content:center;margin-top:18px">Créer le compte</button>
+      <p id="setup-err" class="hidden" style="color:var(--err);margin:12px 0 0;font-size:14px"></p>
+      <p style="margin:18px 0 0;font-size:13.5px"><a href="#" id="to-login">← J'ai déjà un compte</a></p>
+    </form>
+  </div>
 </section>
 
 <!-- Application -->
@@ -194,6 +214,7 @@ textarea{min-height:110px;resize:vertical}
     <button class="nav" data-view="texts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>Textes et chiffres</button>
     <button class="nav" data-view="contact"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Coordonnées</button>
     <button class="nav" data-view="messages"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Messages en direct</button>
+    <button class="nav" data-view="users"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Accès administrateurs</button>
     <div class="grow"></div>
     <a class="nav" href="../index.html" target="_blank" rel="noopener" style="color:#93c5fd;text-decoration:none;padding:11px 12px;font-weight:600;font-size:14px">Voir le site ↗</a>
     <div class="who"><div id="who-name">—</div><button type="button" id="logout">Se déconnecter</button></div>
@@ -357,7 +378,7 @@ const ago = (iso) => { const s = (Date.now() - new Date(iso)) / 1000; if (s < 60
 function render() {
   document.querySelectorAll(".side .nav[data-view]").forEach((b) => b.classList.toggle("active", b.dataset.view === view));
   const m = $("#main");
-  const views = { dash: viewDash, news: viewNews, team: viewTeam, partners: () => viewLogos("partners"), clients: () => viewLogos("clients"), texts: viewTexts, contact: viewContact, messages: viewMessages };
+  const views = { dash: viewDash, news: viewNews, team: viewTeam, partners: () => viewLogos("partners"), clients: () => viewLogos("clients"), texts: viewTexts, contact: viewContact, messages: viewMessages, users: viewUsers };
   m.innerHTML = "";
   views[view](m);
   refreshBar();
@@ -644,29 +665,167 @@ $("#discard").onclick = async () => {
 };
 addEventListener("beforeunload", (e) => { if (dirty()) { e.preventDefault(); e.returnValue = ""; } });
 
+/* ---------- Comptes administrateurs ----------
+   Le site n'a pas de serveur : la clé GitHub reste nécessaire pour enregistrer.
+   Elle est chiffrée (AES-GCM) avec le mot de passe de chaque administrateur
+   (PBKDF2, 600 000 itérations) et rangée dans admin/users.json.
+   L'e-mail n'y figure pas en clair (empreinte SHA-256). */
+const USERS_FILE = "admin/users.json";
+const ITER = 600000;
+let users = { users: [] }, usersSha = null, me = null;
+const enc = new TextEncoder();
+const toB64 = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const fromB64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const normEmail = (e) => String(e || "").trim().toLowerCase();
+async function emailHash(e) { return toB64(await crypto.subtle.digest("SHA-256", enc.encode("exad-admin:" + normEmail(e)))); }
+async function passKey(pass, salt, iter) {
+  const base = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+async function makeAccount(name, email, pass, tok) {
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await passKey(pass, salt, ITER);
+  const data = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(tok));
+  return { id: await emailHash(email), name: name.trim(), created: new Date().toISOString().slice(0, 10), iter: ITER, salt: toB64(salt), iv: toB64(iv), data: toB64(data) };
+}
+async function openAccount(acc, pass) {
+  const key = await passKey(pass, fromB64(acc.salt), acc.iter || ITER);
+  const out = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromB64(acc.iv) }, key, fromB64(acc.data));
+  return new TextDecoder().decode(out);
+}
+/* Lecture publique (sans clé) de la liste des comptes */
+async function fetchUsers() {
+  try {
+    const r = await fetch(`${API}/repos/${OWNER}/${REPO}/contents/${USERS_FILE}?ref=${BRANCH}&t=${Date.now()}`, { headers: { Accept: "application/vnd.github+json" } });
+    if (r.status === 404) return { users: [] };
+    if (r.ok) { const f = await r.json(); usersSha = f.sha; return JSON.parse(b64ToText(f.content)); }
+  } catch (e) {}
+  const r2 = await fetch(RAW + USERS_FILE + "?t=" + Date.now());
+  return r2.ok ? r2.json() : { users: [] };
+}
+/* Enregistrement de la liste des comptes (avec la clé) */
+async function saveUsers(message) {
+  try { const f = await gh(`/repos/${OWNER}/${REPO}/contents/${USERS_FILE}?ref=${BRANCH}`); usersSha = f.sha; } catch (e) { if (e.status === 404) usersSha = null; else throw e; }
+  const body = { message, content: textToB64(JSON.stringify(users, null, 2) + "\n"), branch: BRANCH };
+  if (usersSha) body.sha = usersSha;
+  const r = await gh(`/repos/${OWNER}/${REPO}/contents/${USERS_FILE}`, { method: "PUT", body: JSON.stringify(body) });
+  usersSha = r.content.sha;
+}
+
 /* ---------- Connexion ---------- */
-async function start(t, keep) {
+async function start(t, keep, account) {
   token = t;
   user = await gh("/user");
   const repo = await gh(`/repos/${OWNER}/${REPO}`);
-  if (!repo.permissions || !repo.permissions.push) throw new Error("Cette clé ne permet pas de modifier le site (permission « Contents : Read and write » manquante).");
+  if (!repo.permissions || !repo.permissions.push) throw new Error("La clé GitHub ne permet pas de modifier le site (permission « Contents : Read and write » manquante).");
   await loadContent();
+  me = account || JSON.parse(store.get("exad-admin-me") || "null");
   store.set("exad-admin-token", t, keep);
-  $("#who-name").textContent = user.name || user.login;
+  if (me) store.set("exad-admin-me", JSON.stringify(me), keep);
+  $("#who-name").textContent = (me && me.name) || user.name || user.login;
   $("#login").classList.add("hidden"); $("#app").classList.remove("hidden");
   render();
 }
+const showForm = (id) => { $("#login-form").classList.toggle("hidden", id !== "login"); $("#setup-form").classList.toggle("hidden", id !== "setup"); };
+$("#to-setup").onclick = (e) => { e.preventDefault(); showForm("setup"); };
+$("#to-login").onclick = (e) => { e.preventDefault(); showForm("login"); };
+const fail = (el, msg) => { el.textContent = msg; el.classList.remove("hidden"); };
+
 $("#login-form").onsubmit = async (e) => {
   e.preventDefault();
   const btn = $("#login-btn"), err = $("#login-err");
-  btn.disabled = true; btn.textContent = "Connexion…"; err.classList.add("hidden");
-  try { await start($("#token").value.trim(), $("#remember").checked); }
-  catch (ex) { err.textContent = ex.status === 401 ? "Clé d'accès invalide ou expirée." : ex.status === 404 ? "Cette clé n'a pas accès au dépôt exadwebsite." : ex.message; err.classList.remove("hidden"); }
-  finally { btn.disabled = false; btn.textContent = "Se connecter"; }
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Connexion…'; err.classList.add("hidden");
+  try {
+    users = await fetchUsers();
+    const id = await emailHash($("#l-email").value);
+    const acc = (users.users || []).find((u) => u.id === id);
+    let tok = null;
+    if (acc) { try { tok = await openAccount(acc, $("#l-pass").value); } catch (x) {} }
+    if (!tok) { await new Promise((r) => setTimeout(r, 800)); throw new Error("E-mail ou mot de passe incorrect."); }
+    await start(tok, $("#remember").checked, { id: acc.id, name: acc.name });
+  } catch (ex) {
+    fail(err, ex.status === 401 ? "La clé GitHub enregistrée a expiré. Recréez le compte administrateur avec une nouvelle clé." : ex.message);
+  } finally { btn.disabled = false; btn.textContent = "Se connecter"; }
 };
+
+$("#setup-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = $("#setup-btn"), err = $("#setup-err");
+  const name = $("#s-name").value.trim(), email = $("#s-email").value, pass = $("#s-pass").value, tok = $("#s-token").value.trim();
+  err.classList.add("hidden");
+  if (pass.length < 12) return fail(err, "Le mot de passe doit contenir au moins 12 caractères.");
+  if (pass !== $("#s-pass2").value) return fail(err, "Les deux mots de passe ne sont pas identiques.");
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Création du compte…';
+  try {
+    token = tok;
+    await gh("/user").catch((x) => { throw new Error(x.status === 401 ? "Clé d'accès GitHub invalide ou expirée." : x.message); });
+    const repo = await gh(`/repos/${OWNER}/${REPO}`).catch(() => { throw new Error("Cette clé n'a pas accès au dépôt exadwebsite."); });
+    if (!repo.permissions || !repo.permissions.push) throw new Error("La clé doit avoir la permission « Contents : Read and write ».");
+    users = await fetchUsers();
+    const acc = await makeAccount(name, email, pass, tok);
+    users.users = (users.users || []).filter((u) => u.id !== acc.id);
+    users.users.push(acc);
+    await saveUsers(`Admin : compte administrateur ${name}`);
+    toast("Compte créé ! La prochaine fois, connectez-vous avec votre e-mail et votre mot de passe.");
+    await start(tok, true, { id: acc.id, name: acc.name });
+  } catch (ex) { fail(err, ex.message); }
+  finally { btn.disabled = false; btn.textContent = "Créer le compte"; }
+};
+
+/* ----- Accès administrateurs ----- */
+async function viewUsers(m) {
+  header(m, "Accès administrateurs", "Les personnes qui peuvent se connecter à cette administration avec leur e-mail et leur mot de passe.");
+  const box = document.createElement("div"); box.className = "grid g2"; m.appendChild(box);
+  box.innerHTML = '<div class="card muted">Chargement…</div>';
+  users = await fetchUsers();
+  const list = (users.users || []).map((u) => `<div class="ev"><span class="pill ${me && u.id === me.id ? "blue" : ""}">${me && u.id === me.id ? "Vous" : "Admin"}</span><span><b>${esc(u.name)}</b><br><span class="muted" style="font-size:13px">Ajouté le ${esc(fmtDate(u.created))}</span></span>${me && u.id === me.id ? "<span></span>" : `<button class="icon-btn del" data-rm="${esc(u.id)}" title="Retirer l'accès">${ICON.del}</button>`}</div>`).join("");
+  box.innerHTML = `
+    <div class="card"><div class="section-title"><h2>Administrateurs</h2></div><div class="timeline">${list || '<div class="muted">Aucun compte.</div>'}</div></div>
+    <div class="grid" style="gap:16px">
+      <form class="card grid" id="add-user" style="gap:12px"><h2 style="font-size:17px">Ajouter un administrateur</h2>
+        <label class="f">Nom<input type="text" name="name" required></label>
+        <label class="f">E-mail<input type="email" name="email" required autocomplete="off"></label>
+        <label class="f">Mot de passe provisoire <small>12 caractères minimum — à lui transmettre de vive voix</small><input type="password" name="pass" minlength="12" required autocomplete="new-password"></label>
+        <button class="btn" type="submit" style="justify-self:start">Ajouter</button></form>
+      <form class="card grid" id="change-pass" style="gap:12px"><h2 style="font-size:17px">Changer mon mot de passe</h2>
+        <label class="f">E-mail<input type="email" name="email" required autocomplete="username"></label>
+        <label class="f">Nouveau mot de passe<input type="password" name="pass" minlength="12" required autocomplete="new-password"></label>
+        <label class="f">Confirmer<input type="password" name="pass2" minlength="12" required autocomplete="new-password"></label>
+        <button class="btn ghost" type="submit" style="justify-self:start">Changer le mot de passe</button></form>
+    </div>`;
+  box.querySelectorAll("[data-rm]").forEach((b) => (b.onclick = async () => {
+    const u = users.users.find((x) => x.id === b.dataset.rm);
+    if (!(await ask("Retirer cet accès ?", `${u.name} ne pourra plus se connecter à l'administration.`, "Retirer", true))) return;
+    users.users = users.users.filter((x) => x.id !== u.id);
+    try { await saveUsers(`Admin : accès retiré (${u.name})`); toast("Accès retiré."); } catch (e) { toast("Échec : " + e.message, true); }
+    render();
+  }));
+  $("#add-user", box).onsubmit = async (e) => {
+    e.preventDefault(); const f = e.target, btn = f.querySelector("button");
+    btn.disabled = true;
+    try {
+      const acc = await makeAccount(f.elements.name.value, f.elements.email.value, f.elements.pass.value, token);
+      if (users.users.some((u) => u.id === acc.id)) throw new Error("Cet e-mail a déjà un accès.");
+      users.users.push(acc); await saveUsers(`Admin : nouvel administrateur (${acc.name})`);
+      toast(`${acc.name} peut maintenant se connecter.`); render();
+    } catch (x) { toast(x.message, true); btn.disabled = false; }
+  };
+  $("#change-pass", box).onsubmit = async (e) => {
+    e.preventDefault(); const f = e.target;
+    if (f.elements.pass.value !== f.elements.pass2.value) return toast("Les deux mots de passe ne sont pas identiques.", true);
+    const id = await emailHash(f.elements.email.value);
+    const old = users.users.find((u) => u.id === id);
+    if (!old || (me && id !== me.id)) return toast("Indiquez l'e-mail de votre propre compte.", true);
+    const acc = await makeAccount(old.name, f.elements.email.value, f.elements.pass.value, token);
+    acc.created = old.created;
+    users.users = users.users.map((u) => (u.id === id ? acc : u));
+    try { await saveUsers(`Admin : mot de passe modifié (${acc.name})`); toast("Mot de passe modifié."); f.reset(); } catch (x) { toast(x.message, true); }
+  };
+}
+
 $("#logout").onclick = async () => {
   if (dirty() && !(await ask("Se déconnecter ?", "Vos modifications non enregistrées seront perdues.", "Se déconnecter", true))) return;
-  store.del("exad-admin-token"); data = null; original = ""; location.reload();
+  store.del("exad-admin-token"); store.del("exad-admin-me"); data = null; original = ""; location.reload();
 };
 document.querySelectorAll(".side .nav[data-view]").forEach((b) => (b.onclick = () => {
   view = b.dataset.view; editing = null; $("#side").classList.remove("open"); render(); scrollTo(0, 0);
@@ -674,7 +833,9 @@ document.querySelectorAll(".side .nav[data-view]").forEach((b) => (b.onclick = (
 (async () => {
   const t = store.get("exad-admin-token");
   let keep = false; try { keep = !!localStorage.getItem("exad-admin-token"); } catch (e) {}
-  if (t) { try { await start(t, keep); } catch (e) { store.del("exad-admin-token"); } }
+  if (t) { try { await start(t, keep); return; } catch (e) { store.del("exad-admin-token"); } }
+  // Aucun compte encore créé : afficher directement la première configuration
+  try { const u = await fetchUsers(); if (!(u.users || []).length) showForm("setup"); } catch (e) {}
 })();
 </script>
 </body>
