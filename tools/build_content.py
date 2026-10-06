@@ -64,6 +64,37 @@ def img_tag(p, lazy=True):
     return (f'<img src="{e(p["src"])}" alt="{e(p.get("alt"))}" width="{w}" height="{h}"'
             + (' loading="lazy"' if lazy else "") + ">")
 
+def news_id(n):
+    """Ancre unique d'une actualité (utilisée par le bandeau défilant)."""
+    slug = re.sub(r"[^a-z0-9]+", "-", html.unescape(n.get("title", "")).lower()
+                  .translate(str.maketrans("àâäéèêëîïôöùûüç", "aaaeeeeiioouuuc"))).strip("-")[:40]
+    return f"actu-{n['date']}-{slug}".rstrip("-")
+
+def build_ticker(s, news):
+    """Bandeau « En continu » : messages flash de l'admin + titres des actualités."""
+    tk = DATA.get("ticker", {})
+    items = []
+    for f in tk.get("flash", []):
+        if not f.get("fr"):
+            continue
+        pair(f["fr"], f.get("en"))
+        txt = e(f["fr"])
+        inner = f'<a href="{e(f["link"])}">{txt}</a>' if f.get("link") else txt
+        items.append(f'<li><span class="ticker-flash">FLASH</span>{inner}</li>')
+    if tk.get("show_news", True):
+        for n in news[: int(tk.get("max_news", 6))]:
+            items.append(f'<li><time datetime="{e(n["date"])}">{date_fr(n["date"])}</time>'
+                         f'<a href="#{news_id(n)}">{e(n.get("title"))}</a></li>')
+    if not items:
+        return replace_zone(s, "ticker", "")
+    label = e(tk.get("label") or "EN CONTINU")
+    pair(tk.get("label") or "EN CONTINU", tk.get("label_en") or "LATEST NEWS")
+    track = "".join(items)
+    dup = track.replace("<li>", '<li aria-hidden="true">').replace("<a ", '<a tabindex="-1" ')
+    return replace_zone(s, "ticker",
+        f'<section class="news-ticker" aria-label="Flash infos"><div class="ticker-label"><span class="live-dot" aria-hidden="true"></span>{label}</div>'
+        f'<div class="ticker-viewport"><ul class="ticker-track">{track}{dup}</ul></div></section>')
+
 def news_article(n, featured):
     for k in ("tag", "title", "text", "place"):
         pair(n.get(k), n.get(k + "_en"))
@@ -81,7 +112,7 @@ def news_article(n, featured):
     tag_cls = "news-tag" if n.get("type") == "atelier" else "news-tag news-tag-alt"
     place = f'<p class="news-place">{PIN}{e(n["place"])}</p>' if n.get("place") else ""
     cls = "news-featured" if featured else "news-card"
-    return (f'<article class="{cls}" data-type="{e(n.get("type", "evenement"))}">\n  {fig}\n'
+    return (f'<article class="{cls}" id="{news_id(n)}" data-type="{e(n.get("type", "evenement"))}">\n  {fig}\n'
             f'  <div class="news-body">\n    <div class="news-meta"><span class="{tag_cls}">{e(n.get("tag"))}</span>'
             f'<time datetime="{e(n["date"])}">{date_fr(n["date"])}</time></div>\n'
             f'    <h2>{e(n.get("title"))}</h2>\n    <p>{e(n.get("text"))}</p>\n    {place}\n  </div>\n</article>')
@@ -94,6 +125,7 @@ def build_news(s):
     else:
         body = ""
     s = replace_zone(s, "news", body)
+    s = build_ticker(s, news)
     used = [t for t in TYPES if any(n.get("type") == t for n in news)]
     chips = '<button type="button" class="chip is-active" data-filter="all" aria-pressed="true">Tout</button>' + "".join(
         f'\n  <button type="button" class="chip" data-filter="{t}" aria-pressed="false">{TYPES[t][0]}</button>' for t in used)

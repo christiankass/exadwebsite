@@ -277,5 +277,23 @@
   "chat": {
     "tawk_property": "",
     "tawk_widget": "default"
+  },
+  "ticker": {
+    "label": "EN CONTINU",
+    "label_en": "LATEST NEWS",
+    "show_news": true,
+    "max_news": 6,
+    "flash": [
+      {
+        "fr": "EXAD, intégrateur de solutions IT à Kinshasa depuis 2015",
+        "en": "EXAD, IT solutions integrator in Kinshasa since 2015",
+        "link": ""
+      },
+      {
+        "fr": "Un projet réseau, data center ou cybersécurité ? Demandez votre devis gratuit",
+        "en": "A networking, data center or cybersecurity project? Request your free quote",
+        "link": "contact.html"
+      }
+    ]
   }
 }

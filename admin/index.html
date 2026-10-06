@@ -121,6 +121,7 @@ textarea{min-height:110px;resize:vertical}
 .news-photo img{width:100%;height:120px;object-fit:cover;display:block;background:#eef2f7}
 .news-photo .body{padding:8px;display:grid;gap:6px}
 .news-photo input{font-size:12.5px;padding:6px 8px}
+.fl-row{display:grid;grid-template-columns:1fr 1fr 180px auto;gap:10px;align-items:end}
 .slide-prev{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.25;padding:14px 16px;border-radius:12px;background:#f8fafc;border:1px solid var(--line)}
 .slide-prev span{color:var(--blue)}
 
@@ -144,6 +145,8 @@ textarea{min-height:110px;resize:vertical}
 .steps li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:800;display:grid;place-items:center;font-size:13px}
 
 @media (max-width:900px){
+  .fl-row{grid-template-columns:1fr!important}
+
   .app{grid-template-columns:1fr}
   .side{position:fixed;inset:0 auto 0 0;width:260px;z-index:40;transform:translateX(-100%);transition:transform .25s}
   .side.open{transform:none}
@@ -451,6 +454,7 @@ function viewNews(m) {
       <div class="actions"><button class="icon-btn" title="Modifier" data-edit="${i}">${ICON.edit}</button><button class="icon-btn" title="${n.hidden ? "Afficher sur le site" : "Masquer du site"}" data-hide="${i}">${n.hidden ? ICON.eye : ICON.eyeoff}</button><button class="icon-btn del" title="Supprimer" data-del="${i}">${ICON.del}</button></div></div>`);
   });
   m.appendChild(list);
+  tickerEditor(m);
   $("#add-news", m).onclick = () => { editing = -1; render(); };
   list.querySelectorAll("[data-edit]").forEach((b) => (b.onclick = () => { editing = +b.dataset.edit; render(); scrollTo(0, 0); }));
   list.querySelectorAll("[data-hide]").forEach((b) => (b.onclick = () => { const n = data.news[+b.dataset.hide]; n.hidden = !n.hidden; changed(); render(); }));
@@ -458,6 +462,35 @@ function viewNews(m) {
     const n = data.news[+b.dataset.del];
     if (await ask("Supprimer cette actualité ?", `« ${n.title} » sera retirée du site.`, "Supprimer", true)) { data.news.splice(+b.dataset.del, 1); changed(); render(); }
   }));
+}
+
+/* Bandeau « En continu » de la page Actualités */
+function tickerEditor(m) {
+  data.ticker = data.ticker || { label: "EN CONTINU", label_en: "LATEST NEWS", show_news: true, max_news: 6, flash: [] };
+  const tk = data.ticker;
+  const card = document.createElement("div"); card.className = "card"; card.style.marginTop = "22px";
+  const draw = () => {
+    card.innerHTML = `<div class="section-title"><h2>Bandeau défilant « ${esc(tk.label || "EN CONTINU")} »</h2><button class="btn sm" type="button" id="add-flash">+ Ajouter un message</button></div>
+      <p class="muted" style="margin:-6px 0 16px;font-size:14px">Les messages défilent en haut de la page Actualités, comme sur une chaîne d'information. Un lien est facultatif (ex. : contact.html).</p>
+      <div class="grid" style="gap:12px">${(tk.flash || []).map((f, i) => `<div class="fl-row">
+        <label class="f"><span><span class="lang">FR</span>Message</span><input type="text" data-fl="${i}" data-k="fr" value="${esc(f.fr)}" maxlength="140"></label>
+        <label class="f"><span><span class="lang en">EN</span>Message</span><input type="text" data-fl="${i}" data-k="en" value="${esc(f.en)}" maxlength="140"></label>
+        <label class="f">Lien<input type="text" data-fl="${i}" data-k="link" value="${esc(f.link)}" placeholder="facultatif"></label>
+        <div class="actions" style="padding-bottom:4px"><button class="icon-btn" type="button" data-flmv="${i}" data-d="-1" title="Monter">${ICON.up}</button><button class="icon-btn del" type="button" data-fldel="${i}" title="Supprimer">${ICON.del}</button></div></div>`).join("") || '<div class="muted">Aucun message flash.</div>'}</div>
+      <div class="row" style="margin-top:18px;gap:22px;border-top:1px solid var(--line);padding-top:16px">
+        <label class="row" style="font-size:14px;gap:8px"><input type="checkbox" id="tk-news"${tk.show_news !== false ? " checked" : ""}> Ajouter aussi les titres des dernières actualités</label>
+        <label class="row" style="font-size:14px;gap:8px">Nombre d'actualités <input type="number" id="tk-max" min="1" max="20" value="${tk.max_news || 6}" style="width:80px"></label>
+        <label class="row" style="font-size:14px;gap:8px">Libellé <input type="text" id="tk-label" value="${esc(tk.label || "EN CONTINU")}" style="width:160px"></label>
+      </div>`;
+    card.querySelectorAll("[data-fl]").forEach((x) => (x.oninput = () => { tk.flash[+x.dataset.fl][x.dataset.k] = x.value; changed(); }));
+    card.querySelectorAll("[data-fldel]").forEach((b) => (b.onclick = () => { tk.flash.splice(+b.dataset.fldel, 1); changed(); draw(); }));
+    card.querySelectorAll("[data-flmv]").forEach((b) => (b.onclick = () => { const i = +b.dataset.flmv; if (i > 0) { [tk.flash[i - 1], tk.flash[i]] = [tk.flash[i], tk.flash[i - 1]]; changed(); draw(); } }));
+    $("#add-flash", card).onclick = () => { tk.flash = tk.flash || []; tk.flash.push({ fr: "", en: "", link: "" }); changed(); draw(); card.querySelector(`[data-fl="${tk.flash.length - 1}"]`).focus(); };
+    $("#tk-news", card).onchange = (e) => { tk.show_news = e.target.checked; changed(); };
+    $("#tk-max", card).oninput = (e) => { tk.max_news = Math.max(1, parseInt(e.target.value || "6", 10)); changed(); };
+    $("#tk-label", card).oninput = (e) => { tk.label = e.target.value.toUpperCase(); changed(); };
+  };
+  draw(); m.appendChild(card);
 }
 
 function newsEditor(m) {
@@ -642,7 +675,7 @@ function viewMessages(m) {
 /* ---------- Enregistrement ---------- */
 function summary() {
   const o = JSON.parse(original), parts = [];
-  const lbl = { news: "actualités", team: "équipe", partners: "partenaires", clients: "clients", slides: "titres", stats: "chiffres clés", contact: "coordonnées", chat: "messagerie" };
+  const lbl = { ticker: "bandeau défilant", news: "actualités", team: "équipe", partners: "partenaires", clients: "clients", slides: "titres", stats: "chiffres clés", contact: "coordonnées", chat: "messagerie" };
   for (const k in lbl) if (JSON.stringify(o[k]) !== JSON.stringify(data[k])) parts.push(lbl[k]);
   return parts.length ? parts.join(", ") : "contenu";
 }

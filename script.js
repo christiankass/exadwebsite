@@ -326,6 +326,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* ---------- Bandeau « En continu » : vitesse constante, quelle que soit la longueur */
+  document.querySelectorAll(".ticker-track").forEach((track) => {
+    const setSpeed = () => track.style.setProperty("--ticker-dur", Math.max(20, track.scrollWidth / 2 / 70) + "s");
+    setSpeed();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(setSpeed);
+    // Clic sur un titre : défilement doux jusqu'à l'article, filtre réinitialisé
+    track.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => {
+      const target = document.querySelector(a.getAttribute("href"));
+      if (!target) return;
+      e.preventDefault();
+      document.querySelector('.news-filters [data-filter="all"]')?.click();
+      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      target.classList.add("is-highlight");
+      setTimeout(() => target.classList.remove("is-highlight"), 1800);
+    }));
+  });
+
   /* ---------- Page contact : ouvert / fermé + plan d'accès ------------- */
   const openEl = document.querySelector("[data-open-status]");
   if (openEl) {
