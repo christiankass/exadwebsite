@@ -294,6 +294,8 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       form.querySelectorAll("[aria-invalid]").forEach((f) => f.removeAttribute("aria-invalid"));
       const invalid = [...form.elements].filter((f) => f.willValidate && !f.checkValidity());
+      const svcGroup = form.querySelector(".svc-group");
+      if (svcGroup) svcGroup.classList.toggle("is-invalid", invalid.some((f) => f.name === "service"));
       if (invalid.length) {
         invalid.forEach((f) => f.setAttribute("aria-invalid", "true"));
         status.textContent = t("Merci de compléter les champs marqués d'un * (avec une adresse email valide).", "Please fill in the fields marked * (with a valid email address).");
@@ -302,6 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       status.textContent = "";
       const d = Object.fromEntries(new FormData(form));
+      // Service choisi : on reprend le libellé affiché (traduit en anglais sur la version EN)
+      const svc = form.querySelector('input[name="service"]:checked');
+      if (svc) d.service = svc.closest("label").textContent.trim();
       const subject = `${t("Demande de devis", "Quote request")}${d.service ? " — " + d.service : ""} (${d.nom})`;
       const lines = [
         `${t("Nom", "Name")} : ${d.nom}`,
@@ -314,10 +319,39 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       if (done) { done.hidden = false; done.querySelector("button")?.focus(); }
     });
+    form.querySelectorAll('input[name="service"]').forEach((r) => r.addEventListener("change", () => form.querySelector(".svc-group")?.classList.remove("is-invalid")));
     done?.querySelector("button")?.addEventListener("click", () => {
       done.hidden = true;
       form.reset();
     });
+  }
+
+  /* ---------- Page contact : ouvert / fermé + plan d'accès ------------- */
+  const openEl = document.querySelector("[data-open-status]");
+  if (openEl) {
+    const update = () => {
+      // Heure de Kinshasa (UTC+1), lundi–vendredi 08:30–17:00
+      const now = new Date(Date.now() + 3600 * 1000);
+      const day = now.getUTCDay(), mins = now.getUTCHours() * 60 + now.getUTCMinutes();
+      const open = day >= 1 && day <= 5 && mins >= 510 && mins < 1020;
+      openEl.classList.toggle("is-open", open);
+      let txt;
+      if (open) txt = t("Ouvert maintenant · jusqu'à 17:00", "Open now · until 5:00 PM");
+      else if (day >= 1 && day <= 5 && mins < 510) txt = t("Fermé · ouvre aujourd'hui à 08:30", "Closed · opens today at 8:30 AM");
+      else if (day >= 1 && day <= 4) txt = t("Fermé · ouvre demain à 08:30", "Closed · opens tomorrow at 8:30 AM");
+      else txt = t("Fermé · ouvre lundi à 08:30", "Closed · opens Monday at 8:30 AM");
+      openEl.querySelector(".open-text").textContent = txt;
+    };
+    update(); setInterval(update, 60000);
+    window.__exadOpen = update;
+  }
+  const mapFrame = document.querySelector("[data-map]");
+  const mapAddr = document.querySelector("[data-map-address]");
+  if (mapFrame && mapAddr) {
+    const q = encodeURIComponent("EXAD SARL, " + mapAddr.textContent.trim() + ", RDC");
+    mapFrame.src = "https://www.google.com/maps?q=" + q + "&z=15&output=embed";
+    const link = document.querySelector("[data-map-link]");
+    if (link) link.href = "https://www.google.com/maps/search/?api=1&query=" + q;
   }
 
   /* ---------- Onglets (accueil) ---------------------------------------- */
@@ -682,6 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
     EN = to === "en";
     html.lang = to;
     window.__exadSlider?.refresh();
+    window.__exadOpen?.();
 
     // Drapeau : montre l'autre langue
     const other = to === "fr" ? "en" : "fr";
