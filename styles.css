@@ -1355,7 +1355,7 @@ h1,h2,h3,.statement,.stat strong{letter-spacing:-.02em}
 }
 
 /* ===================== Bandeau « En continu » (Actualités) ===================== */
-.news-ticker{padding:0!important;position:relative;display:flex;align-items:stretch;height:54px;background:#0b1630;color:#e2e8f0;overflow:hidden;border-top:1px solid rgba(255,255,255,.06);border-bottom:3px solid #e11d48;margin-bottom:10px}
+.news-ticker{padding:0!important;position:relative;display:flex;align-items:stretch;height:54px;background:#0b1630;color:#e2e8f0;overflow:hidden;border-top:1px solid rgba(255,255,255,.06);border-bottom:3px solid #e11d48;margin-bottom:0}
 .ticker-label{position:relative;z-index:2;flex:none;display:flex;align-items:center;gap:10px;padding:0 22px 0 clamp(16px,4vw,48px);background:#e11d48;color:#fff;font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);padding-right:34px}
 .live-dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:liveDot 1.4s ease-in-out infinite}
 @keyframes liveDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
