@@ -1371,3 +1371,18 @@ h1,h2,h3,.statement,.stat strong{letter-spacing:-.02em}
 @media(max-width:600px){.news-ticker{height:46px}.ticker-label{font-size:12px;padding-right:26px;gap:8px}.ticker-track li{font-size:14px;padding:0 20px}}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation-duration:calc(var(--ticker-dur,60s) * 3)}}
 .news-featured.is-highlight,.news-card.is-highlight{box-shadow:0 0 0 3px #e11d48,0 20px 50px rgba(225,29,72,.18);transition:box-shadow .4s}
+/* Menu : libellés sur une seule ligne (« À propos de nous ») */
+@media(min-width:851px){
+  nav > a, nav .dropbtn, nav .btn{white-space:nowrap}
+}
+@media(max-width:1240px) and (min-width:851px){
+  nav{gap:4px}
+  nav > a:not(.btn):not(.lang-switch), nav .dropbtn{padding:10px 11px!important;font-size:14.5px!important}
+  nav .btn{padding:11px 16px}
+  .brand img{height:52px}
+}
+@media(max-width:1000px) and (min-width:851px){
+  nav > a:not(.btn):not(.lang-switch), nav .dropbtn{padding:10px 8px!important;font-size:13.5px!important}
+  nav .btn{padding:10px 13px;font-size:13.5px}
+  nav .btn::after{display:none}
+}
