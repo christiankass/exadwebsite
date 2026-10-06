@@ -279,8 +279,8 @@
     "tawk_widget": "default"
   },
   "ticker": {
-    "label": "EN CONTINU",
-    "label_en": "LATEST NEWS",
+    "label": "ACTUALITÉS",
+    "label_en": "NEWS",
     "show_news": true,
     "max_news": 6,
     "flash": [

@@ -87,8 +87,8 @@ def build_ticker(s, news):
                          f'<a href="#{news_id(n)}">{e(n.get("title"))}</a></li>')
     if not items:
         return replace_zone(s, "ticker", "")
-    label = e(tk.get("label") or "EN CONTINU")
-    pair(tk.get("label") or "EN CONTINU", tk.get("label_en") or "LATEST NEWS")
+    label = e(tk.get("label") or "ACTUALITÉS")
+    pair(tk.get("label") or "ACTUALITÉS", tk.get("label_en") or "NEWS")
     track = "".join(items)
     dup = track.replace("<li>", '<li aria-hidden="true">').replace("<a ", '<a tabindex="-1" ')
     return replace_zone(s, "ticker",

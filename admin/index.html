@@ -466,11 +466,11 @@ function viewNews(m) {
 
 /* Bandeau « En continu » de la page Actualités */
 function tickerEditor(m) {
-  data.ticker = data.ticker || { label: "EN CONTINU", label_en: "LATEST NEWS", show_news: true, max_news: 6, flash: [] };
+  data.ticker = data.ticker || { label: "ACTUALITÉS", label_en: "NEWS", show_news: true, max_news: 6, flash: [] };
   const tk = data.ticker;
   const card = document.createElement("div"); card.className = "card"; card.style.marginTop = "22px";
   const draw = () => {
-    card.innerHTML = `<div class="section-title"><h2>Bandeau défilant « ${esc(tk.label || "EN CONTINU")} »</h2><button class="btn sm" type="button" id="add-flash">+ Ajouter un message</button></div>
+    card.innerHTML = `<div class="section-title"><h2>Bandeau défilant « ${esc(tk.label || "ACTUALITÉS")} »</h2><button class="btn sm" type="button" id="add-flash">+ Ajouter un message</button></div>
       <p class="muted" style="margin:-6px 0 16px;font-size:14px">Les messages défilent en haut de la page Actualités, comme sur une chaîne d'information. Un lien est facultatif (ex. : contact.html).</p>
       <div class="grid" style="gap:12px">${(tk.flash || []).map((f, i) => `<div class="fl-row">
         <label class="f"><span><span class="lang">FR</span>Message</span><input type="text" data-fl="${i}" data-k="fr" value="${esc(f.fr)}" maxlength="140"></label>
@@ -480,7 +480,7 @@ function tickerEditor(m) {
       <div class="row" style="margin-top:18px;gap:22px;border-top:1px solid var(--line);padding-top:16px">
         <label class="row" style="font-size:14px;gap:8px"><input type="checkbox" id="tk-news"${tk.show_news !== false ? " checked" : ""}> Ajouter aussi les titres des dernières actualités</label>
         <label class="row" style="font-size:14px;gap:8px">Nombre d'actualités <input type="number" id="tk-max" min="1" max="20" value="${tk.max_news || 6}" style="width:80px"></label>
-        <label class="row" style="font-size:14px;gap:8px">Libellé <input type="text" id="tk-label" value="${esc(tk.label || "EN CONTINU")}" style="width:160px"></label>
+        <label class="row" style="font-size:14px;gap:8px">Libellé <input type="text" id="tk-label" value="${esc(tk.label || "ACTUALITÉS")}" style="width:160px"></label>
       </div>`;
     card.querySelectorAll("[data-fl]").forEach((x) => (x.oninput = () => { tk.flash[+x.dataset.fl][x.dataset.k] = x.value; changed(); }));
     card.querySelectorAll("[data-fldel]").forEach((b) => (b.onclick = () => { tk.flash.splice(+b.dataset.fldel, 1); changed(); draw(); }));
