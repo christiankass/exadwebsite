@@ -752,7 +752,7 @@ body.no-scroll{overflow:hidden}
     border-top:1px solid var(--line)!important;padding:36px 0 40px!important;min-width:0!important;background:#fff;
     box-shadow:0 30px 60px rgba(15,23,42,.12)!important}
   header.scrolled .mega-panel{top:90px}
-  .mega-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1.1fr;gap:40px;align-items:start}
+  .mega-grid{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:56px;align-items:start}
   .dropdown.mega:hover .mega-panel{animation:megaIn .25s var(--ease-out)}
 }
 @keyframes megaIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
@@ -847,7 +847,6 @@ body.no-scroll{overflow:hidden}
 }
 @media(max-width:850px){
   .mega-panel a.mega-card{display:none!important}
-  .mega-col:nth-child(2){display:none}
 }
 
 /* Sélecteur de langue */
