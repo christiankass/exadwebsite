@@ -802,7 +802,7 @@ body.no-scroll{overflow:hidden}
 @keyframes tabImg{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @keyframes tabTxt{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .tab-media{position:relative}
-.tab-media img{width:100%;aspect-ratio:1.1;object-fit:cover;border-radius:28px;display:block}
+.tab-media img{width:100%;height:auto;aspect-ratio:1.1;object-fit:cover;border-radius:28px;display:block}
 .float-card{position:absolute;right:-24px;bottom:40px;background:#fff;border-radius:14px;padding:14px 18px;font-weight:700;font-size:14px;color:#0b1120;box-shadow:0 20px 40px rgba(15,23,42,.18);display:flex;align-items:center;gap:10px}
 .float-card .dot{width:10px;height:10px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,.2)}
 .tab-text h3{font-size:clamp(26px,2.8vw,36px);line-height:1.2;margin:0 0 16px;color:#0b1120;font-weight:600}
