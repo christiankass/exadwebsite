@@ -1,0 +1,52 @@
+# Met le site en ligne chez LWS (sitewebtest.exadgroup.org) à chaque changement
+# sur la branche main. Les changements faits depuis /admin sont envoyés par
+# admin-build.yml, après la reconstruction des pages.
+#
+# Configuration, une seule fois, dans GitHub : Settings → Secrets and variables
+# → Actions → New repository secret :
+#   FTP_SERVER    serveur FTP donné par LWS (ex. ftp.exadgroup.org)
+#   FTP_USERNAME  identifiant FTP
+#   FTP_PASSWORD  mot de passe FTP
+#   FTP_DIR       dossier du site sur le serveur, terminé par /
+#                 (ex. /htdocs/sitewebtest.exadgroup.org/)
+name: Mise en ligne chez LWS
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "data/content.json"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-lws
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier la configuration FTP
+        id: ftp
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        run: |
+          if [ -n "$FTP_SERVER" ]; then echo "ok=true" >> "$GITHUB_OUTPUT"
+          else echo "::notice::Secrets FTP absents : pas d'envoi vers LWS"; fi
+      - name: Envoyer le site chez LWS
+        if: steps.ftp.outputs.ok == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DIR }}
+          protocol: ftps
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            tools/**
+            README.md
+            demarrer_serveur.bat
