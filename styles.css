@@ -1387,3 +1387,31 @@ h1,h2,h3,.statement,.stat strong{letter-spacing:-.02em}
   nav .btn::after{display:none}
 }
 @media(max-width:700px){.b-dc{min-height:0!important}.b-dc .card-image{position:relative!important;inset:auto!important;height:240px!important;object-position:30% 62%!important}.b-dc .card-content{padding:24px 22px 26px!important;background:var(--navy)!important}}
+
+/* ===== Page CGU (conditions générales d'utilisation) ===== */
+.legal-hero{padding-bottom:40px}
+.legal-hero .lead{max-width:680px}
+.legal-updated{margin:18px 0 0;font-size:14px;color:var(--muted);font-weight:600}
+.legal-section{padding-top:20px}
+.legal-grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:56px;align-items:start}
+.legal-toc{position:sticky;top:110px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px}
+.legal-toc-title{margin:0 0 12px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.legal-toc ol{margin:0;padding:0 0 0 20px;display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.legal-toc a{color:var(--muted);text-decoration:none}
+.legal-toc a:hover,.legal-toc a:focus-visible{color:var(--blue)}
+.legal-body{max-width:760px}
+.legal-article{scroll-margin-top:110px;padding:0 0 32px;margin:0 0 32px;border-bottom:1px solid var(--line)}
+.legal-article h2{display:flex;align-items:baseline;gap:14px;font-size:24px;line-height:1.25;margin:0 0 14px;color:#0b1120}
+.legal-num{flex:none;font-size:14px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+.legal-article p,.legal-list{margin:0 0 12px;color:var(--muted);line-height:1.7;font-size:16px}
+.legal-list{padding-left:20px}
+.legal-list li{margin-bottom:6px}
+.legal-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.legal-cta p{margin:0;font-weight:700;color:var(--text)}
+.footer-legal{font-size:13px;color:inherit;opacity:.85;text-decoration:none}
+.footer-legal:hover,.footer-legal:focus-visible,.footer-legal[aria-current]{opacity:1;text-decoration:underline}
+@media(max-width:900px){
+  .legal-grid{grid-template-columns:1fr;gap:28px}
+  .legal-toc{position:static}
+  .legal-article h2{font-size:21px}
+}

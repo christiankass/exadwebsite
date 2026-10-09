@@ -55,3 +55,11 @@ chiffres clés, coordonnées et messagerie en direct (Tawk.to).
   se modifie normalement.
 - **Avant de modifier le code à la main** : faire `git pull`, car l'admin a pu
   enregistrer de nouvelles versions sur GitHub.
+
+## Mise en ligne chez LWS
+
+Le site est hébergé chez LWS (sous-domaine `sitewebtest.exadgroup.org`). Il est envoyé automatiquement par FTP :
+- à chaque changement sur la branche `main` (`.github/workflows/deploy-lws.yml`) ;
+- après chaque enregistrement depuis `/admin`, une fois les pages reconstruites (`.github/workflows/admin-build.yml`).
+
+Les identifiants FTP sont à enregistrer une seule fois dans GitHub (Settings → Secrets and variables → Actions) : `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` et `FTP_DIR` (dossier du site, terminé par `/`). Sans eux, rien n'est envoyé.

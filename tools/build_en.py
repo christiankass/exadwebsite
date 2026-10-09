@@ -16,7 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "en"
 SITE = "https://www.exadgroup.org/"
 PAGES = ["index.html", "about.html", "services.html", "datacenter.html",
-         "cybersecurity.html", "fleet.html", "achievements.html", "news.html", "contact.html"]
+         "cybersecurity.html", "fleet.html", "achievements.html", "news.html", "contact.html", "cgu.html"]
 TR = json.loads((ROOT / "tools" / "en.json").read_text(encoding="utf-8"))
 # Traductions des contenus gérés depuis /admin (générées par build_content.py)
 _cms = ROOT / "tools" / "en_cms.json"

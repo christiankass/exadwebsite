@@ -20,7 +20,7 @@ STATE = ROOT / "tools" / "cms_state.json"      # dernières coordonnées appliqu
 EN_CMS = ROOT / "tools" / "en_cms.json"        # traductions des contenus de l'admin
 BLOCKS_CMS = ROOT / "tools" / "cms_blocks.json"  # titres du slider (avec <span>)
 PAGES = ["index.html", "about.html", "services.html", "datacenter.html",
-         "cybersecurity.html", "fleet.html", "achievements.html", "news.html", "contact.html"]
+         "cybersecurity.html", "fleet.html", "achievements.html", "news.html", "contact.html", "cgu.html"]
 
 e = lambda s: html.escape(str(s or ""), quote=True)
 en_pairs = {}
