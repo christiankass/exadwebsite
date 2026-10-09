@@ -601,7 +601,7 @@ function reply(message) {
     return "Depuis 2015, nous accompagnons notamment <strong>Ecobank, Vodacom, Orange, Puma Energy, Engen</strong> et <strong>FBNBank</strong>. <a href='achievements.html'>Voir nos réalisations</a>.";
   }
   if (has("contact", "telephone", "appel", "mail", "adresse", "ou etes", "horaire")) {
-    return "📞 <strong>+243 840 104 000</strong><br>✉️ <strong>sales@exadgroup.org</strong><br>📍 25c, Avenue Dr Mankoyi, Ngaliema, Kinshasa<br>🕘 Lundi – vendredi, 8h30 – 17h00";
+    return "📞 <strong>+243 840 104 000</strong><br>✉️ <strong>sales@exadgroup.org</strong><br>📍 25c, Avenue Dr Mankoy, Ngaliema, Kinshasa kalambayi<br>🕘 Lundi – vendredi, 8h30 – 17h00";
   }
   if (has("bonjour", "salut", "bonsoir", "hello")) {
     return "Bonjour ! Posez-moi une question sur nos services, nos références ou nos coordonnées.";
@@ -639,7 +639,7 @@ function replyEn(message) {
     return "Since 2015, we have worked with <strong>Ecobank, Vodacom, Orange, Puma Energy, Engen</strong> and <strong>FBNBank</strong>, among others. <a href='achievements.html'>See our projects</a>.";
   }
   if (has("contact", "phone", "call", "mail", "address", "where", "hours", "telephone", "adresse")) {
-    return "📞 <strong>+243 840 104 000</strong><br>✉️ <strong>sales@exadgroup.org</strong><br>📍 25c, Avenue Dr Mankoyi, Ngaliema, Kinshasa<br>🕘 Monday – Friday, 8:30 am – 5:00 pm";
+    return "📞 <strong>+243 840 104 000</strong><br>✉️ <strong>sales@exadgroup.org</strong><br>📍 25c, Avenue Dr Mankoy, Ngaliema, Kinshasa kalambayi<br>🕘 Monday – Friday, 8:30 am – 5:00 pm";
   }
   if (has("hello", "hi ", "hey", "good morning", "bonjour", "salut")) {
     return "Hello! Ask me about our services, our references or how to reach us.";
