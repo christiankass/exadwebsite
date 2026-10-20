@@ -39,27 +39,30 @@ La page `admin/index.html` permet de modifier le site sans toucher au code :
 actualités, photos de l'équipe, logos partenaires et clients, titres animés,
 chiffres clés, coordonnées et messagerie en direct (Tawk.to).
 
-- **Connexion** : e-mail et mot de passe. À la toute première connexion, l'administrateur
-  principal crée son compte en fournissant une fois une clé d'accès GitHub « fine-grained »
-  limitée au dépôt `exadwebsite` (*Contents : Read and write*, *Actions : Read-only*).
-  Cette clé est chiffrée avec le mot de passe de chaque administrateur (PBKDF2 + AES-GCM)
-  et rangée dans `admin/users.json` (les e-mails n'y figurent pas en clair). Les autres
-  administrateurs s'ajoutent depuis « Accès administrateurs ». Quand la clé GitHub expire,
-  recréer le compte principal avec une nouvelle clé, puis réajouter les collègues.
-- **Enregistrement** : l'admin modifie `data/content.json` (et envoie les photos dans
-  `uploads/`). GitHub lance ensuite `.github/workflows/admin-build.yml`, qui exécute
-  `tools/build_content.py` puis `tools/build_en.py` et enregistre les pages à jour
-  (environ 2 minutes).
+- **Fonctionnement** : l'admin parle à `admin/api.php`, hébergé avec le site chez LWS
+  (PHP 7.4 ou plus récent). Chaque enregistrement écrit `data/content.json` et les photos
+  dans `uploads/`, puis reconstruit aussitôt les pages françaises et anglaises
+  (`admin/lib/build.php`, qui donne exactement le même résultat que
+  `tools/build_content.py` puis `tools/build_en.py`). GitHub n'intervient plus.
+- **Connexion** : e-mail et mot de passe. Juste après la mise en ligne, ouvrir `/admin`
+  pour créer le compte administrateur principal (possible seulement tant qu'aucun compte
+  n'existe). Les autres administrateurs s'ajoutent depuis « Accès administrateurs ».
+- **Données privées** : comptes (mots de passe chiffrés), sessions et sauvegardes sont dans
+  `admin/private/`, créé automatiquement et inaccessible depuis le web. Ce dossier
+  n'est pas dans Git : ne pas le supprimer sur le serveur.
+- **Sauvegardes** : une copie du contenu est gardée avant chaque enregistrement (les 60
+  dernières). Le bouton « Annuler » du tableau de bord remet le site dans l'état d'avant.
 - **Zones gérées** : dans les pages françaises, elles sont entourées de commentaires
   `<!-- cms:nom --> … <!-- /cms:nom -->`. Ne pas les supprimer ; le reste des pages
   se modifie normalement.
-- **Avant de modifier le code à la main** : faire `git pull`, car l'admin a pu
-  enregistrer de nouvelles versions sur GitHub.
+- **Avant de modifier le code à la main** : le contenu à jour est sur le serveur, pas
+  sur GitHub. Récupérer d'abord `data/content.json`, `uploads/` et les pages depuis LWS,
+  et ne jamais renvoyer ces fichiers par-dessus ceux du serveur sans les avoir récupérés.
 
 ## Mise en ligne chez LWS
 
-Le site est hébergé chez LWS (sous-domaine `sitewebtest.exadgroup.org`). Il est envoyé automatiquement par FTP :
-- à chaque changement sur la branche `main` (`.github/workflows/deploy-lws.yml`) ;
-- après chaque enregistrement depuis `/admin`, une fois les pages reconstruites (`.github/workflows/admin-build.yml`).
-
-Les identifiants FTP sont à enregistrer une seule fois dans GitHub (Settings → Secrets and variables → Actions) : `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` et `FTP_DIR` (dossier du site, terminé par `/`). Sans eux, rien n'est envoyé.
+Le site est hébergé chez LWS (sous-domaine `sitewebtest.exadgroup.org`, dossier
+`htdocs/sitewebtest.exadgroup.org`). Les fichiers s'envoient depuis le gestionnaire de
+fichiers de LWS ; le contenu, lui, se modifie directement en ligne depuis `/admin`.
+Les dossiers `.github/` et les scripts `tools/*.py` ne servent pas sur le serveur,
+mais `tools/*.json` est nécessaire à la reconstruction des pages.
