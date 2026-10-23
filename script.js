@@ -143,6 +143,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const slides = allSlides(false).map((sl, i) => ({ ...sl, img: ASSETS + sl.img }));
     const slideText = (i) => allSlides(EN)[i];
     let current = 0;
+    // Le badge « Suivi de flotte en temps réel » n'accompagne que la diapositive flotte
+    const flag = document.querySelector(".hero-flag");
+    const isFleet = (i) => /fleet|flotte/i.test(slides[i].img);
+    const setFlag = (i) => { if (flag) { const on = isFleet(i); flag.classList.toggle("is-off", !on); flag.tabIndex = on ? 0 : -1; flag.setAttribute("aria-hidden", String(!on)); } };
+    if (flag) { flag.style.transition = "none"; setFlag(0); void flag.offsetWidth; flag.style.transition = ""; }
     window.__exadSlider = { refresh: () => { h1.innerHTML = slideText(current).html; } };
     // Précharge les images suivantes pour éviter un flash blanc
     slides.slice(1).forEach((s) => { const i = new Image(); i.src = s.img; });
@@ -177,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const show = (index) => {
       current = index;
+      setFlag(index);
       const s = { ...slides[index], html: slideText(index).html, alt: slideText(index).alt };
       if (!heroImg.src.endsWith(s.img)) {
         heroImg.classList.add("fading");
