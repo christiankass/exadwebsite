@@ -152,6 +152,39 @@ function publish(array $content, string $who, string $summary, array $images = [
     return ["version" => content_version($json), "missing" => $missing];
 }
 
+/* Nouvelle version du site envoyée chez LWS (fichier admin/update.json livré avec elle) :
+   les pages arrivent avec le contenu du dépôt, on les reconstruit avec le contenu du serveur.
+   Les retouches de contenu prévues ne s'appliquent que si le texte n'a pas été modifié entre-temps. */
+function apply_pending_update(): void {
+    $f = __DIR__ . "/update.json";
+    if (!is_file($f)) return;
+    with_lock(function () use ($f) {
+        if (!is_file($f)) return;
+        $up = json_decode((string)file_get_contents($f), true);
+        $id = is_array($up) ? (string)($up["id"] ?? "") : "";
+        $done = priv_read("updates", []);
+        if ($id !== "" && !in_array($id, $done, true)) {
+            $content = json_decode((string)file_get_contents(CONTENT), true);
+            check_content($content);
+            foreach ($up["patches"] ?? [] as $pt) {
+                $ref = &$content;
+                foreach ($pt["path"] ?? [] as $k) {
+                    if (!is_array($ref) || !array_key_exists($k, $ref)) { unset($ref); continue 2; }
+                    $ref = &$ref[$k];
+                }
+                $same = is_array($ref);
+                foreach ($pt["if"] ?? [] as $k => $v) $same = $same && (($ref[$k] ?? null) === $v);
+                if ($same) foreach ($pt["set"] ?? [] as $k => $v) $ref[$k] = $v;
+                unset($ref);
+            }
+            publish($content, "Mise à jour", (string)($up["summary"] ?? "nouvelle version du site"));
+            $done[] = $id;
+            priv_write("updates", $done);
+        }
+        @unlink($f);
+    });
+}
+
 /* ====================================================================
    Requêtes
    ==================================================================== */
@@ -167,6 +200,7 @@ date_default_timezone_set("Africa/Kinshasa");
 
 switch ($action) {
 case "state":
+    apply_pending_update();
     $u = current_user();
     out(["setup" => !priv_read("users", []), "user" => $u ? public_user($u) : null]);
 
