@@ -131,11 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (h1 && heroImg) {
     /* cms:slides */
     const allSlides = (en) => en ? [
-      { html: "Your partner for <span>enterprise-grade IT infrastructure</span>.", img: "hero_datacenter_new.webp", alt: "EXAD data center" },
+      { html: "Your trusted partner for <span>high-performance, secure IT infrastructure</span>.", img: "hero_datacenter_new.webp", alt: "EXAD data center" },
       { html: "Optimize your fleet with <span>smart tracking</span> solutions.", img: "slider_fleet_new.webp", alt: "EXAD fleet tracking" },
       { html: "Protect your data with <span>next-generation cybersecurity</span>.", img: "slider_cyber_new.webp", alt: "EXAD cybersecurity" },
     ] : [
-      { html: "Votre partenaire pour une <span>infrastructure IT</span> de niveau entreprise.", img: "hero_datacenter_new.webp", alt: "Data center EXAD" },
+      { html: "Votre partenaire de confiance pour des <span>infrastructures IT performantes et sécurisées</span>.", img: "hero_datacenter_new.webp", alt: "Data center EXAD" },
       { html: "Optimisez votre flotte avec nos solutions de <span>tracking intelligent</span>.", img: "slider_fleet_new.webp", alt: "Suivi de flotte EXAD" },
       { html: "Protégez vos données avec une <span>cybersécurité</span> de nouvelle génération.", img: "slider_cyber_new.webp", alt: "Cybersécurité EXAD" },
     ];
@@ -518,7 +518,7 @@ function initChatbot() {
         <button type="button" class="close-btn" aria-label="${t("Fermer l'assistant", "Close assistant")}">&times;</button>
       </div>
       <div class="chatbot-messages" id="chatbot-messages" aria-live="polite">
-        <div class="message bot">${t("Bonjour ! Je peux vous renseigner sur nos services, nos références ou nos coordonnées.", "Hello! I can tell you about our services, our references or how to reach us.")}</div>
+        <div class="message bot">${t("Bonjour ! Je suis l'assistant automatique d'EXAD, disponible 24 h/24 et 7 j/7 pour vous renseigner sur nos services, nos références ou nos coordonnées. Les demandes commerciales sont traitées par notre équipe du lundi au vendredi, de 8h30 à 17h00.", "Hello! I am EXAD's automated assistant, available 24/7 to tell you about our services, our references or how to reach us. Sales requests are handled by our team Monday to Friday, 8:30 am to 5:00 pm.")}</div>
         <div class="chat-suggestions">
           <button type="button">${t("Vos services", "Your services")}</button>
           <button type="button">${t("Demander un devis", "Request a quote")}</button>

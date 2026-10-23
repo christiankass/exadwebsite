@@ -31,8 +31,8 @@ FR_FLAG = '<svg class="flag" width="26" height="18" viewBox="0 0 60 40" aria-hid
 BLOCKS = {
     'Votre partenaire pour une <span>infrastructure IT</span> de niveau entreprise.':
         'Your partner for <span>enterprise-grade IT infrastructure</span>.',
-    'Vos équipes comptent sur leur informatique. <span>EXAD la conçoit, la déploie et la maintient pour qu\'elle ne les lâche pas.</span>':
-        'Your teams depend on their IT. <span>EXAD designs, deploys and maintains it so it never lets them down.</span>',
+    'Vos équipes comptent sur leur infrastructure informatique. <span>EXAD la conçoit, la déploie et en assure la maintenance pour garantir sa fiabilité et sa performance au quotidien.</span>':
+        'Your teams depend on their IT infrastructure. <span>EXAD designs, deploys and maintains it to keep it reliable and high-performing, day after day.</span>',
 }
 
 _cmsb = ROOT / "tools" / "cms_blocks.json"
