@@ -272,6 +272,26 @@
       "src": "logos/c-bcc.webp",
       "name": "Banque Centrale du Congo",
       "home": true
+    },
+    {
+      "src": "logos/c-mutanda.webp",
+      "name": "Mutanda Mining",
+      "home": true
+    },
+    {
+      "src": "logos/c-barrick.webp",
+      "name": "Barrick Gold",
+      "home": true
+    },
+    {
+      "src": "logos/c-sofibanque.webp",
+      "name": "Sofibanque",
+      "home": true
+    },
+    {
+      "src": "logos/c-enabel.webp",
+      "name": "Enabel",
+      "home": true
     }
   ],
   "chat": {

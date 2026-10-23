@@ -172,6 +172,16 @@ function apply_pending_update(): void {
                     if (!is_array($ref) || !array_key_exists($k, $ref)) { unset($ref); continue 2; }
                     $ref = &$ref[$k];
                 }
+                // ajout d'un élément à une liste, sauf s'il y est déjà (même valeur pour la clé "key")
+                if (isset($pt["append"])) {
+                    $key = (string)($pt["key"] ?? "");
+                    $exists = false;
+                    if (is_array($ref)) foreach ($ref as $item)
+                        if ($key !== "" && is_array($item) && ($item[$key] ?? null) === ($pt["append"][$key] ?? null)) $exists = true;
+                    if (is_array($ref) && !$exists) $ref[] = $pt["append"];
+                    unset($ref);
+                    continue;
+                }
                 $same = is_array($ref);
                 foreach ($pt["if"] ?? [] as $k => $v) $same = $same && (($ref[$k] ?? null) === $v);
                 if ($same) foreach ($pt["set"] ?? [] as $k => $v) $ref[$k] = $v;
